@@ -12,10 +12,10 @@ public class FavoriteHost {
     private Long favorite_host_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "puppy_id")
+    @JoinColumn(name = "puppyId")
     private Puppy puppy;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "host_id")
+    @JoinColumn(name = "hostId")
     private Host host;
 }

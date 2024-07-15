@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 @Setter
 public class Zipbob {
     @Id @GeneratedValue
-    private Long zipbob_id;
+    private Long zipbobId;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="host_id")
+    @JoinColumn(name="hostId")
     private Host host;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="puppy_id")
+    @JoinColumn(name="puppyId")
     private Puppy puppy;
 
     private String menu; // 메뉴이름

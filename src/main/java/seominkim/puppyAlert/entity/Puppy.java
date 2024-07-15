@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,25 +14,27 @@ import java.util.List;
 @Setter
 public class Puppy {
     @Id
-    private String puppy_id;
+    private String puppyId;
 
-    @Column(columnDefinition = "varchar(20)", nullable = false)
+    @Column(columnDefinition = "varchar(225)", nullable = false)
     private String password;
 
-    @Column(columnDefinition = "varchar(20)", nullable = false)
+    @Column(columnDefinition = "varchar(225)", nullable = false)
     private String name;
 
-    private Date birth;
+    @Column(columnDefinition = "DATE", nullable = false)
+    private LocalDate birth;
 
-    @Column(columnDefinition = "varchar(11)", nullable = false)
-    private String phone_number;
+    @Column(columnDefinition = "varchar(225)", nullable = false)
+    private String phoneNumber;
 
     @Embedded
     private Location location;
 
+    // 연관관계 매핑
     @OneToMany(mappedBy = "puppy")
     private List<Zipbob> zipbobList = new ArrayList<Zipbob>();
 
     @OneToMany(mappedBy="puppy")
-    private List<Long> favoriteHostList = new ArrayList<>();
+    private List<FavoriteHost> favoriteHostList = new ArrayList<>();
 }
