@@ -20,17 +20,19 @@ public class HostServiceTest {
 
     @Test
     public void joinTest(){
-        Host host = new Host();
-        host.setHostId("seominkim");
-        host.setName("서민김");
-        host.setPassword("123");
-        host.setBirth(LocalDate.now());
-        host.setLocation(new Location(100L,100L));
-        host.setPhoneNumber("010-4822-3636");
-        String savedId = hostService.join(host);
+        Host host1 = Host.builder()
+                .hostId("Havertz")
+                .name("하베르츠")
+                .password("123")
+                .birth(LocalDate.now())
+                .location(new Location(100L, 100L))
+                .phoneNumber("010-4822-3636")
+                .build();
+
+        String savedId = hostService.join(host1);
 
         Host findHost = hostService.findById(savedId);
 
-        Assertions.assertThat(findHost.getHostId()).isEqualTo(host.getHostId());
+        Assertions.assertThat(findHost.getHostId()).isEqualTo(host1.getHostId());
     }
 }

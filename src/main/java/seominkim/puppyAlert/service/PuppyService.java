@@ -3,7 +3,6 @@ package seominkim.puppyAlert.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.entity.Host;
 import seominkim.puppyAlert.entity.Puppy;
 import seominkim.puppyAlert.repository.PuppyRepository;
 
