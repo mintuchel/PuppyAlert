@@ -1,8 +1,7 @@
 package seominkim.puppyAlert.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,6 +11,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Host {
     @Id
     private String hostId;
@@ -31,6 +33,6 @@ public class Host {
     @Embedded
     private Location location;
 
-    @OneToMany(mappedBy="host")
+    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL)
     private List<Zipbob> zipbobList = new ArrayList<Zipbob>();
 }

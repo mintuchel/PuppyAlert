@@ -1,8 +1,7 @@
 package seominkim.puppyAlert.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,6 +11,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Puppy {
     @Id
     private String puppyId;
@@ -32,9 +34,9 @@ public class Puppy {
     private Location location;
 
     // 연관관계 매핑
-    @OneToMany(mappedBy = "puppy")
+    @OneToMany(mappedBy = "puppy", cascade = CascadeType.ALL)
     private List<Zipbob> zipbobList = new ArrayList<Zipbob>();
 
-    @OneToMany(mappedBy="puppy")
+    @OneToMany(mappedBy = "puppy", cascade = CascadeType.ALL)
     private List<FavoriteHost> favoriteHostList = new ArrayList<>();
 }

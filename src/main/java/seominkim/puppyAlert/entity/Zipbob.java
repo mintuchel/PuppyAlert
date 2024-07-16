@@ -1,14 +1,16 @@
 package seominkim.puppyAlert.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Zipbob {
     @Id @GeneratedValue
     private Long zipbobId;
@@ -22,8 +24,6 @@ public class Zipbob {
     private Puppy puppy;
 
     private String menu; // 메뉴이름
-
-    private String imageURL;
 
     private LocalDateTime time; // 식사시간
 
