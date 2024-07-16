@@ -1,11 +1,12 @@
-package seominkim.puppyAlert.entity;
+package seominkim.puppyAlert.domain.host.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import seominkim.puppyAlert.global.entity.Location;
+import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -14,9 +15,9 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Puppy {
+public class Host {
     @Id
-    private String puppyId;
+    private String hostId;
 
     @Column(columnDefinition = "varchar(225)", nullable = false)
     private String password;
@@ -33,10 +34,6 @@ public class Puppy {
     @Embedded
     private Location location;
 
-    // 연관관계 매핑
-    @OneToMany(mappedBy = "puppy", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL)
     private List<Zipbob> zipbobList = new ArrayList<Zipbob>();
-
-    @OneToMany(mappedBy = "puppy", cascade = CascadeType.ALL)
-    private List<FavoriteHost> favoriteHostList = new ArrayList<>();
 }

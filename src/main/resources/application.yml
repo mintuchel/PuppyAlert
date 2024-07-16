@@ -8,10 +8,9 @@ spring:
     password: max56685668!
   jpa:
     hibernate:
-      # ?? JPA ??? ??? ?? ???
       ddl-auto: create
     properties:
       hibernate:
-        #show_sql: true
+        show_sql: true
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect

@@ -1,11 +1,20 @@
 package seominkim.puppyAlert.service;
 
+import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import seominkim.puppyAlert.entity.*;
-import seominkim.puppyAlert.repository.ZipbobRepository;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
+import seominkim.puppyAlert.domain.host.entity.Host;
+import seominkim.puppyAlert.domain.host.service.HostService;
+import seominkim.puppyAlert.domain.puppy.entity.Puppy;
+import seominkim.puppyAlert.domain.puppy.service.PuppyService;
+import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
+import seominkim.puppyAlert.domain.zipbob.entity.ZipbobStatus;
+import seominkim.puppyAlert.domain.zipbob.service.ZipbobService;
+import seominkim.puppyAlert.global.entity.Location;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,11 +22,18 @@ import java.time.LocalDateTime;
 @SpringBootTest
 public class ZipbobServiceTest {
 
-    @Autowired ZipbobService zipbobService;
-    @Autowired HostService hostService;
-    @Autowired PuppyService puppyService;
+    @Autowired
+    ZipbobService zipbobService;
+    @Autowired
+    HostService hostService;
+    @Autowired
+    PuppyService puppyService;
+
+    @Autowired EntityManager em;
 
     @Test
+    @Transactional
+    @Rollback
     public void findOneTest(){
 
         Host host = Host.builder()
@@ -38,6 +54,9 @@ public class ZipbobServiceTest {
                 .phoneNumber("010-1111-2222")
                 .build();
 
+        em.persist(host);
+        em.persist(puppy);
+
         Zipbob 제육덮밥 = Zipbob.builder()
                 .menu("제육덮밥")
                 .puppy(puppy)
@@ -45,9 +64,6 @@ public class ZipbobServiceTest {
                 .time(LocalDateTime.now())
                 .status(ZipbobStatus.MATCHED)
                 .build();
-
-        hostService.join(host);
-        puppyService.join(puppy);
 
         Long savedId = zipbobService.add(제육덮밥);
         Zipbob resultZipbob = zipbobService.findOne(savedId);

@@ -1,14 +1,11 @@
-package seominkim.puppyAlert.service;
+package seominkim.puppyAlert.domain.zipbob.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.entity.Host;
-import seominkim.puppyAlert.entity.Puppy;
-import seominkim.puppyAlert.entity.Zipbob;
-import seominkim.puppyAlert.repository.ZipbobRepository;
+import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
+import seominkim.puppyAlert.domain.zipbob.repository.ZipbobRepository;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 

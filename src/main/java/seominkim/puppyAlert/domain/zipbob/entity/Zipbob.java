@@ -1,7 +1,9 @@
-package seominkim.puppyAlert.entity;
+package seominkim.puppyAlert.domain.zipbob.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import seominkim.puppyAlert.domain.host.entity.Host;
+import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 
 import java.time.LocalDateTime;
 

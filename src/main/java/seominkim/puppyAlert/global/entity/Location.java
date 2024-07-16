@@ -1,4 +1,4 @@
-package seominkim.puppyAlert.entity;
+package seominkim.puppyAlert.global.entity;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

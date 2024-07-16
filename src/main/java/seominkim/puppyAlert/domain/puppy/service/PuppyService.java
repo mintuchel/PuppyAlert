@@ -1,10 +1,12 @@
-package seominkim.puppyAlert.service;
+package seominkim.puppyAlert.domain.puppy.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.entity.Puppy;
-import seominkim.puppyAlert.repository.PuppyRepository;
+import seominkim.puppyAlert.domain.puppy.entity.Puppy;
+import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
+import seominkim.puppyAlert.global.dto.LoginDTO;
+import seominkim.puppyAlert.global.dto.SignUpDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +16,18 @@ import java.util.Optional;
 public class PuppyService {
     private final PuppyRepository puppyRepository;
 
-    // Host 회원가입
+    // Puppy 회원가입
     @Transactional
-    public String join(Puppy puppy){
+    public String signUp(SignUpDTO signUpDTO){
+        Puppy puppy = Puppy.builder()
+                .puppyId(signUpDTO.getId())
+                .password(signUpDTO.getPassword())
+                .name(signUpDTO.getName())
+                .phoneNumber(signUpDTO.getPhoneNumber())
+                .birth(signUpDTO.getBirth())
+                .location(signUpDTO.getLocation())
+                .build();
+
         validateDuplicatePuppy(puppy);
         puppyRepository.save(puppy);
         return puppy.getPuppyId();
@@ -27,6 +38,12 @@ public class PuppyService {
         if (!findHosts.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 결식아동입니다.");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public boolean checkLogin(LoginDTO loginDTO){
+        Optional<Puppy> loginPuppy = puppyRepository.findByHostIdAndPassword(loginDTO.getId(), loginDTO.getPassword());
+        return loginPuppy.isPresent();
     }
 
     // Puppy 검색

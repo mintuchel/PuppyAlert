@@ -3,9 +3,8 @@ package seominkim.puppyAlert.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import seominkim.puppyAlert.entity.Puppy;
-import seominkim.puppyAlert.entity.Zipbob;
-import seominkim.puppyAlert.service.ZipbobService;
+import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
+import seominkim.puppyAlert.domain.zipbob.service.ZipbobService;
 
 import java.util.List;
 
