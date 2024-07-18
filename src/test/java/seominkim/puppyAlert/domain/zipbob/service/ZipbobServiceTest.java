@@ -1,4 +1,4 @@
-package seominkim.puppyAlert.service;
+package seominkim.puppyAlert.domain.zipbob.service;
 
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
@@ -14,7 +14,6 @@ import seominkim.puppyAlert.domain.puppy.service.PuppyService;
 import seominkim.puppyAlert.domain.zipbob.dto.ZipbobRequestDTO;
 import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
 import seominkim.puppyAlert.domain.zipbob.entity.ZipbobStatus;
-import seominkim.puppyAlert.domain.zipbob.service.ZipbobService;
 import seominkim.puppyAlert.global.entity.Location;
 
 import java.time.LocalDate;

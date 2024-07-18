@@ -51,6 +51,9 @@ public class PuppyServiceTest {
         em.persist(host);
         em.persist(puppy);
 
+        // persist 된 값들 DB에 반영하기!
+        em.flush();
+
         // 아직 매칭안된 집밥
         ZipbobRequestDTO zipbobRequestDTO = new ZipbobRequestDTO();
         zipbobRequestDTO.setHostId(host.getHostId());
@@ -62,7 +65,20 @@ public class PuppyServiceTest {
 
         System.out.println("Host ID : " + em.find(Zipbob.class, savedId).getHost().getHostId());
         // when
-        System.out.println("Before Matched : " + em.find(Zipbob.class, savedId).getStatus().toString());
+        System.out.println("==========");
+        System.out.println("Before Matched");
+        Zipbob findZipbob = em.find(Zipbob.class, savedId);
+        System.out.println("zipbobId : " + findZipbob.getZipbobId());
+        System.out.println("hostId   : " + findZipbob.getHost().getHostId());
+        if(findZipbob.getPuppy()==null){
+            System.out.println("puppyId  : null");
+        }else{
+            System.out.println("puppyId  : " + findZipbob.getPuppy().getPuppyId());
+        }
+        System.out.println("menu     : " + findZipbob.getMenu());
+        System.out.println("time     : " + findZipbob.getTime());
+        System.out.println("status   : " + findZipbob.getStatus().toString());
+
 
         MatchRequestDTO matchRequestDTO = new MatchRequestDTO();
         matchRequestDTO.setZipbobId(savedId);
@@ -71,9 +87,18 @@ public class PuppyServiceTest {
         Zipbob matchedZipbob = puppyService.matchZipbob(matchRequestDTO);
 
         // then
-        System.out.println("After Matched : " + em.find(Zipbob.class, savedId).getStatus().toString());
+        System.out.println("==========");
+        System.out.println("After Matched");
+        findZipbob = em.find(Zipbob.class, savedId);
+        System.out.println("zipbobId : " + findZipbob.getZipbobId());
+        System.out.println("hostId   : " + findZipbob.getHost().getHostId());
+        System.out.println("puppyId  : " + findZipbob.getPuppy().getPuppyId());
+        System.out.println("menu     : " + findZipbob.getMenu());
+        System.out.println("time     : " + findZipbob.getTime());
+        System.out.println("status   : " + findZipbob.getStatus().toString());
 
         Assertions.assertThat(savedId).isEqualTo(matchedZipbob.getZipbobId());
+        // 이거 왜 null 뜨지??
         Assertions.assertThat(host.getHostId()).isEqualTo(matchedZipbob.getHost().getHostId());
         Assertions.assertThat(puppy.getPuppyId()).isEqualTo(matchedZipbob.getPuppy().getPuppyId());
     }
