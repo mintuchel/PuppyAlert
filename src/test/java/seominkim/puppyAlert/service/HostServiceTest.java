@@ -1,6 +1,5 @@
 package seominkim.puppyAlert.service;
 
-import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,21 +22,25 @@ public class HostServiceTest {
     @Autowired HostService hostService;
 
     @Test
-    public void singUpTest(){
+    @Transactional
+    @Rollback
+    public void signUpTest(){
+        // given
         String testHostId = "Havertz";
 
         SignUpDTO signUpDTO = new SignUpDTO();
         signUpDTO.setId(testHostId);
-        signUpDTO.setName("하베르츠");
         signUpDTO.setPassword("29");
+        signUpDTO.setName("하베르츠");
         signUpDTO.setBirth(LocalDate.now());
         signUpDTO.setLocation(new Location(100L, 100L));
         signUpDTO.setPhoneNumber("010-4822-3636");
 
+        // when
         String findId = hostService.signUp(signUpDTO);
 
+        // then
         Host findHost = hostService.findById(findId);
-
         Assertions.assertThat(findHost.getHostId()).isEqualTo(testHostId);
     }
 }

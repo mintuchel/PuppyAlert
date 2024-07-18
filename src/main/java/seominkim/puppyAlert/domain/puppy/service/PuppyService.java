@@ -19,14 +19,13 @@ public class PuppyService {
     // Puppy 회원가입
     @Transactional
     public String signUp(SignUpDTO signUpDTO){
-        Puppy puppy = Puppy.builder()
-                .puppyId(signUpDTO.getId())
-                .password(signUpDTO.getPassword())
-                .name(signUpDTO.getName())
-                .phoneNumber(signUpDTO.getPhoneNumber())
-                .birth(signUpDTO.getBirth())
-                .location(signUpDTO.getLocation())
-                .build();
+        Puppy puppy = new Puppy();
+        puppy.setPuppyId(signUpDTO.getId());
+        puppy.setPassword(signUpDTO.getPassword());
+        puppy.setName(signUpDTO.getName());
+        puppy.setPhoneNumber(signUpDTO.getPhoneNumber());
+        puppy.setBirth(signUpDTO.getBirth());
+        puppy.setLocation(signUpDTO.getLocation());
 
         validateDuplicatePuppy(puppy);
         puppyRepository.save(puppy);
@@ -42,14 +41,14 @@ public class PuppyService {
 
     @Transactional(readOnly = true)
     public boolean checkLogin(LoginDTO loginDTO){
-        Optional<Puppy> loginPuppy = puppyRepository.findByHostIdAndPassword(loginDTO.getId(), loginDTO.getPassword());
+        Optional<Puppy> loginPuppy = puppyRepository.findByPuppyIdAndPassword(loginDTO.getId(), loginDTO.getPassword());
         return loginPuppy.isPresent();
     }
 
     // Puppy 검색
     @Transactional(readOnly = true)
-    public Puppy findById(String hostId){
-        Optional<Puppy> puppy = puppyRepository.findById(hostId);
+    public Puppy findById(String puppyId){
+        Optional<Puppy> puppy = puppyRepository.findById(puppyId);
         if(puppy.isPresent()){
             return puppy.get();
         }else{

@@ -13,9 +13,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class Puppy {
     @Id
     private String puppyId;
@@ -37,7 +34,7 @@ public class Puppy {
 
     // 연관관계 매핑
     @OneToMany(mappedBy = "puppy", cascade = CascadeType.ALL)
-    private List<Zipbob> zipbobList = new ArrayList<Zipbob>();
+    private List<Zipbob> zipbobList = new ArrayList<>();
 
     @OneToMany(mappedBy = "puppy", cascade = CascadeType.ALL)
     private List<FavoriteHost> favoriteHostList = new ArrayList<>();

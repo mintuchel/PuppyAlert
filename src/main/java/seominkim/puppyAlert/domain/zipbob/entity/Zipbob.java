@@ -10,25 +10,25 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class Zipbob {
-    @Id @GeneratedValue
+public class Zipbob{
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long zipbobId;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="hostId")
     private Host host;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="puppyId")
     private Puppy puppy;
 
+    @Column(nullable = false)
     private String menu; // 메뉴이름
 
+    @Column(nullable = false)
     private LocalDateTime time; // 식사시간
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ZipbobStatus status; // 매칭상태
 }

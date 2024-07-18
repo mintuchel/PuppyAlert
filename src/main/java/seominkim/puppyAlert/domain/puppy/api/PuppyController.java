@@ -35,9 +35,9 @@ public class PuppyController {
     }
 
     // Puppy 조회
-    @GetMapping("/{hostId}")
-    public ResponseEntity findPuppy(@RequestParam String hostId){
-        Puppy puppy = puppyService.findById(hostId);
+    @GetMapping("/{puppyId}")
+    public ResponseEntity findPuppy(@RequestParam String puppyId){
+        Puppy puppy = puppyService.findById(puppyId);
         return ResponseEntity.ok(puppy);
     }
 }

@@ -12,9 +12,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class Host {
     @Id
     private String hostId;
@@ -35,5 +32,5 @@ public class Host {
     private Location location;
 
     @OneToMany(mappedBy = "host", cascade = CascadeType.ALL)
-    private List<Zipbob> zipbobList = new ArrayList<Zipbob>();
+    private List<Zipbob> zipbobList = new ArrayList<>();
 }

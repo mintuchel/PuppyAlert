@@ -19,14 +19,13 @@ public class HostService {
     // Host 회원가입
     @Transactional
     public String signUp(SignUpDTO signUpDTO){
-        Host host = Host.builder()
-                .hostId(signUpDTO.getId())
-                .password(signUpDTO.getPassword())
-                .name(signUpDTO.getName())
-                .birth(signUpDTO.getBirth())
-                .phoneNumber(signUpDTO.getPhoneNumber())
-                .location(signUpDTO.getLocation())
-                .build();
+        Host host = new Host();
+        host.setHostId(signUpDTO.getId());
+        host.setPassword(signUpDTO.getPassword());
+        host.setName(signUpDTO.getName());
+        host.setBirth(signUpDTO.getBirth());
+        host.setPhoneNumber(signUpDTO.getPhoneNumber());
+        host.setLocation(signUpDTO.getLocation());
 
         validateDuplicateHost(host);
         hostRepository.save(host);

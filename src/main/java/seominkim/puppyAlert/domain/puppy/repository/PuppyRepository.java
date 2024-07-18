@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface PuppyRepository extends JpaRepository<Puppy, String> {
     public List<Puppy> findByName(String name);
 
-    Optional<Puppy> findByHostIdAndPassword(String puppyId, String password);
+    Optional<Puppy> findByPuppyIdAndPassword(String puppyId, String password);
 }

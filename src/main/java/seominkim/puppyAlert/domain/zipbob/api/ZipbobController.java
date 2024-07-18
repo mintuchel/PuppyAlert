@@ -1,4 +1,4 @@
-package seominkim.puppyAlert.api;
+package seominkim.puppyAlert.domain.zipbob.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,22 +12,17 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/zipbob")
 public class ZipbobController {
+
     private final ZipbobService zipbobService;
 
-    @PostMapping("/add")
-    public ResponseEntity add(@RequestBody Zipbob zipbob){
-        Long zipbobId = zipbobService.add(zipbob);
-        return ResponseEntity.ok(zipbobId);
-    }
-
-    @GetMapping
+    @GetMapping()
     public ResponseEntity findAll(){
         List<Zipbob> zipbobList = zipbobService.findAll();
         return ResponseEntity.ok(zipbobList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity findOne(@RequestParam Long zipbobId){
+    @GetMapping("/{zipbobId}")
+    public ResponseEntity findOne(@RequestParam long zipbobId){
         Zipbob zipbob = zipbobService.findOne(zipbobId);
         return ResponseEntity.ok(zipbob);
     }
