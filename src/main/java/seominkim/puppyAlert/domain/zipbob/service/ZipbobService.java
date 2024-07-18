@@ -3,7 +3,7 @@ package seominkim.puppyAlert.domain.zipbob.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.zipbob.dto.ZipbobDTO;
+import seominkim.puppyAlert.domain.zipbob.dto.ZipbobRequestDTO;
 import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
 import seominkim.puppyAlert.domain.zipbob.repository.ZipbobRepository;
 
@@ -16,13 +16,13 @@ public class ZipbobService {
     private final ZipbobRepository zipbobRepository;
 
     @Transactional
-    public Long add(ZipbobDTO zipbobDTO){
+    public Long add(ZipbobRequestDTO zipbobRequestDTO){
         Zipbob zipbob = new Zipbob();
 
         // 아직 정해지지 않은 필드가 있는 경우에도 그냥 save 바로 해서 em.persist 해도 되나?
-        zipbob.setTime(zipbobDTO.getTime());
-        zipbob.setStatus(zipbobDTO.getStatus());
-        zipbob.setMenu(zipbobDTO.getMenu());
+        zipbob.setTime(zipbobRequestDTO.getTime());
+        zipbob.setStatus(zipbobRequestDTO.getStatus());
+        zipbob.setMenu(zipbobRequestDTO.getMenu());
 
         zipbobRepository.save(zipbob);
         return zipbob.getZipbobId();

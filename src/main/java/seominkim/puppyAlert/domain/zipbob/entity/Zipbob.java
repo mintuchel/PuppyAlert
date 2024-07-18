@@ -28,6 +28,9 @@ public class Zipbob{
     @Column(nullable = false)
     private LocalDateTime time; // 식사시간
 
+    //@Column(nullable = false)
+    //private String imageURL;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ZipbobStatus status; // 매칭상태

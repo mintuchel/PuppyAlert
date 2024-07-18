@@ -3,12 +3,16 @@ package seominkim.puppyAlert.domain.host.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import seominkim.puppyAlert.domain.host.dto.HostInfoResponseDTO;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.service.HostService;
-import seominkim.puppyAlert.domain.zipbob.dto.ZipbobDTO;
+import seominkim.puppyAlert.domain.zipbob.dto.ZipbobRequestDTO;
 import seominkim.puppyAlert.domain.zipbob.service.ZipbobService;
-import seominkim.puppyAlert.global.dto.LoginDTO;
-import seominkim.puppyAlert.global.dto.SignUpDTO;
+import seominkim.puppyAlert.global.dto.LoginRequestDTO;
+import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,16 +24,16 @@ public class HostController {
 
     // Host 회원가입
     @PostMapping("/signup")
-    public ResponseEntity signUp(@RequestBody SignUpDTO signUpDTO){
-        String hostId = hostService.signUp(signUpDTO);
+    public ResponseEntity signUp(@RequestBody SignUpRequestDTO signUpRequestDTO){
+        String hostId = hostService.signUp(signUpRequestDTO);
         return ResponseEntity.ok(hostId);
     }
 
     // Host 로그인
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginDTO loginDTO){
-        String hostId = loginDTO.getId();
-        boolean isValidLogin = hostService.checkLogin(loginDTO);
+    public ResponseEntity login(@RequestBody LoginRequestDTO loginRequestDTO){
+        String hostId = loginRequestDTO.getId();
+        boolean isValidLogin = hostService.checkLogin(loginRequestDTO);
         if(isValidLogin){
             return ResponseEntity.ok(hostId);
         }else{
@@ -37,23 +41,42 @@ public class HostController {
         }
     }
 
-    // Host 모두 조회
+    // Host 전체 조회
     @GetMapping("/all")
-    public ResponseEntity findAll(){
-        return ResponseEntity.ok("123");
+    public ResponseEntity<List<HostInfoResponseDTO>> findAll() {
+        List<HostInfoResponseDTO> hostInfoResponseDTOList = hostService.findAll().stream()
+                .map(host -> {
+                    HostInfoResponseDTO dto = new HostInfoResponseDTO();
+                    dto.setHostId(host.getHostId());
+                    dto.setName(host.getName());
+                    dto.setBirth(host.getBirth());
+                    dto.setLocation(host.getLocation());
+                    dto.setPhoneNumber(host.getPhoneNumber());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(hostInfoResponseDTOList);
     }
 
     // 특정 호스트 조회
     @GetMapping("/{hostId}")
-    public ResponseEntity findOne(@RequestParam String hostId){
+    public ResponseEntity findOne(@PathVariable String hostId){
         Host host = hostService.findById(hostId);
-        return ResponseEntity.ok(host);
+
+        HostInfoResponseDTO hostInfoResponseDTO = new HostInfoResponseDTO();
+        hostInfoResponseDTO.setHostId(host.getHostId());
+        hostInfoResponseDTO.setName(host.getName());
+        hostInfoResponseDTO.setBirth(host.getBirth());
+        hostInfoResponseDTO.setLocation(host.getLocation());
+        hostInfoResponseDTO.setPhoneNumber(host.getPhoneNumber());
+
+        return ResponseEntity.ok(hostInfoResponseDTO);
     }
 
     // Host 의 집밥 등록
     @PostMapping("/addZipbob")
-    public ResponseEntity add(@RequestBody ZipbobDTO zipbobDTO){
-        Long zipbobId = zipbobService.add(zipbobDTO);
+    public ResponseEntity add(@RequestBody ZipbobRequestDTO zipbobRequestDTO){
+        Long zipbobId = zipbobService.add(zipbobRequestDTO);
         return ResponseEntity.ok(zipbobId);
     }
 }

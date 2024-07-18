@@ -3,10 +3,14 @@ package seominkim.puppyAlert.domain.puppy.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import seominkim.puppyAlert.domain.puppy.dto.MatchRequestDTO;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
-import seominkim.puppyAlert.global.dto.LoginDTO;
-import seominkim.puppyAlert.global.dto.SignUpDTO;
+import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
+import seominkim.puppyAlert.domain.zipbob.entity.ZipbobStatus;
+import seominkim.puppyAlert.domain.zipbob.repository.ZipbobRepository;
+import seominkim.puppyAlert.global.dto.LoginRequestDTO;
+import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,10 +19,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PuppyService {
     private final PuppyRepository puppyRepository;
+    private final ZipbobRepository zipbobRepository;
 
     // Puppy 회원가입
     @Transactional
-    public String signUp(SignUpDTO signUpDTO){
+    public String signUp(SignUpRequestDTO signUpDTO){
         Puppy puppy = new Puppy();
         puppy.setPuppyId(signUpDTO.getId());
         puppy.setPassword(signUpDTO.getPassword());
@@ -40,9 +45,15 @@ public class PuppyService {
     }
 
     @Transactional(readOnly = true)
-    public boolean checkLogin(LoginDTO loginDTO){
-        Optional<Puppy> loginPuppy = puppyRepository.findByPuppyIdAndPassword(loginDTO.getId(), loginDTO.getPassword());
+    public boolean checkLogin(LoginRequestDTO loginRequestDTO){
+        Optional<Puppy> loginPuppy = puppyRepository.findByPuppyIdAndPassword(loginRequestDTO.getId(), loginRequestDTO.getPassword());
         return loginPuppy.isPresent();
+    }
+
+    // Puppy 전체 검색
+    @Transactional(readOnly = true)
+    public List<Puppy> findAll(){
+        return puppyRepository.findAll();
     }
 
     // Puppy 검색
@@ -54,5 +65,20 @@ public class PuppyService {
         }else{
             throw new IllegalStateException("존재하지 않는 회원입니다.");
         }
+    }
+
+    @Transactional
+    public Zipbob matchZipbob(MatchRequestDTO matchRequestDTO){
+        Zipbob zipbob = zipbobRepository.findById(matchRequestDTO.getZipbobId()).get();
+        Puppy puppy = puppyRepository.findById(matchRequestDTO.getPuppyId()).get();
+        
+        // 집밥 업데이트
+        zipbob.setPuppy(puppy);
+        zipbob.setStatus(ZipbobStatus.MATCHED);
+
+        // 업데이트된 집밥 저장
+        zipbobRepository.save(zipbob);
+
+        return zipbob;
     }
 }

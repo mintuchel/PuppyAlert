@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.repository.HostRepository;
-import seominkim.puppyAlert.global.dto.LoginDTO;
-import seominkim.puppyAlert.global.dto.SignUpDTO;
+import seominkim.puppyAlert.global.dto.LoginRequestDTO;
+import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +18,7 @@ public class HostService {
 
     // Host 회원가입
     @Transactional
-    public String signUp(SignUpDTO signUpDTO){
+    public String signUp(SignUpRequestDTO signUpDTO){
         Host host = new Host();
         host.setHostId(signUpDTO.getId());
         host.setPassword(signUpDTO.getPassword());
@@ -41,12 +41,18 @@ public class HostService {
 
     // Host 로그인 확인
     @Transactional(readOnly = true)
-    public boolean checkLogin(LoginDTO loginDTO){
-        Optional<Host> loginHost = hostRepository.findByHostIdAndPassword(loginDTO.getId(), loginDTO.getPassword());
+    public boolean checkLogin(LoginRequestDTO loginRequestDTO){
+        Optional<Host> loginHost = hostRepository.findByHostIdAndPassword(loginRequestDTO.getId(), loginRequestDTO.getPassword());
         return loginHost.isPresent();
     }
 
-    // Host 검색
+    // Host 전체 검색
+    @Transactional(readOnly = true)
+    public List<Host> findAll(){
+        return hostRepository.findAll();
+    }
+
+    // Host 단건 검색
     @Transactional(readOnly = true)
     public Host findById(String hostId){
         Optional<Host> host = hostRepository.findById(hostId);
