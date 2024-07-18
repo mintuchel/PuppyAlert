@@ -1,4 +1,4 @@
-package seominkim.puppyAlert.service;
+package seominkim.puppyAlert.domain.puppy.service;
 
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
@@ -8,9 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.host.entity.Host;
-import seominkim.puppyAlert.domain.host.service.HostService;
+import seominkim.puppyAlert.domain.puppy.dto.MatchRequestDTO;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.domain.puppy.service.PuppyService;
 import seominkim.puppyAlert.domain.zipbob.dto.ZipbobRequestDTO;
 import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
 import seominkim.puppyAlert.domain.zipbob.entity.ZipbobStatus;
@@ -21,21 +20,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @SpringBootTest
-public class ZipbobServiceTest {
+public class PuppyServiceTest {
 
-    @Autowired
-    ZipbobService zipbobService;
-    @Autowired
-    HostService hostService;
-    @Autowired
-    PuppyService puppyService;
-
+    @Autowired PuppyService puppyService;
+    @Autowired ZipbobService zipbobService;
     @Autowired EntityManager em;
 
     @Test
     @Transactional
     @Rollback
-    public void findOneTest(){
+    public void matchZipbobTest(){
 
         // given
         Host host = new Host();
@@ -57,17 +51,30 @@ public class ZipbobServiceTest {
         em.persist(host);
         em.persist(puppy);
 
-        // when
+        // 아직 매칭안된 집밥
         ZipbobRequestDTO zipbobRequestDTO = new ZipbobRequestDTO();
         zipbobRequestDTO.setHostId(host.getHostId());
         zipbobRequestDTO.setMenu("제육덮밥");
         zipbobRequestDTO.setTime(LocalDateTime.now());
-        zipbobRequestDTO.setStatus(ZipbobStatus.MATCHED);
+        zipbobRequestDTO.setStatus(ZipbobStatus.READY);
 
         Long savedId = zipbobService.add(zipbobRequestDTO);
 
+        System.out.println("Host ID : " + em.find(Zipbob.class, savedId).getHost().getHostId());
+        // when
+        System.out.println("Before Matched : " + em.find(Zipbob.class, savedId).getStatus().toString());
+
+        MatchRequestDTO matchRequestDTO = new MatchRequestDTO();
+        matchRequestDTO.setZipbobId(savedId);
+        matchRequestDTO.setPuppyId(puppy.getPuppyId());
+
+        Zipbob matchedZipbob = puppyService.matchZipbob(matchRequestDTO);
+
         // then
-        Zipbob resultZipbob = zipbobService.findOne(savedId);
-        Assertions.assertThat(resultZipbob.getZipbobId()).isEqualTo(savedId);
+        System.out.println("After Matched : " + em.find(Zipbob.class, savedId).getStatus().toString());
+
+        Assertions.assertThat(savedId).isEqualTo(matchedZipbob.getZipbobId());
+        Assertions.assertThat(host.getHostId()).isEqualTo(matchedZipbob.getHost().getHostId());
+        Assertions.assertThat(puppy.getPuppyId()).isEqualTo(matchedZipbob.getPuppy().getPuppyId());
     }
 }

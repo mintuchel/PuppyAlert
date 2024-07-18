@@ -8,7 +8,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.service.HostService;
-import seominkim.puppyAlert.global.dto.SignUpDTO;
+import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
 import seominkim.puppyAlert.global.entity.Location;
 
 import java.time.LocalDate;
@@ -28,7 +28,7 @@ public class HostServiceTest {
         // given
         String testHostId = "Havertz";
 
-        SignUpDTO signUpDTO = new SignUpDTO();
+        SignUpRequestDTO signUpDTO = new SignUpRequestDTO();
         signUpDTO.setId(testHostId);
         signUpDTO.setPassword("29");
         signUpDTO.setName("하베르츠");
