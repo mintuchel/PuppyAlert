@@ -1,4 +1,4 @@
-package seominkim.puppyAlert.global.dto;
+package seominkim.puppyAlert.domain.puppy.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -6,10 +6,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginDTO {
+public class MatchRequestDTO {
     @NotBlank
-    private String id;
+    private Long zipbobId;
 
     @NotBlank
-    private String password;
+    private String puppyId;
 }
