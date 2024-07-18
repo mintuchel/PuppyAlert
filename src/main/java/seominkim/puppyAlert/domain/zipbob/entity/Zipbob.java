@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Zipbob{
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long zipbobId;
 
     @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
@@ -22,13 +23,13 @@ public class Zipbob{
     @JoinColumn(name="puppyId")
     private Puppy puppy;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "varchar(225)", nullable = false)
     private String menu; // 메뉴이름
 
     @Column(nullable = false)
     private LocalDateTime time; // 식사시간
 
-    //@Column(nullable = false)
+    //@Column(columnDefinition = "varchar(225)", nullable = false)
     //private String imageURL;
 
     @Column(nullable = false)
