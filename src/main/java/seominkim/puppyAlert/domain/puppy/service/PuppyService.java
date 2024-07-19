@@ -3,6 +3,7 @@ package seominkim.puppyAlert.domain.puppy.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequestDTO;
 import seominkim.puppyAlert.domain.puppy.dto.MatchRequestDTO;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
@@ -80,5 +81,10 @@ public class PuppyService {
         zipbobRepository.save(zipbob);
 
         return zipbob;
+    }
+
+    @Transactional
+    public void addFavoriteHost(FavoriteHostRequestDTO favoriteHostRequestDTO){
+
     }
 }

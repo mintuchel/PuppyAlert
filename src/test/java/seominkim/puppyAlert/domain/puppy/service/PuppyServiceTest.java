@@ -2,6 +2,7 @@ package seominkim.puppyAlert.domain.puppy.service;
 
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,33 +27,36 @@ public class PuppyServiceTest {
     @Autowired ZipbobService zipbobService;
     @Autowired EntityManager em;
 
-    @Test
-    @Transactional
-    @Rollback
-    public void matchZipbobTest(){
-
-        // given
+    @BeforeEach
+    public void initTestDummy(){
         Host host = new Host();
-        host.setHostId("Havertz");
-        host.setName("하베르츠");
-        host.setPassword("123");
+        host.setHostId("Ronaldo");
+        host.setName("호날두");
+        host.setPassword("777");
         host.setBirth(LocalDate.now());
         host.setLocation(new Location(100L, 100L));
         host.setPhoneNumber("010-4822-3636");
 
         Puppy puppy = new Puppy();
-        puppy.setPuppyId("Werner");
-        puppy.setName("베르너");
-        puppy.setPassword("456");
+        puppy.setPuppyId("Messi");
+        puppy.setName("메시");
+        puppy.setPassword("10");
         puppy.setBirth(LocalDate.now());
         puppy.setLocation(new Location(200L, 200L));
         puppy.setPhoneNumber("010-1111-2222");
 
         em.persist(host);
         em.persist(puppy);
+    }
 
-        // persist 된 값들 DB에 반영하기!
-        em.flush();
+    @Test
+    @Transactional
+    @Rollback
+    public void matchZipbobTest(){
+
+        // given
+        Host host = em.find(Host.class, "Ronaldo");
+        Puppy puppy = em.find(Puppy.class, "Messi");
 
         // 아직 매칭안된 집밥
         ZipbobRequestDTO zipbobRequestDTO = new ZipbobRequestDTO();

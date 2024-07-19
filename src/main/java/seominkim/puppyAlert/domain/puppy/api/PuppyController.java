@@ -3,13 +3,14 @@ package seominkim.puppyAlert.domain.puppy.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import seominkim.puppyAlert.domain.host.dto.HostInfoResponseDTO;
+import seominkim.puppyAlert.domain.puppy.dto.PuppyMatchHistoryDTO;
 import seominkim.puppyAlert.domain.puppy.dto.MatchRequestDTO;
 import seominkim.puppyAlert.domain.puppy.dto.MatchResponseDTO;
 import seominkim.puppyAlert.domain.puppy.dto.PuppyInfoResponseDTO;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.service.PuppyService;
 import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
+import seominkim.puppyAlert.domain.zipbob.service.ZipbobService;
 import seominkim.puppyAlert.global.dto.LoginRequestDTO;
 import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
 
@@ -74,8 +75,8 @@ public class PuppyController {
         return ResponseEntity.ok(puppyInfoResponseDTO);
     }
 
-    // 집밥 신청
-    @GetMapping("/{zipbobId}/match")
+    // Puppy 집밥 신청
+    @PostMapping("/zipbob")
     public MatchResponseDTO matchZipbob(@RequestParam MatchRequestDTO matchRequestDTO){
         Zipbob matchedZipbob = puppyService.matchZipbob(matchRequestDTO);
 

@@ -2,7 +2,7 @@ package seominkim.puppyAlert.domain.puppy.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import seominkim.puppyAlert.global.entity.FavoriteHost;
+import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
 import seominkim.puppyAlert.global.entity.Location;
 import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
 

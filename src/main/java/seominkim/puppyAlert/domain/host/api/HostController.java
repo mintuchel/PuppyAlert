@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import seominkim.puppyAlert.domain.host.dto.HostInfoResponseDTO;
+import seominkim.puppyAlert.domain.host.dto.HostMatchHistoryDTO;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.service.HostService;
 import seominkim.puppyAlert.domain.zipbob.dto.ZipbobRequestDTO;
@@ -71,12 +72,5 @@ public class HostController {
         hostInfoResponseDTO.setPhoneNumber(host.getPhoneNumber());
 
         return ResponseEntity.ok(hostInfoResponseDTO);
-    }
-
-    // Host 의 집밥 등록
-    @PostMapping("/addZipbob")
-    public ResponseEntity add(@RequestBody ZipbobRequestDTO zipbobRequestDTO){
-        Long zipbobId = zipbobService.add(zipbobRequestDTO);
-        return ResponseEntity.ok(zipbobId);
     }
 }

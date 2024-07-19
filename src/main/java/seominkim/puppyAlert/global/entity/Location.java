@@ -6,14 +6,14 @@ import lombok.Getter;
 @Embeddable
 @Getter
 public class Location {
-    private Long latitude;
-    private Long longitude;
+    private Double latitude;
+    private Double longitude;
 
     protected Location(){
 
     }
 
-    public Location(Long latitude, Long longitude){
+    public Location(Double latitude, Double longitude){
         this.latitude = latitude;
         this.longitude = longitude;
     }

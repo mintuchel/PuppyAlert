@@ -48,4 +48,19 @@ public class ZipbobService {
             throw new IllegalStateException("존재하지 않는 집밥입니다.");
         }
     }
+
+    @Transactional(readOnly = true)
+    public List<Zipbob> findPuppyHistory(String puppyId){
+        return zipbobRepository.findByPuppy_PuppyId(puppyId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Zipbob> findHostHistory(String hostId){
+        return zipbobRepository.findByHost_HostId(hostId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Zipbob> findFavoriteHostHistory(String puppyId, String hostId){
+        return zipbobRepository.findByPuppy_PuppyIdAndHost_HostId(puppyId, hostId);
+    }
 }
