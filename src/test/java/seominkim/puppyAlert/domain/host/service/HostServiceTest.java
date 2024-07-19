@@ -34,7 +34,7 @@ public class HostServiceTest {
         signUpDTO.setPassword("29");
         signUpDTO.setName("하베르츠");
         signUpDTO.setBirth(LocalDate.now());
-        signUpDTO.setLocation(new Location(100L, 100L));
+        signUpDTO.setLocation(new Location(100.135135, 135.12435));
         signUpDTO.setPhoneNumber("010-4822-3636");
 
         // when
@@ -55,7 +55,7 @@ public class HostServiceTest {
         host.setPassword("7");
         host.setName("음바페");
         host.setBirth(LocalDate.now());
-        host.setLocation(new Location(130L,130L));
+        host.setLocation(new Location(133.4135,137.58357));
         host.setPhoneNumber("010-4822-3636");
 
         em.persist(host);

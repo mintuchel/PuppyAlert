@@ -34,7 +34,7 @@ public class PuppyServiceTest {
         host.setName("호날두");
         host.setPassword("777");
         host.setBirth(LocalDate.now());
-        host.setLocation(new Location(100L, 100L));
+        host.setLocation(new Location(100.12, 100.44));
         host.setPhoneNumber("010-4822-3636");
 
         Puppy puppy = new Puppy();
@@ -42,7 +42,7 @@ public class PuppyServiceTest {
         puppy.setName("메시");
         puppy.setPassword("10");
         puppy.setBirth(LocalDate.now());
-        puppy.setLocation(new Location(200L, 200L));
+        puppy.setLocation(new Location(200.3562254, 200.1241));
         puppy.setPhoneNumber("010-1111-2222");
 
         em.persist(host);
