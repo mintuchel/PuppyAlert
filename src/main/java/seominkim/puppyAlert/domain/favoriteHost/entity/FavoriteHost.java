@@ -1,4 +1,4 @@
-package seominkim.puppyAlert.global.entity;
+package seominkim.puppyAlert.domain.favoriteHost.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 @Setter
 public class FavoriteHost {
     @Id @GeneratedValue
-    private Long favorite_host_id;
+    private Long favoriteHostId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "puppyId")
