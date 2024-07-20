@@ -67,4 +67,34 @@ public class ZipbobServiceTest {
         Zipbob resultZipbob = zipbobService.findOne(savedId);
         Assertions.assertThat(resultZipbob.getZipbobId()).isEqualTo(savedId);
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void getMostRecentZipbobTest(){
+
+        // given
+        Zipbob zipbob1 = new Zipbob();
+        zipbob1.setHost(em.find(Host.class, "Ronaldo"));
+        zipbob1.setPuppy(em.find(Puppy.class, "Messi"));
+        zipbob1.setMenu("집밥1");
+        zipbob1.setTime(LocalDateTime.of(2024,6,18,8,24,16));
+        zipbob1.setStatus(ZipbobStatus.MATCHED);
+
+        Zipbob zipbob2 = new Zipbob();
+        zipbob2.setHost(em.find(Host.class, "Ronaldo"));
+        zipbob2.setPuppy(em.find(Puppy.class, "Messi"));
+        zipbob2.setMenu("집밥2");
+        zipbob2.setTime(LocalDateTime.of(2024,7,20,5,50,32));
+        zipbob2.setStatus(ZipbobStatus.MATCHED);
+
+        em.persist(zipbob1);
+        em.persist(zipbob2);
+
+        // when
+        Zipbob mostRecentZipbob = zipbobService.getMostRecentZipbob("Messi","Ronaldo");
+
+        // then
+        Assertions.assertThat(mostRecentZipbob).isEqualTo(zipbob2);
+    }
 }

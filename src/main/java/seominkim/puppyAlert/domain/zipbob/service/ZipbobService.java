@@ -1,6 +1,7 @@
 package seominkim.puppyAlert.domain.zipbob.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.host.entity.Host;
@@ -62,5 +63,15 @@ public class ZipbobService {
     @Transactional(readOnly = true)
     public List<Zipbob> findFavoriteHostHistory(String puppyId, String hostId){
         return zipbobRepository.findByPuppy_PuppyIdAndHost_HostId(puppyId, hostId);
+    }
+
+    @Transactional(readOnly = true)
+    public Zipbob getMostRecentZipbob(String puppyId, String hostId){
+        List<Zipbob> mostRecentZipbob = zipbobRepository.findMostRecentByPuppyIdAndHostId(puppyId, hostId, PageRequest.of(0,1));
+        if(mostRecentZipbob.isEmpty()){
+            throw new IllegalStateException("최근 먹은 적이 없습니다");
+        }else{
+            return mostRecentZipbob.get(0);
+        }
     }
 }
