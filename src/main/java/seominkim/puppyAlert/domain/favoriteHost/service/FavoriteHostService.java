@@ -22,7 +22,7 @@ public class FavoriteHostService {
     private final PuppyRepository puppyRepository;
 
     @Transactional
-    public void addFavoriteHost(FavoriteHostRequestDTO favoriteHostRequestDTO){
+    public Long addFavoriteHost(FavoriteHostRequestDTO favoriteHostRequestDTO){
         FavoriteHost favoriteHost = new FavoriteHost();
         Host host = hostRepository.findById(favoriteHostRequestDTO.getHostId()).get();
         Puppy puppy = puppyRepository.findById(favoriteHostRequestDTO.getPuppyId()).get();
@@ -30,7 +30,7 @@ public class FavoriteHostService {
         favoriteHost.setHost(host);
         favoriteHost.setPuppy(puppy);
 
-        favoriteHostRepository.save(favoriteHost);
+        return favoriteHostRepository.save(favoriteHost).getFavoriteHostId();
     }
 
     @Transactional
