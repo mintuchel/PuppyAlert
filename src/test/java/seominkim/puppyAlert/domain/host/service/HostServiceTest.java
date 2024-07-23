@@ -65,9 +65,7 @@ public class HostServiceTest {
         loginRequestDTO.setId(host.getHostId());
         loginRequestDTO.setPassword(host.getPassword());
 
-        boolean isValidLogin = hostService.checkLogin(loginRequestDTO);
-
         // then
-        Assertions.assertThat(isValidLogin).isTrue();
+        hostService.checkLogin(loginRequestDTO);
     }
 }

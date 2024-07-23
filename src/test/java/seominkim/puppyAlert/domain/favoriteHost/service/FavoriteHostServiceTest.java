@@ -82,4 +82,25 @@ public class FavoriteHostServiceTest {
 
         Assertions.assertThat(favoriteHostList.get(0).getFavoriteHostId()).isEqualTo(favoriteHostId);
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void addDeleteFavoriteHostTest(){
+
+        // given
+        FavoriteHostRequestDTO favoriteHostRequestDTO = new FavoriteHostRequestDTO();
+        favoriteHostRequestDTO.setHostId(em.find(Host.class,"Ronaldo").getHostId());
+        favoriteHostRequestDTO.setPuppyId(em.find(Puppy.class, "Messi").getPuppyId());
+        Long addedFavoriteHostId = favoriteHostService.addFavoriteHost(favoriteHostRequestDTO);
+
+        // when
+        Long deletedFavoriteHostId = favoriteHostService.deleteFavoriteHost(favoriteHostRequestDTO);
+
+        // then
+        List<FavoriteHost> favoriteHostList = favoriteHostService.findAll("Ronaldo");
+
+        Assertions.assertThat(addedFavoriteHostId).isEqualTo(deletedFavoriteHostId);
+        Assertions.assertThat(favoriteHostList.size()).isEqualTo(0);
+    }
 }
