@@ -3,14 +3,12 @@ package seominkim.puppyAlert.domain.puppy.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import seominkim.puppyAlert.domain.puppy.dto.PuppyMatchHistoryDTO;
 import seominkim.puppyAlert.domain.puppy.dto.MatchRequestDTO;
 import seominkim.puppyAlert.domain.puppy.dto.MatchResponseDTO;
 import seominkim.puppyAlert.domain.puppy.dto.PuppyInfoResponseDTO;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.service.PuppyService;
 import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
-import seominkim.puppyAlert.domain.zipbob.service.ZipbobService;
 import seominkim.puppyAlert.global.dto.LoginRequestDTO;
 import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
 
@@ -35,12 +33,8 @@ public class PuppyController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO loginRequestDTO){
         String puppyId = loginRequestDTO.getId();
-        boolean isValidLogin = puppyService.checkLogin(loginRequestDTO);
-        if(isValidLogin){
-            return ResponseEntity.ok(puppyId);
-        }else{
-            return ResponseEntity.badRequest().body(puppyId);
-        }
+        puppyService.checkLogin(loginRequestDTO);
+        return ResponseEntity.ok(puppyId);
     }
 
     // Puppy 전체 조회

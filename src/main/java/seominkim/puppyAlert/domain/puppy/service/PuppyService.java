@@ -12,6 +12,8 @@ import seominkim.puppyAlert.domain.zipbob.entity.ZipbobStatus;
 import seominkim.puppyAlert.domain.zipbob.repository.ZipbobRepository;
 import seominkim.puppyAlert.global.dto.LoginRequestDTO;
 import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
+import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
+import seominkim.puppyAlert.global.exception.exception.PuppyException;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,14 +43,16 @@ public class PuppyService {
     private void validateDuplicatePuppy(Puppy puppy) {
         List<Puppy> findHosts = puppyRepository.findByName(puppy.getName());
         if (!findHosts.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 결식아동입니다.");
+            throw new PuppyException(ErrorCode.EXISTING_ID_ERROR);
         }
     }
 
     @Transactional(readOnly = true)
-    public boolean checkLogin(LoginRequestDTO loginRequestDTO){
+    public void checkLogin(LoginRequestDTO loginRequestDTO){
         Optional<Puppy> loginPuppy = puppyRepository.findByPuppyIdAndPassword(loginRequestDTO.getId(), loginRequestDTO.getPassword());
-        return loginPuppy.isPresent();
+        if(!loginPuppy.isPresent()){
+            throw new PuppyException(ErrorCode.INVALID_LOGIN_ERROR);
+        }
     }
 
     // Puppy 전체 검색
@@ -81,10 +85,5 @@ public class PuppyService {
         zipbobRepository.save(zipbob);
 
         return zipbob;
-    }
-
-    @Transactional
-    public void addFavoriteHost(FavoriteHostRequestDTO favoriteHostRequestDTO){
-
     }
 }

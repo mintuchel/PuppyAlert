@@ -23,10 +23,14 @@ public class FavoriteHostService {
 
     @Transactional
     public Long addFavoriteHost(FavoriteHostRequestDTO favoriteHostRequestDTO){
-        FavoriteHost favoriteHost = new FavoriteHost();
         Host host = hostRepository.findById(favoriteHostRequestDTO.getHostId()).get();
         Puppy puppy = puppyRepository.findById(favoriteHostRequestDTO.getPuppyId()).get();
 
+        if(favoriteHostRepository.existsByHostAndPuppy(host, puppy)){
+            throw new IllegalArgumentException("FavoriteHost already exists for the given host and puppy");
+        }
+
+        FavoriteHost favoriteHost = new FavoriteHost();
         favoriteHost.setHost(host);
         favoriteHost.setPuppy(puppy);
 
@@ -34,12 +38,14 @@ public class FavoriteHostService {
     }
 
     @Transactional
-    public void deleteFavoriteHost(FavoriteHostRequestDTO favoriteHostRequestDTO){
+    public Long deleteFavoriteHost(FavoriteHostRequestDTO favoriteHostRequestDTO){
         String puppyId = favoriteHostRequestDTO.getPuppyId();
         String hostId = favoriteHostRequestDTO.getHostId();
 
         FavoriteHost favoriteHost = favoriteHostRepository.findByPuppy_PuppyIdAndHost_HostId(puppyId, hostId).get();
         favoriteHostRepository.delete(favoriteHost);
+
+        return favoriteHost.getFavoriteHostId();
     }
 
     @Transactional(readOnly = true)

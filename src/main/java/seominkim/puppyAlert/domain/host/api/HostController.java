@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import seominkim.puppyAlert.domain.host.dto.HostInfoResponseDTO;
-import seominkim.puppyAlert.domain.host.dto.HostMatchHistoryDTO;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.service.HostService;
-import seominkim.puppyAlert.domain.zipbob.dto.ZipbobRequestDTO;
 import seominkim.puppyAlert.domain.zipbob.service.ZipbobService;
 import seominkim.puppyAlert.global.dto.LoginRequestDTO;
 import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
@@ -34,12 +32,8 @@ public class HostController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO loginRequestDTO){
         String hostId = loginRequestDTO.getId();
-        boolean isValidLogin = hostService.checkLogin(loginRequestDTO);
-        if(isValidLogin){
-            return ResponseEntity.ok(hostId);
-        }else{
-            return ResponseEntity.badRequest().body(hostId);
-        }
+        hostService.checkLogin(loginRequestDTO);
+        return ResponseEntity.ok(hostId);
     }
 
     // Host 전체 조회

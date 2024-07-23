@@ -6,6 +6,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
@@ -22,7 +23,10 @@ public class InitDomain {
 
     @PostConstruct
     private void init(){
-        initDomainService.init();
+        initDomainService.initHost();
+        initDomainService.initPuppy();
+        initDomainService.initZipbob();
+        initDomainService.initFavoriteHost();
     }
 
     @Component
@@ -31,10 +35,7 @@ public class InitDomain {
         private EntityManager em;
 
         @Transactional
-        public void init(){
-
-            //========== DUMMY HOST ==========//
-
+        public void initHost() {
             Host host1 = new Host();
             host1.setHostId("KwonOhSung");
             host1.setName("권오성");
@@ -70,9 +71,10 @@ public class InitDomain {
             host4.setLocation(new Location(37.54965636279012, 127.0750237101941));
             host4.setPhoneNumber("010-4198-1241");
             em.persist(host4);
+        }
 
-            //========== DUMMY PUPPY ==========//
-
+        @Transactional
+        public void initPuppy() {
             Puppy puppy1 = new Puppy();
             puppy1.setPuppyId("SeoSangHyeok");
             puppy1.setName("서상혁");
@@ -102,34 +104,68 @@ public class InitDomain {
             puppy3.setPhoneNumber("010-8221-7458");
 
             em.persist(puppy3);
+        }
 
-            //========== DUMMY ZIPBOB ==========//
-
+        @Transactional
+        public void initZipbob(){
             Zipbob zipbob1 = new Zipbob();
-            zipbob1.setHost(host1);
-            zipbob1.setTime(LocalDateTime.now());
-            zipbob1.setStatus(ZipbobStatus.READY);
+            zipbob1.setHost(em.find(Host.class,"KwonOhSung"));
+            zipbob1.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
+            zipbob1.setTime(LocalDateTime.of(2024,7,19,14,30));
+            zipbob1.setStatus(ZipbobStatus.MATCHED);
             zipbob1.setMenu("크림파스타");
 
             em.persist(zipbob1);
 
             Zipbob zipbob2 = new Zipbob();
-            zipbob2.setHost(host2);
-            zipbob2.setPuppy(puppy1);
-            zipbob2.setTime(LocalDateTime.now());
+            zipbob2.setHost(em.find(Host.class, "KimSeHyeon"));
+            zipbob2.setPuppy(em.find(Puppy.class, "MinJaeHong"));
+            zipbob2.setTime(LocalDateTime.of(2024,7,20,18,00));
             zipbob2.setStatus(ZipbobStatus.MATCHED);
-            zipbob2.setMenu("제육제육제육");
+            zipbob2.setMenu("제육볶음");
 
             em.persist(zipbob2);
 
             Zipbob zipbob3 = new Zipbob();
-            zipbob3.setHost(host3);
-            zipbob3.setPuppy(puppy2);
-            zipbob3.setTime(LocalDateTime.now());
+            zipbob3.setHost(em.find(Host.class, "ChoSangJun"));
+            zipbob3.setPuppy(em.find(Puppy.class, "KimJiWon"));
+            zipbob3.setTime(LocalDateTime.of(2024,7,20,18,20));
             zipbob3.setStatus(ZipbobStatus.MATCHED);
             zipbob3.setMenu("버터오징어");
 
             em.persist(zipbob3);
+
+            Zipbob zipbob4 = new Zipbob();
+            zipbob4.setHost(em.find(Host.class, "LimWooJin"));
+            zipbob4.setTime(LocalDateTime.of(2024,7,18,17,45));
+            zipbob4.setStatus(ZipbobStatus.READY);
+            zipbob4.setMenu("순두부찌개");
+
+            em.persist(zipbob4);
+        }
+
+        @Transactional
+        public void initFavoriteHost(){
+            FavoriteHost favoriteHost1 = new FavoriteHost();
+            favoriteHost1.setHost(em.find(Host.class,"KwonOhSung"));
+            favoriteHost1.setPuppy(em.find(Puppy.class, "MinJaeHong"));
+
+            FavoriteHost favoriteHost2 = new FavoriteHost();
+            favoriteHost2.setHost(em.find(Host.class,"KimSeHyeon"));
+            favoriteHost2.setPuppy(em.find(Puppy.class, "MinJaeHong"));
+
+            FavoriteHost favoriteHost3 = new FavoriteHost();
+            favoriteHost3.setHost(em.find(Host.class,"ChoSangJun"));
+            favoriteHost3.setPuppy(em.find(Puppy.class, "KimJiWon"));
+
+            FavoriteHost favoriteHost4 = new FavoriteHost();
+            favoriteHost4.setHost(em.find(Host.class,"LimWooJin"));
+            favoriteHost4.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
+
+            em.persist(favoriteHost1);
+            em.persist(favoriteHost2);
+            em.persist(favoriteHost3);
+            em.persist(favoriteHost4);
         }
     }
 }

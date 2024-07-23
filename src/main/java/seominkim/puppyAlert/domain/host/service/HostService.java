@@ -7,6 +7,8 @@ import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.repository.HostRepository;
 import seominkim.puppyAlert.global.dto.LoginRequestDTO;
 import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
+import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
+import seominkim.puppyAlert.global.exception.exception.HostException;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,15 +37,17 @@ public class HostService {
     private void validateDuplicateHost(Host host) {
         List<Host> findHosts = hostRepository.findByName(host.getName());
         if (!findHosts.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
+            throw new HostException(ErrorCode.EXISTING_ID_ERROR);
         }
     }
 
     // Host 로그인 확인
     @Transactional(readOnly = true)
-    public boolean checkLogin(LoginRequestDTO loginRequestDTO){
+    public void checkLogin(LoginRequestDTO loginRequestDTO){
         Optional<Host> loginHost = hostRepository.findByHostIdAndPassword(loginRequestDTO.getId(), loginRequestDTO.getPassword());
-        return loginHost.isPresent();
+        if(!loginHost.isPresent()){
+            throw new HostException(ErrorCode.INVALID_LOGIN_ERROR);
+        }
     }
 
     // Host 전체 검색
