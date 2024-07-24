@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import seominkim.puppyAlert.global.exception.exception.FoodException;
 import seominkim.puppyAlert.global.exception.exception.HostException;
 import seominkim.puppyAlert.global.exception.exception.PuppyException;
 
@@ -18,6 +19,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(PuppyException.class)
     protected ResponseEntity handlePuppyException(PuppyException e){
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(e.getErrorCode().getMessage());
+    }
+
+    @ExceptionHandler(FoodException.class)
+    protected ResponseEntity handleFoodException(FoodException e){
         return ResponseEntity.status(e.getErrorCode().getStatus()).body(e.getErrorCode().getMessage());
     }
 }
