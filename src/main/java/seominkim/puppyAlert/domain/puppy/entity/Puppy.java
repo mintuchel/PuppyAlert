@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
 import seominkim.puppyAlert.global.entity.Location;
-import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
+import seominkim.puppyAlert.domain.food.entity.Food;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,6 +20,9 @@ public class Puppy {
     @Column(columnDefinition = "varchar(225)", nullable = false)
     private String password;
 
+    @Column(columnDefinition = "varchar(255)", nullable = false)
+    private String nickName;
+
     @Column(columnDefinition = "varchar(225)", nullable = false)
     private String name;
 
@@ -29,12 +32,15 @@ public class Puppy {
     @Column(columnDefinition = "varchar(225)", nullable = false)
     private String phoneNumber;
 
+    @Column(columnDefinition = "varchar(255)", nullable = false)
+    private String address;
+
     @Embedded
     private Location location;
 
     // 연관관계 매핑
     @OneToMany(mappedBy = "puppy", cascade = CascadeType.ALL)
-    private List<Zipbob> zipbobList = new ArrayList<>();
+    private List<Food> foodList = new ArrayList<>();
 
     @OneToMany(mappedBy = "puppy", cascade = CascadeType.ALL)
     private List<FavoriteHost> favoriteHostList = new ArrayList<>();

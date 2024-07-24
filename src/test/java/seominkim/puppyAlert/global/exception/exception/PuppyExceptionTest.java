@@ -31,6 +31,7 @@ public class PuppyExceptionTest {
         puppy.setName("음바페");
         puppy.setPassword("7");
         puppy.setBirth(LocalDate.now());
+        puppy.setAddress("레알 마드리드");
         puppy.setLocation(new Location(200.3562254, 200.1241));
         puppy.setPhoneNumber("010-7777-7777");
         em.persist(puppy);

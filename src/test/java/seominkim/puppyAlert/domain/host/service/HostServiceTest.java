@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.global.dto.LoginRequestDTO;
 import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
+import seominkim.puppyAlert.global.dto.UserInfoResponseDTO;
 import seominkim.puppyAlert.global.entity.Location;
 
 import java.time.LocalDate;
@@ -32,6 +33,7 @@ public class HostServiceTest {
         SignUpRequestDTO signUpDTO = new SignUpRequestDTO();
         signUpDTO.setId(testHostId);
         signUpDTO.setPassword("29");
+        signUpDTO.setNickName("내이름은HAVERTZ");
         signUpDTO.setName("하베르츠");
         signUpDTO.setBirth(LocalDate.now());
         signUpDTO.setLocation(new Location(100.135135, 135.12435));
@@ -41,8 +43,8 @@ public class HostServiceTest {
         String findId = hostService.signUp(signUpDTO);
 
         // then
-        Host findHost = hostService.findById(findId);
-        Assertions.assertThat(findHost.getHostId()).isEqualTo(testHostId);
+        UserInfoResponseDTO findHost = hostService.findById(findId);
+        Assertions.assertThat(findHost.getUserId()).isEqualTo(testHostId);
     }
 
     @Test
@@ -53,8 +55,10 @@ public class HostServiceTest {
         Host host = new Host();
         host.setHostId("mbappe");
         host.setPassword("7");
+        host.setNickName("나는야음바페");
         host.setName("음바페");
         host.setBirth(LocalDate.now());
+        host.setAddress("파리 생제르망");
         host.setLocation(new Location(133.4135,137.58357));
         host.setPhoneNumber("010-4822-3636");
 

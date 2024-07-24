@@ -9,11 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequestDTO;
+import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostResponseDTO;
 import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
+import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
-import seominkim.puppyAlert.domain.zipbob.entity.ZipbobStatus;
+import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.global.entity.Location;
 
 import java.time.LocalDate;
@@ -31,38 +32,42 @@ public class FavoriteHostServiceTest {
         Host host = new Host();
         host.setHostId("Ronaldo");
         host.setName("호날두");
+        host.setNickName("내가바로좆두다");
         host.setPassword("777");
         host.setBirth(LocalDate.now());
+        host.setAddress("레알 마드리드");
         host.setLocation(new Location(100.5, 100.1));
         host.setPhoneNumber("010-4822-3636");
 
         Puppy puppy = new Puppy();
         puppy.setPuppyId("Messi");
         puppy.setName("메시");
+        puppy.setNickName("메신이라불러줘");
         puppy.setPassword("10");
         puppy.setBirth(LocalDate.now());
+        puppy.setAddress("바르셀로나");
         puppy.setLocation(new Location(200.3, 200.2));
         puppy.setPhoneNumber("010-1111-2222");
 
         em.persist(host);
         em.persist(puppy);
 
-        Zipbob zipbob1 = new Zipbob();
-        zipbob1.setHost(host);
-        zipbob1.setPuppy(puppy);
-        zipbob1.setMenu("집밥1");
-        zipbob1.setTime(LocalDateTime.of(2024,6,18,8,24,16));
-        zipbob1.setStatus(ZipbobStatus.MATCHED);
+        Food food1 = new Food();
+        food1.setHost(host);
+        food1.setPuppy(puppy);
+        food1.setMenu("집밥1");
+        food1.setTime(LocalDateTime.of(2024,6,18,8,24,16));
+        food1.setStatus(FoodStatus.MATCHED);
 
-        Zipbob zipbob2 = new Zipbob();
-        zipbob2.setHost(host);
-        zipbob2.setPuppy(puppy);
-        zipbob2.setMenu("집밥2");
-        zipbob2.setTime(LocalDateTime.of(2024,7,20,5,50,32));
-        zipbob2.setStatus(ZipbobStatus.MATCHED);
+        Food food2 = new Food();
+        food2.setHost(host);
+        food2.setPuppy(puppy);
+        food2.setMenu("집밥2");
+        food2.setTime(LocalDateTime.of(2024,7,20,5,50,32));
+        food2.setStatus(FoodStatus.MATCHED);
 
-        em.persist(zipbob1);
-        em.persist(zipbob2);
+        em.persist(food1);
+        em.persist(food2);
     }
 
     @Test
@@ -78,9 +83,9 @@ public class FavoriteHostServiceTest {
         Long favoriteHostId = favoriteHostService.addFavoriteHost(favoriteHostRequestDTO);
 
         // then
-        List<FavoriteHost> favoriteHostList = favoriteHostService.findAll("Messi");
+        List<FavoriteHostResponseDTO> favoriteHostDTOList = favoriteHostService.findAll("Messi");
 
-        Assertions.assertThat(favoriteHostList.get(0).getFavoriteHostId()).isEqualTo(favoriteHostId);
+        Assertions.assertThat(favoriteHostDTOList.get(0).getHostId()).isEqualTo("Ronaldo");
     }
 
     @Test
@@ -98,9 +103,9 @@ public class FavoriteHostServiceTest {
         Long deletedFavoriteHostId = favoriteHostService.deleteFavoriteHost(favoriteHostRequestDTO);
 
         // then
-        List<FavoriteHost> favoriteHostList = favoriteHostService.findAll("Ronaldo");
+        List<FavoriteHostResponseDTO> favoriteHostDTOList = favoriteHostService.findAll("Ronaldo");
 
         Assertions.assertThat(addedFavoriteHostId).isEqualTo(deletedFavoriteHostId);
-        Assertions.assertThat(favoriteHostList.size()).isEqualTo(0);
+        Assertions.assertThat(favoriteHostDTOList.size()).isEqualTo(0);
     }
 }

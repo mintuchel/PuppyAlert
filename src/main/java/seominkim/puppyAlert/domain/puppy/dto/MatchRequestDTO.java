@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class MatchRequestDTO {
     @NotBlank
-    private Long zipbobId;
+    private Long foodId;
 
     @NotBlank
     private String puppyId;

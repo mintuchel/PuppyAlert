@@ -3,13 +3,14 @@ package seominkim.puppyAlert.domain.puppy.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequestDTO;
 import seominkim.puppyAlert.domain.puppy.dto.MatchRequestDTO;
+import seominkim.puppyAlert.domain.puppy.dto.MatchResponseDTO;
+import seominkim.puppyAlert.global.dto.UserInfoResponseDTO;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
-import seominkim.puppyAlert.domain.zipbob.entity.Zipbob;
-import seominkim.puppyAlert.domain.zipbob.entity.ZipbobStatus;
-import seominkim.puppyAlert.domain.zipbob.repository.ZipbobRepository;
+import seominkim.puppyAlert.domain.food.entity.Food;
+import seominkim.puppyAlert.domain.food.entity.FoodStatus;
+import seominkim.puppyAlert.domain.food.repository.FoodRepository;
 import seominkim.puppyAlert.global.dto.LoginRequestDTO;
 import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
@@ -17,12 +18,13 @@ import seominkim.puppyAlert.global.exception.exception.PuppyException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PuppyService {
     private final PuppyRepository puppyRepository;
-    private final ZipbobRepository zipbobRepository;
+    private final FoodRepository foodRepository;
 
     // Puppy 회원가입
     @Transactional
@@ -30,8 +32,10 @@ public class PuppyService {
         Puppy puppy = new Puppy();
         puppy.setPuppyId(signUpDTO.getId());
         puppy.setPassword(signUpDTO.getPassword());
+        puppy.setNickName(signUpDTO.getNickName());
         puppy.setName(signUpDTO.getName());
         puppy.setPhoneNumber(signUpDTO.getPhoneNumber());
+        puppy.setAddress(signUpDTO.getAddress());
         puppy.setBirth(signUpDTO.getBirth());
         puppy.setLocation(signUpDTO.getLocation());
 
@@ -57,33 +61,59 @@ public class PuppyService {
 
     // Puppy 전체 검색
     @Transactional(readOnly = true)
-    public List<Puppy> findAll(){
-        return puppyRepository.findAll();
+    public List<UserInfoResponseDTO> findAll(){
+        List<UserInfoResponseDTO> puppyList = puppyRepository.findAll().stream()
+                .map(puppy -> {
+                    UserInfoResponseDTO dto = new UserInfoResponseDTO();
+                    dto.setUserId(puppy.getPuppyId());
+                    dto.setNickName(puppy.getNickName());
+                    dto.setName(puppy.getName());
+                    dto.setBirth(puppy.getBirth());
+                    dto.setAddress(puppy.getAddress());
+                    dto.setLocation(puppy.getLocation());
+                    dto.setPhoneNumber(puppy.getPhoneNumber());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+
+        return puppyList;
     }
 
-    // Puppy 검색
+    // Puppy 단건 검색
     @Transactional(readOnly = true)
-    public Puppy findById(String puppyId){
-        Optional<Puppy> puppy = puppyRepository.findById(puppyId);
-        if(puppy.isPresent()){
-            return puppy.get();
-        }else{
-            throw new IllegalStateException("존재하지 않는 회원입니다.");
-        }
+    public UserInfoResponseDTO findById(String puppyId){
+        return puppyRepository.findById(puppyId)
+                .map(puppy -> {
+                    UserInfoResponseDTO dto = new UserInfoResponseDTO();
+                    dto.setUserId(puppy.getPuppyId());
+                    dto.setNickName(puppy.getNickName());
+                    dto.setName(puppy.getName());
+                    dto.setBirth(puppy.getBirth());
+                    dto.setPhoneNumber(puppy.getPhoneNumber());
+                    dto.setAddress(puppy.getAddress());
+                    dto.setLocation(puppy.getLocation());
+                    return dto;
+                })
+                .orElseThrow(() -> new PuppyException(ErrorCode.NON_EXISTING_USER));
     }
 
     @Transactional
-    public Zipbob matchZipbob(MatchRequestDTO matchRequestDTO){
-        Zipbob zipbob = zipbobRepository.findById(matchRequestDTO.getZipbobId()).get();
+    public MatchResponseDTO matchZipbob(MatchRequestDTO matchRequestDTO){
+        Food food = foodRepository.findById(matchRequestDTO.getFoodId()).get();
         Puppy puppy = puppyRepository.findById(matchRequestDTO.getPuppyId()).get();
         
         // 집밥 업데이트
-        zipbob.setPuppy(puppy);
-        zipbob.setStatus(ZipbobStatus.MATCHED);
+        food.setPuppy(puppy);
+        food.setStatus(FoodStatus.MATCHED);
 
         // 업데이트된 집밥 저장
-        zipbobRepository.save(zipbob);
+        foodRepository.save(food);
 
-        return zipbob;
+        MatchResponseDTO matchResponseDTO = new MatchResponseDTO();
+        matchResponseDTO.setFoodId(food.getFoodId());
+        matchResponseDTO.setHostId(food.getHost().getHostId());
+        matchResponseDTO.setPuppyId(food.getPuppy().getPuppyId());
+
+        return matchResponseDTO;
     }
 }

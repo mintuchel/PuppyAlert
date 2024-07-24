@@ -4,22 +4,27 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequestDTO;
+import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostResponseDTO;
 import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
 import seominkim.puppyAlert.domain.favoriteHost.repository.FavoriteHostRepository;
+import seominkim.puppyAlert.domain.food.service.FoodService;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.repository.HostRepository;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class FavoriteHostService {
 
-    private final FavoriteHostRepository favoriteHostRepository;
+    private final FoodService foodService;
+
     private final HostRepository hostRepository;
     private final PuppyRepository puppyRepository;
+    private final FavoriteHostRepository favoriteHostRepository;
 
     @Transactional
     public Long addFavoriteHost(FavoriteHostRequestDTO favoriteHostRequestDTO){
@@ -48,8 +53,16 @@ public class FavoriteHostService {
         return favoriteHost.getFavoriteHostId();
     }
 
+    // foodService 통해서 가장 최근시간 JPQL 로 확인
     @Transactional(readOnly = true)
-    public List<FavoriteHost> findAll(String puppyId){
-        return favoriteHostRepository.findByPuppy_PuppyId(puppyId);
+    public List<FavoriteHostResponseDTO> findAll(String puppyId){
+        return favoriteHostRepository.findByPuppy_PuppyId(puppyId).stream()
+                .map(favoriteHost -> {
+                    FavoriteHostResponseDTO dto = new FavoriteHostResponseDTO();
+                    dto.setHostId(favoriteHost.getHost().getHostId());
+                    dto.setRecentZipbobTime(foodService.getMostRecentFood(puppyId, dto.getHostId()).getTime());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 }
