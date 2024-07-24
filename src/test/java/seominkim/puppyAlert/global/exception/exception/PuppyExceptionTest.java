@@ -29,6 +29,7 @@ public class PuppyExceptionTest {
         Puppy puppy = new Puppy();
         puppy.setPuppyId("Mbappe");
         puppy.setName("음바페");
+        puppy.setNickName("아이엠넥스트호날두");
         puppy.setPassword("7");
         puppy.setBirth(LocalDate.now());
         puppy.setAddress("레알 마드리드");
