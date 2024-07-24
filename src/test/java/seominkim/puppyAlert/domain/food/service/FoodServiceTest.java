@@ -76,7 +76,7 @@ public class FoodServiceTest {
     @Test
     @Transactional
     @Rollback
-    public void getMostRecentZipbobTest(){
+    public void getMostRecentFoodTest(){
 
         // given
         Food food1 = new Food();
