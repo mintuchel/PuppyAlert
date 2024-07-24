@@ -12,5 +12,5 @@ public class FavoriteHostResponseDTO {
     @NotBlank
     private String hostId;
 
-    private LocalDateTime recentZipbobTime;
+    private LocalDateTime recentFoodTime;
 }

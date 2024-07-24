@@ -60,7 +60,7 @@ public class FavoriteHostService {
                 .map(favoriteHost -> {
                     FavoriteHostResponseDTO dto = new FavoriteHostResponseDTO();
                     dto.setHostId(favoriteHost.getHost().getHostId());
-                    dto.setRecentZipbobTime(foodService.getMostRecentFood(puppyId, dto.getHostId()).getTime());
+                    dto.setRecentFoodTime(foodService.getMostRecentFood(puppyId, dto.getHostId()).getTime());
                     return dto;
                 })
                 .collect(Collectors.toList());

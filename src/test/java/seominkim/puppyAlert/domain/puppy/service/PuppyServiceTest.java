@@ -95,7 +95,7 @@ public class PuppyServiceTest {
         matchRequestDTO.setFoodId(savedId);
         matchRequestDTO.setPuppyId(puppy.getPuppyId());
 
-        MatchResponseDTO matchResponseDTO = puppyService.matchZipbob(matchRequestDTO);
+        MatchResponseDTO matchResponseDTO = puppyService.matchFood(matchRequestDTO);
 
         // then
         System.out.println("==========");

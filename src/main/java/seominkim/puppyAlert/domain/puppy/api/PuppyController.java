@@ -44,8 +44,8 @@ public class PuppyController {
     }
 
     // Puppy 집밥 신청
-    @PostMapping("/zipbob")
-    public MatchResponseDTO matchZipbob(@RequestParam MatchRequestDTO matchRequestDTO){
-        return puppyService.matchZipbob(matchRequestDTO);
+    @PostMapping("/food")
+    public MatchResponseDTO matchFood(@RequestParam MatchRequestDTO matchRequestDTO){
+        return puppyService.matchFood(matchRequestDTO);
     }
 }

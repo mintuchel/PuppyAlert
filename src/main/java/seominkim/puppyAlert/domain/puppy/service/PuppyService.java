@@ -98,7 +98,7 @@ public class PuppyService {
     }
 
     @Transactional
-    public MatchResponseDTO matchZipbob(MatchRequestDTO matchRequestDTO){
+    public MatchResponseDTO matchFood(MatchRequestDTO matchRequestDTO){
         Food food = foodRepository.findById(matchRequestDTO.getFoodId()).get();
         Puppy puppy = puppyRepository.findById(matchRequestDTO.getPuppyId()).get();
         

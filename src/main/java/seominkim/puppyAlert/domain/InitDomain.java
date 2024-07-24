@@ -39,7 +39,7 @@ public class InitDomain {
             Host host1 = new Host();
             host1.setHostId("KwonOhSung");
             host1.setName("권오성");
-            host1.setPassword("qwer123");
+            host1.setPassword("a12345678!");
             host1.setNickName("호날두");
             host1.setBirth(LocalDate.now());
             host1.setAddress("제주도");
@@ -51,7 +51,7 @@ public class InitDomain {
             host2.setHostId("kimSeHyeon");
             host2.setName("김세현");
             host2.setNickName("메시");
-            host2.setPassword("abcd");
+            host2.setPassword("a12345678!");
             host2.setBirth(LocalDate.now());
             host2.setAddress("서울");
             host2.setLocation(new Location(37.54965636279012, 127.0750237101941));
@@ -62,7 +62,7 @@ public class InitDomain {
             host3.setHostId("ChoSangJun");
             host3.setName("조상준");
             host3.setNickName("발베르데");
-            host3.setPassword("abcdefg");
+            host3.setPassword("a12345678!");
             host3.setBirth(LocalDate.now());
             host3.setAddress("부산");
             host3.setLocation(new Location(37.551833438845506, 127.0753138390134));
@@ -72,7 +72,7 @@ public class InitDomain {
             Host host4 = new Host();
             host4.setHostId("LimWooJin");
             host4.setName("임우진");
-            host4.setPassword("xyzw");
+            host4.setPassword("a12345678!");
             host4.setNickName("음바페");
             host4.setBirth(LocalDate.now());
             host4.setAddress("대구");
@@ -86,7 +86,7 @@ public class InitDomain {
             Puppy puppy1 = new Puppy();
             puppy1.setPuppyId("SeoSangHyeok");
             puppy1.setName("서상혁");
-            puppy1.setPassword("asck112!");
+            puppy1.setPassword("a12345678!");
             puppy1.setNickName("아자르");
             puppy1.setBirth(LocalDate.now());
             puppy1.setAddress("광주");
@@ -98,7 +98,7 @@ public class InitDomain {
             Puppy puppy2 = new Puppy();
             puppy2.setPuppyId("MinJaeHong");
             puppy2.setName("민재홍");
-            puppy2.setPassword("gkqpfmcm29");
+            puppy2.setPassword("a12345678!");
             puppy2.setNickName("뤼디거");
             puppy2.setBirth(LocalDate.now());
             puppy2.setAddress("서울");
@@ -110,7 +110,7 @@ public class InitDomain {
             Puppy puppy3 = new Puppy();
             puppy3.setPuppyId("KimJiWon");
             puppy3.setName("김지원");
-            puppy3.setPassword("dmaqkpv9");
+            puppy3.setPassword("a12345678!");
             puppy3.setNickName("카르바할");
             puppy3.setBirth(LocalDate.now());
             puppy3.setAddress("인천");

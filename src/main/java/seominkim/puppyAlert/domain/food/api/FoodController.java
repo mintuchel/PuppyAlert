@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/zipbob")
+@RequestMapping("/api/v1/food")
 public class FoodController {
 
     private final FoodService foodService;
@@ -23,16 +23,16 @@ public class FoodController {
     }
 
     // 특정 집밥 조회
-    @GetMapping("/{zipbobId}")
-    public ResponseEntity findOne(@PathVariable long zipbobId){
-        return ResponseEntity.ok(foodService.findById(zipbobId));
+    @GetMapping("/{foodId}")
+    public ResponseEntity findOne(@PathVariable long foodId){
+        return ResponseEntity.ok(foodService.findById(foodId));
     }
 
     // Host 의 집밥 등록
     @PostMapping()
     public ResponseEntity add(@RequestBody FoodRequestDTO foodRequestDTO){
-        Long zipbobId = foodService.add(foodRequestDTO);
-        return ResponseEntity.ok(zipbobId);
+        Long foodId = foodService.add(foodRequestDTO);
+        return ResponseEntity.ok(foodId);
     }
 
     // Host 집밥 기록 조회
