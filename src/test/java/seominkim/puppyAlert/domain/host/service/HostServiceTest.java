@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
-import seominkim.puppyAlert.global.dto.UserInfoResponseDTO;
+import seominkim.puppyAlert.domain.common.dto.request.SignUpRequest;
+import seominkim.puppyAlert.global.dto.UserInfoResponse;
 import seominkim.puppyAlert.global.entity.Location;
+import seominkim.puppyAlert.global.entity.UserType;
 
 import java.time.LocalDate;
 
@@ -27,21 +28,32 @@ public class HostServiceTest {
     public void signUpTest(){
         // given
         String testHostId = "Havertz";
+        String password = "29";
+        String nickName = "내이름은HAVERTZ";
+        String name = "하베르츠";
+        LocalDate birth = LocalDate.now();
+        String address = "독일 베를린";
+        Location location = new Location(100.135135, 135.12435); // Initialize Location as needed
+        String phoneNumber = "010-4822-3636";
+        UserType userType = UserType.HOST; // Replace with appropriate UserType value
 
-        SignUpRequestDTO signUpDTO = new SignUpRequestDTO();
-        signUpDTO.setId(testHostId);
-        signUpDTO.setPassword("29");
-        signUpDTO.setNickName("내이름은HAVERTZ");
-        signUpDTO.setName("하베르츠");
-        signUpDTO.setBirth(LocalDate.now());
-        signUpDTO.setLocation(new Location(100.135135, 135.12435));
-        signUpDTO.setPhoneNumber("010-4822-3636");
+        SignUpRequest signUpRequest = new SignUpRequest(
+                testHostId,
+                password,
+                nickName,
+                name,
+                birth,
+                address,
+                location,
+                phoneNumber,
+                userType
+        );
 
         // when
-        String findId = hostService.signUp(signUpDTO);
+        String findId = hostService.signUp(signUpRequest);
 
         // then
-        UserInfoResponseDTO findHost = hostService.findById(findId);
-        Assertions.assertThat(findHost.getUserId()).isEqualTo(testHostId);
+        UserInfoResponse findHost = hostService.findById(findId);
+        Assertions.assertThat(findHost.userId()).isEqualTo(testHostId);
     }
 }

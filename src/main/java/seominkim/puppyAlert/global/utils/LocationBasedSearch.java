@@ -1,0 +1,47 @@
+package seominkim.puppyAlert.global.utils;
+
+import lombok.experimental.UtilityClass;
+import seominkim.puppyAlert.domain.food.entity.Food;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@UtilityClass
+public class LocationBasedSearch {
+    // 지구 반지름 (미터 단위)
+    private static final double EARTH_RADIUS = 6371000;
+
+    // 위도 1도당 미터 수 (고정 값)
+    private static final double LATITUDE_METER = 111000;
+
+    public static boolean isWithinRadius(double latitude, double longitude, double targetLatitude, double targetLongitude, double radiusMeters) {
+        // 위도와 경도 차이 계산
+        double latDifference = radiusMeters / LATITUDE_METER;
+        double lonDifference = radiusMeters / (LATITUDE_METER * Math.cos(Math.toRadians(latitude)));
+
+        // 위도와 경도의 범위 계산
+        double minLatitude = latitude - latDifference;
+        double maxLatitude = latitude + latDifference;
+        double minLongitude = longitude - lonDifference;
+        double maxLongitude = longitude + lonDifference;
+
+        // 대상 지점이 범위 내에 있는지 확인
+        return (minLatitude <= targetLatitude && targetLatitude <= maxLatitude) &&
+                (minLongitude <= targetLongitude && targetLongitude <= maxLongitude);
+    }
+
+    public static List<Food> findFoodWithinRange(double currentLatitude, double currentLongitude, List<Food> foodList, double radiusMeters) {
+        List<Food> foodWithinRange = new ArrayList<>();
+
+        for (Food food : foodList) {
+            Double curFoodLatitude = food.getHost().getLocation().getLatitude();
+            Double curFoodLongitude = food.getHost().getLocation().getLongitude();
+
+            if (isWithinRadius(currentLatitude, currentLongitude, curFoodLatitude, curFoodLongitude, radiusMeters)) {
+                foodWithinRange.add(food);
+            }
+        }
+
+        return foodWithinRange;
+    }
+}

@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequestDTO;
-import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostResponseDTO;
-import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
+import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequest;
+import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostResponse;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
@@ -75,17 +74,18 @@ public class FavoriteHostServiceTest {
     @Rollback
     public void getFavoriteHostTest(){
         // given
-        FavoriteHostRequestDTO favoriteHostRequestDTO = new FavoriteHostRequestDTO();
-        favoriteHostRequestDTO.setHostId(em.find(Host.class,"Ronaldo").getHostId());
-        favoriteHostRequestDTO.setPuppyId(em.find(Puppy.class, "Messi").getPuppyId());
+        String hostId = em.find(Host.class,"Ronaldo").getHostId();
+        String puppyId = em.find(Puppy.class, "Messi").getPuppyId();
+
+        FavoriteHostRequest request = new FavoriteHostRequest(hostId, puppyId);
 
         // when
-        Long favoriteHostId = favoriteHostService.addFavoriteHost(favoriteHostRequestDTO);
+        Long favoriteHostId = favoriteHostService.addFavoriteHost(request);
 
         // then
-        List<FavoriteHostResponseDTO> favoriteHostDTOList = favoriteHostService.findAll("Messi");
+        List<FavoriteHostResponse> favoriteHostDTOList = favoriteHostService.findAll("Messi");
 
-        Assertions.assertThat(favoriteHostDTOList.get(0).getHostId()).isEqualTo("Ronaldo");
+        Assertions.assertThat(favoriteHostDTOList.get(0).hostId()).isEqualTo("Ronaldo");
     }
 
     @Test
@@ -94,16 +94,18 @@ public class FavoriteHostServiceTest {
     public void addDeleteFavoriteHostTest(){
 
         // given
-        FavoriteHostRequestDTO favoriteHostRequestDTO = new FavoriteHostRequestDTO();
-        favoriteHostRequestDTO.setHostId(em.find(Host.class,"Ronaldo").getHostId());
-        favoriteHostRequestDTO.setPuppyId(em.find(Puppy.class, "Messi").getPuppyId());
-        Long addedFavoriteHostId = favoriteHostService.addFavoriteHost(favoriteHostRequestDTO);
+        String hostId = em.find(Host.class,"Ronaldo").getHostId();
+        String puppyId = em.find(Puppy.class, "Messi").getPuppyId();
+
+        FavoriteHostRequest request = new FavoriteHostRequest(hostId, puppyId);
+
+        Long addedFavoriteHostId = favoriteHostService.addFavoriteHost(request);
 
         // when
-        Long deletedFavoriteHostId = favoriteHostService.deleteFavoriteHost(favoriteHostRequestDTO);
+        Long deletedFavoriteHostId = favoriteHostService.deleteFavoriteHost(request);
 
         // then
-        List<FavoriteHostResponseDTO> favoriteHostDTOList = favoriteHostService.findAll("Ronaldo");
+        List<FavoriteHostResponse> favoriteHostDTOList = favoriteHostService.findAll("Ronaldo");
 
         Assertions.assertThat(addedFavoriteHostId).isEqualTo(deletedFavoriteHostId);
         Assertions.assertThat(favoriteHostDTOList.size()).isEqualTo(0);

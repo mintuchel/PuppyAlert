@@ -7,14 +7,16 @@ import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.repository.HostRepository;
-import seominkim.puppyAlert.domain.food.dto.FoodRequestDTO;
-import seominkim.puppyAlert.domain.food.dto.FoodResponseDTO;
+import seominkim.puppyAlert.domain.food.dto.FoodRequest;
+import seominkim.puppyAlert.domain.food.dto.FoodResponse;
 import seominkim.puppyAlert.domain.food.repository.FoodRepository;
+import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
-import seominkim.puppyAlert.global.dto.MatchHistoryResponseDTO;
+import seominkim.puppyAlert.global.dto.MatchHistoryResponse;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
 import seominkim.puppyAlert.global.exception.exception.HostException;
+import seominkim.puppyAlert.global.utils.LocationBasedSearch;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,102 +29,95 @@ public class FoodService {
     private final PuppyRepository puppyRepository;
 
     @Transactional
-    public Long add(FoodRequestDTO foodRequestDTO){
-        Host providerHost = hostRepository.findById(foodRequestDTO.getHostId()).get();
+    public Long add(FoodRequest foodRequest){
+        Host providerHost = hostRepository.findById(foodRequest.hostId()).orElseThrow(() -> new RuntimeException("Host not found"));
 
         Food food = new Food();
-
         food.setHost(providerHost);
-        food.setTime(foodRequestDTO.getTime());
-        food.setStatus(foodRequestDTO.getStatus());
-        food.setMenu(foodRequestDTO.getMenu());
+        food.setTime(foodRequest.time());
+        food.setStatus(foodRequest.status());
+        food.setMenu(foodRequest.menu());
 
         foodRepository.save(food);
         return food.getFoodId();
     }
 
     @Transactional(readOnly = true)
-    public List<FoodResponseDTO> findAll(){
-        List<FoodResponseDTO> foodList = foodRepository.findAll().stream()
-                .map(food -> {
-                    FoodResponseDTO dto = new FoodResponseDTO();
-                    dto.setHostId(food.getHost().getHostId());
-                    dto.setMenu(food.getMenu());
-                    dto.setTime(food.getTime());
-                    dto.setAddress(food.getHost().getAddress());
-                    dto.setLocation(food.getHost().getLocation());
-                    dto.setStatus(food.getStatus());
-                    return dto;
-                })
+    public List<FoodResponse> findAll(){
+        return foodRepository.findAll().stream()
+                .map(food -> new FoodResponse(
+                        food.getFoodId(),
+                        food.getHost().getHostId(),
+                        food.getMenu(),
+                        food.getTime(),
+                        food.getImageURL(),
+                        food.getHost().getAddress(),
+                        food.getHost().getLocation(),
+                        food.getStatus()
+                ))
                 .collect(Collectors.toList());
-
-        return foodList;
     }
 
-    /*
     @Transactional(readOnly = true)
-    public List<FoodResponseDTO> findAvailable(String puppyId){
+    public List<FoodResponse> findAvailable(String puppyId){
         List<Food> foodList = foodRepository.findAll();
-
-        Puppy puppy = puppyRepository.findById(puppyId).get();
+        Puppy puppy = puppyRepository.findById(puppyId).orElseThrow(() -> new RuntimeException("Puppy not found"));
 
         Double curPuppyLatitude = puppy.getLocation().getLatitude();
-        Double curPuppyLongitude = puppy.getLocation().getLatitude();
+        Double curPuppyLongitude = puppy.getLocation().getLongitude();
 
-        for(int i=0;i<foodList.size();i++){
-            if(LocationBasedSearch.findFoodWithinRange(curPuppyLatitude,curPuppyLongitude,500))
-        }
+        List<Food> availableFoodList = LocationBasedSearch.findFoodWithinRange(curPuppyLatitude, curPuppyLongitude, foodList, 500);
+
+        return availableFoodList.stream()
+                .map(food -> new FoodResponse(
+                        food.getFoodId(),
+                        food.getHost().getHostId(),
+                        food.getMenu(),
+                        food.getTime(),
+                        food.getImageURL(),
+                        food.getHost().getAddress(),
+                        food.getHost().getLocation(),
+                        food.getStatus()
+                ))
+                .collect(Collectors.toList());
     }
-    */
+
     @Transactional(readOnly = true)
-    public FoodResponseDTO findById(Long zipbobId) {
+    public FoodResponse findById(Long zipbobId) {
         return foodRepository.findById(zipbobId)
-                .map(food -> {
-                    FoodResponseDTO dto = new FoodResponseDTO();
-                    dto.setFoodId(food.getFoodId());
-                    dto.setHostId(food.getHost().getHostId());
-                    dto.setAddress(food.getHost().getAddress());
-                    dto.setLocation(food.getHost().getLocation());
-                    dto.setStatus(food.getStatus());
-                    dto.setTime(food.getTime());
-                    dto.setMenu(food.getMenu());
-                    return dto;
-                })
+                .map(food -> new FoodResponse(
+                        food.getFoodId(),
+                        food.getHost().getHostId(),
+                        food.getMenu(),
+                        food.getTime(),
+                        food.getImageURL(),
+                        food.getHost().getAddress(),
+                        food.getHost().getLocation(),
+                        food.getStatus()
+                ))
                 .orElseThrow(() -> new FoodException(ErrorCode.NON_EXISTING_FOOD));
     }
 
-
     @Transactional(readOnly = true)
-    public List<MatchHistoryResponseDTO> findHostHistory(String hostId){
-
-        List<MatchHistoryResponseDTO> hostHistoryList = foodRepository.findByHost_HostId(hostId).stream()
-                .map(zipbob -> {
-                    MatchHistoryResponseDTO dto = new MatchHistoryResponseDTO();
-                    // Host 에게는 Partner 가 Puppy 임
-                    dto.setPartnerId(zipbob.getPuppy().getPuppyId());
-                    dto.setMenu(zipbob.getMenu());
-                    dto.setLocalDateTime(zipbob.getTime());
-                    return dto;
-                })
+    public List<MatchHistoryResponse> findHostHistory(String hostId){
+        return foodRepository.findByHost_HostId(hostId).stream()
+                .map(zipbob -> new MatchHistoryResponse(
+                        zipbob.getPuppy().getPuppyId(),
+                        zipbob.getMenu(),
+                        zipbob.getTime()
+                ))
                 .collect(Collectors.toList());
-
-        return hostHistoryList;
     }
 
     @Transactional(readOnly = true)
-    public List<MatchHistoryResponseDTO> findPuppyHistory(String puppyId){
-
-        List<MatchHistoryResponseDTO> puppyHistoryList = foodRepository.findByPuppy_PuppyId(puppyId).stream()
-                .map(zipbob -> {
-                    MatchHistoryResponseDTO dto = new MatchHistoryResponseDTO();
-                    // Puppy 에게는 Partner 가 Host 임
-                    dto.setPartnerId(zipbob.getHost().getHostId());
-                    dto.setMenu(zipbob.getMenu());
-                    dto.setLocalDateTime(zipbob.getTime());
-                    return dto;
-                })
+    public List<MatchHistoryResponse> findPuppyHistory(String puppyId){
+        return foodRepository.findByPuppy_PuppyId(puppyId).stream()
+                .map(zipbob -> new MatchHistoryResponse(
+                        zipbob.getHost().getHostId(),
+                        zipbob.getMenu(),
+                        zipbob.getTime()
+                ))
                 .collect(Collectors.toList());
-        return puppyHistoryList;
     }
 
     @Transactional(readOnly = true)
@@ -132,10 +127,10 @@ public class FoodService {
 
     @Transactional(readOnly = true)
     public Food getMostRecentFood(String puppyId, String hostId){
-        List<Food> mostRecentFood = foodRepository.findMostRecentByPuppyIdAndHostId(puppyId, hostId, PageRequest.of(0,1));
-        if(mostRecentFood.isEmpty()){
+        List<Food> mostRecentFood = foodRepository.findMostRecentByPuppyIdAndHostId(puppyId, hostId, PageRequest.of(0, 1));
+        if (mostRecentFood.isEmpty()) {
             throw new HostException(ErrorCode.NO_RECENT_MATCH);
-        }else{
+        } else {
             return mostRecentFood.get(0);
         }
     }

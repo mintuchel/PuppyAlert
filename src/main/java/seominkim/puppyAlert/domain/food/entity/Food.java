@@ -29,8 +29,8 @@ public class Food {
     @Column(nullable = false)
     private LocalDateTime time; // 식사시간
 
-    //@Column(columnDefinition = "varchar(225)", nullable = false)
-    //private String imageURL;
+    @Column(columnDefinition = "varchar(225)", nullable = true)
+    private String imageURL;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

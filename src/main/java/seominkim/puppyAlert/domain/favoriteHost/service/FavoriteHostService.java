@@ -3,8 +3,8 @@ package seominkim.puppyAlert.domain.favoriteHost.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequestDTO;
-import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostResponseDTO;
+import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequest;
+import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostResponse;
 import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
 import seominkim.puppyAlert.domain.favoriteHost.repository.FavoriteHostRepository;
 import seominkim.puppyAlert.domain.food.service.FoodService;
@@ -27,9 +27,9 @@ public class FavoriteHostService {
     private final FavoriteHostRepository favoriteHostRepository;
 
     @Transactional
-    public Long addFavoriteHost(FavoriteHostRequestDTO favoriteHostRequestDTO){
-        Host host = hostRepository.findById(favoriteHostRequestDTO.getHostId()).get();
-        Puppy puppy = puppyRepository.findById(favoriteHostRequestDTO.getPuppyId()).get();
+    public Long addFavoriteHost(FavoriteHostRequest favoriteHostRequest){
+        Host host = hostRepository.findById(favoriteHostRequest.hostId()).get();
+        Puppy puppy = puppyRepository.findById(favoriteHostRequest.puppyId()).get();
 
         if(favoriteHostRepository.existsByHostAndPuppy(host, puppy)){
             throw new IllegalArgumentException("FavoriteHost already exists for the given host and puppy");
@@ -43,9 +43,9 @@ public class FavoriteHostService {
     }
 
     @Transactional
-    public Long deleteFavoriteHost(FavoriteHostRequestDTO favoriteHostRequestDTO){
-        String puppyId = favoriteHostRequestDTO.getPuppyId();
-        String hostId = favoriteHostRequestDTO.getHostId();
+    public Long deleteFavoriteHost(FavoriteHostRequest favoriteHostRequest){
+        String puppyId = favoriteHostRequest.puppyId();
+        String hostId = favoriteHostRequest.hostId();
 
         FavoriteHost favoriteHost = favoriteHostRepository.findByPuppy_PuppyIdAndHost_HostId(puppyId, hostId).get();
         favoriteHostRepository.delete(favoriteHost);
@@ -55,13 +55,15 @@ public class FavoriteHostService {
 
     // foodService 통해서 가장 최근시간 JPQL 로 확인
     @Transactional(readOnly = true)
-    public List<FavoriteHostResponseDTO> findAll(String puppyId){
+    public List<FavoriteHostResponse> findAll(String puppyId){
         return favoriteHostRepository.findByPuppy_PuppyId(puppyId).stream()
                 .map(favoriteHost -> {
-                    FavoriteHostResponseDTO dto = new FavoriteHostResponseDTO();
-                    dto.setHostId(favoriteHost.getHost().getHostId());
-                    dto.setRecentFoodTime(foodService.getMostRecentFood(puppyId, dto.getHostId()).getTime());
-                    return dto;
+                    String hostId = favoriteHost.getHost().getHostId();
+                    FavoriteHostResponse response = new FavoriteHostResponse(
+                            hostId,
+                            foodService.getMostRecentFood(puppyId, hostId).getTime()
+                    );
+                    return response;
                 })
                 .collect(Collectors.toList());
     }

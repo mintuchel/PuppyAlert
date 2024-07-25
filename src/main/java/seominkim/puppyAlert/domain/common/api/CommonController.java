@@ -3,11 +3,13 @@ package seominkim.puppyAlert.domain.common.api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import seominkim.puppyAlert.domain.common.dto.request.LoginRequest;
 import seominkim.puppyAlert.domain.common.dto.response.IdCheckResponse;
 import seominkim.puppyAlert.domain.common.dto.response.NickNameCheckResponse;
+import seominkim.puppyAlert.domain.common.dto.response.SignUpResponse;
 import seominkim.puppyAlert.domain.common.service.CommonService;
-import seominkim.puppyAlert.domain.common.dto.request.LoginRequestDTO;
 import seominkim.puppyAlert.domain.common.dto.response.LoginResponse;
+import seominkim.puppyAlert.domain.common.dto.request.SignUpRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,8 +20,14 @@ public class CommonController {
 
     @Operation(summary="로그인")
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequestDTO loginRequestDTO){
-        return commonService.checkIfAccountExists(loginRequestDTO);
+    public LoginResponse login(@RequestBody LoginRequest loginRequest){
+        return commonService.checkIfAccountExists(loginRequest);
+    }
+
+    @Operation(summary = "회원가입")
+    @PostMapping("/signup")
+    public SignUpResponse signUp(@RequestBody SignUpRequest signUpRequest){
+        return commonService.signUp(signUpRequest);
     }
 
     // 쿼리 파라미터로 보내줘야함

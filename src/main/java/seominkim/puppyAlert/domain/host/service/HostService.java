@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.repository.HostRepository;
-import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
-import seominkim.puppyAlert.global.dto.UserInfoResponseDTO;
+import seominkim.puppyAlert.domain.common.dto.request.SignUpRequest;
+import seominkim.puppyAlert.global.dto.UserInfoResponse;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.HostException;
 
@@ -21,17 +21,17 @@ public class HostService {
 
     // Host 회원가입
     @Transactional
-    public String signUp(SignUpRequestDTO signUpDTO){
+    public String signUp(SignUpRequest signUpDTO){
 
         Host host = new Host();
-        host.setHostId(signUpDTO.getId());
-        host.setPassword(signUpDTO.getPassword());
-        host.setNickName(signUpDTO.getNickName());
-        host.setName(signUpDTO.getName());
-        host.setBirth(signUpDTO.getBirth());
-        host.setPhoneNumber(signUpDTO.getPhoneNumber());
-        host.setAddress(signUpDTO.getAddress());
-        host.setLocation(signUpDTO.getLocation());
+        host.setHostId(signUpDTO.id());
+        host.setPassword(signUpDTO.password());
+        host.setNickName(signUpDTO.nickName());
+        host.setName(signUpDTO.name());
+        host.setBirth(signUpDTO.birth());
+        host.setPhoneNumber(signUpDTO.phoneNumber());
+        host.setAddress(signUpDTO.address());
+        host.setLocation(signUpDTO.location());
 
         hostRepository.save(host);
         return host.getHostId();
@@ -39,17 +39,18 @@ public class HostService {
 
     // Host 전체 검색
     @Transactional(readOnly = true)
-    public List<UserInfoResponseDTO> findAll(){
+    public List<UserInfoResponse> findAll(){
         return hostRepository.findAll().stream()
                 .map(host -> {
-                    UserInfoResponseDTO dto = new UserInfoResponseDTO();
-                    dto.setUserId(host.getHostId());
-                    dto.setNickName(host.getNickName());
-                    dto.setName(host.getName());
-                    dto.setBirth(host.getBirth());
-                    dto.setAddress(host.getAddress());
-                    dto.setLocation(host.getLocation());
-                    dto.setPhoneNumber(host.getPhoneNumber());
+                    UserInfoResponse dto = new UserInfoResponse(
+                            host.getHostId(),
+                            host.getName(),
+                            host.getNickName(),
+                            host.getBirth(),
+                            host.getPhoneNumber(),
+                            host.getAddress(),
+                            host.getLocation()
+                    );
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -57,16 +58,18 @@ public class HostService {
 
     // Host 단건 검색
     @Transactional(readOnly = true)
-    public UserInfoResponseDTO findById(String hostId){
+    public UserInfoResponse findById(String hostId){
         Optional<Host> result = hostRepository.findById(hostId);
         return result.map(host -> {
-            UserInfoResponseDTO dto = new UserInfoResponseDTO();
-            dto.setUserId(host.getHostId());
-            dto.setName(host.getName());
-            dto.setBirth(host.getBirth());
-            dto.setAddress(host.getAddress());
-            dto.setLocation(host.getLocation());
-            dto.setPhoneNumber(host.getPhoneNumber());
+            UserInfoResponse dto = new UserInfoResponse(
+                    host.getHostId(),
+                    host.getName(),
+                    host.getNickName(),
+                    host.getBirth(),
+                    host.getPhoneNumber(),
+                    host.getAddress(),
+                    host.getLocation()
+            );
             return dto;
         }).orElseThrow(() -> new HostException(ErrorCode.NON_EXISTING_USER));
     }

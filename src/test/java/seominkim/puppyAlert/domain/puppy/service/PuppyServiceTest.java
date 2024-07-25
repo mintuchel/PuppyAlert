@@ -10,10 +10,10 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.host.entity.Host;
-import seominkim.puppyAlert.domain.puppy.dto.MatchRequestDTO;
-import seominkim.puppyAlert.domain.puppy.dto.MatchResponseDTO;
+import seominkim.puppyAlert.domain.puppy.dto.MatchRequest;
+import seominkim.puppyAlert.domain.puppy.dto.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.domain.food.dto.FoodRequestDTO;
+import seominkim.puppyAlert.domain.food.dto.FoodRequest;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.food.service.FoodService;
 import seominkim.puppyAlert.global.entity.Location;
@@ -65,13 +65,14 @@ public class PuppyServiceTest {
         Puppy puppy = em.find(Puppy.class, "Messi");
 
         // 아직 매칭안된 집밥
-        FoodRequestDTO foodRequestDTO = new FoodRequestDTO();
-        foodRequestDTO.setHostId(host.getHostId());
-        foodRequestDTO.setMenu("제육덮밥");
-        foodRequestDTO.setTime(LocalDateTime.now());
-        foodRequestDTO.setStatus(FoodStatus.READY);
+        FoodRequest foodRequest = new FoodRequest(
+                host.getHostId(),
+                "제육덮밥",
+                LocalDateTime.now(),
+                FoodStatus.READY
+        );
 
-        Long savedId = foodService.add(foodRequestDTO);
+        Long savedId = foodService.add(foodRequest);
 
         System.out.println("Host ID : " + em.find(Food.class, savedId).getHost().getHostId());
 
@@ -91,11 +92,12 @@ public class PuppyServiceTest {
         System.out.println("status   : " + targetFood.getStatus().toString());
 
 
-        MatchRequestDTO matchRequestDTO = new MatchRequestDTO();
-        matchRequestDTO.setFoodId(savedId);
-        matchRequestDTO.setPuppyId(puppy.getPuppyId());
+        MatchRequest matchRequest = new MatchRequest(
+                savedId,
+                puppy.getPuppyId()
+        );
 
-        MatchResponseDTO matchResponseDTO = puppyService.matchFood(matchRequestDTO);
+        MatchResponse matchResponse = puppyService.matchFood(matchRequest);
 
         // then
         System.out.println("==========");
@@ -108,7 +110,7 @@ public class PuppyServiceTest {
         System.out.println("time     : " + matchedFood.getTime());
         System.out.println("status   : " + matchedFood.getStatus().toString());
 
-        Assertions.assertThat(savedId).isEqualTo(matchResponseDTO.getFoodId());
+        Assertions.assertThat(savedId).isEqualTo(matchResponse.foodId());
         // 이거 왜 null 뜨지??
         Assertions.assertThat(host.getHostId()).isEqualTo(matchedFood.getHost().getHostId());
         Assertions.assertThat(puppy.getPuppyId()).isEqualTo(matchedFood.getPuppy().getPuppyId());

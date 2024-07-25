@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.common.dto.request.LoginRequestDTO;
+import seominkim.puppyAlert.domain.common.dto.request.LoginRequest;
 import seominkim.puppyAlert.domain.common.dto.response.LoginResponse;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
@@ -43,12 +43,13 @@ public class CommonControllerTest {
         em.persist(host);
 
         // when
-        LoginRequestDTO loginRequestDTO = new LoginRequestDTO();
-        loginRequestDTO.setId(host.getHostId());
-        loginRequestDTO.setPassword(host.getPassword());
+        LoginRequest request = new LoginRequest(
+                host.getHostId(),
+                host.getPassword()
+        );
 
         // then
-        LoginResponse loginResponse = commonController.login(loginRequestDTO);
+        LoginResponse loginResponse = commonController.login(request);
 
         Assertions.assertThat(loginResponse.id()).isEqualTo(host.getHostId());
         Assertions.assertThat(loginResponse.userType()).isEqualTo(UserType.HOST);
@@ -72,12 +73,13 @@ public class CommonControllerTest {
         em.persist(puppy);
 
         // then
-        LoginRequestDTO loginRequestDTO = new LoginRequestDTO();
-        loginRequestDTO.setId(puppy.getPuppyId());
-        loginRequestDTO.setPassword(puppy.getPassword());
+        LoginRequest request = new LoginRequest(
+                puppy.getPuppyId(),
+                puppy.getPassword()
+        );
 
         // then
-        LoginResponse loginResponse = commonController.login(loginRequestDTO);
+        LoginResponse loginResponse = commonController.login(request);
 
         Assertions.assertThat(loginResponse.id()).isEqualTo(puppy.getPuppyId());
         Assertions.assertThat(loginResponse.userType()).isEqualTo(UserType.PUPPY);

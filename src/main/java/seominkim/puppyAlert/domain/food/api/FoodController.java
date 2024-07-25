@@ -4,9 +4,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import seominkim.puppyAlert.domain.food.dto.FoodRequestDTO;
+import seominkim.puppyAlert.domain.food.dto.FoodRequest;
 import seominkim.puppyAlert.domain.food.service.FoodService;
-import seominkim.puppyAlert.global.dto.MatchHistoryResponseDTO;
+import seominkim.puppyAlert.global.dto.MatchHistoryResponse;
 
 import java.util.List;
 
@@ -23,13 +23,11 @@ public class FoodController {
         return ResponseEntity.ok(foodService.findAll());
     }
 
-    /*
-    @Operation(summary ="Puppy 가 식사가능한 집밥 조회")
+    @Operation(summary ="특정 Puppy 가 식사가능한 집밥 조회")
     @GetMapping("/available/{puppyId}")
     public ResponseEntity findAvailable(@PathVariable String puppyId){
         return ResponseEntity.ok(foodService.findAvailable(puppyId));
     }
-    */
 
     @Operation(summary = "특정 집밥 정보 조회")
     @GetMapping("/{foodId}")
@@ -39,8 +37,8 @@ public class FoodController {
 
     @Operation(summary = "Host의 집밥등록")
     @PostMapping()
-    public ResponseEntity add(@RequestBody FoodRequestDTO foodRequestDTO){
-        Long foodId = foodService.add(foodRequestDTO);
+    public ResponseEntity add(@RequestBody FoodRequest foodRequest){
+        Long foodId = foodService.add(foodRequest);
         return ResponseEntity.ok(foodId);
     }
 
@@ -52,7 +50,7 @@ public class FoodController {
 
     @Operation(summary = "Puppy 집밥 기록 조회")
     @GetMapping("/puppyHistory")
-    public ResponseEntity<List<MatchHistoryResponseDTO>> getPuppyHistory(@RequestBody String puppyId){
+    public ResponseEntity<List<MatchHistoryResponse>> getPuppyHistory(@RequestBody String puppyId){
         return ResponseEntity.ok(foodService.findPuppyHistory(puppyId));
     }
 }

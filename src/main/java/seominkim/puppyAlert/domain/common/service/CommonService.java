@@ -2,9 +2,13 @@ package seominkim.puppyAlert.domain.common.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import seominkim.puppyAlert.domain.common.dto.request.LoginRequestDTO;
+import seominkim.puppyAlert.domain.common.dto.request.LoginRequest;
+import seominkim.puppyAlert.domain.common.dto.request.SignUpRequest;
 import seominkim.puppyAlert.domain.common.dto.response.LoginResponse;
+import seominkim.puppyAlert.domain.common.dto.response.SignUpResponse;
+import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.repository.HostRepository;
+import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
 import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
@@ -15,9 +19,48 @@ public class CommonService {
     @Autowired HostRepository hostRepository;
     @Autowired PuppyRepository puppyRepository;
 
-    public LoginResponse checkIfAccountExists(LoginRequestDTO loginRequestDTO){
-        String id = loginRequestDTO.getId();
-        String password = loginRequestDTO.getPassword();
+    public SignUpResponse signUp(SignUpRequest signUpRequest){
+        String id = signUpRequest.id();
+        UserType userType = signUpRequest.userType();
+
+        if(userType.equals(UserType.HOST)){
+            Host host = new Host();
+            host.setHostId(signUpRequest.id());
+            host.setPassword(signUpRequest.password());
+            host.setNickName(signUpRequest.nickName());
+            host.setName(signUpRequest.name());
+            host.setBirth(signUpRequest.birth());
+            host.setPhoneNumber(signUpRequest.phoneNumber());
+            host.setAddress(signUpRequest.address());
+            host.setLocation(signUpRequest.location());
+
+            hostRepository.save(host);
+
+            return new SignUpResponse(id, userType);
+        }
+
+        if(userType.equals(UserType.PUPPY)){
+            Puppy puppy = new Puppy();
+            puppy.setPuppyId(signUpRequest.id());
+            puppy.setPassword(signUpRequest.password());
+            puppy.setNickName(signUpRequest.nickName());
+            puppy.setName(signUpRequest.name());
+            puppy.setPhoneNumber(signUpRequest.phoneNumber());
+            puppy.setAddress(signUpRequest.address());
+            puppy.setBirth(signUpRequest.birth());
+            puppy.setLocation(signUpRequest.location());
+
+            puppyRepository.save(puppy);
+
+            return new SignUpResponse(id, userType);
+        }
+
+        throw new CommonException(ErrorCode.USERTYPE_ERROR);
+    }
+
+    public LoginResponse checkIfAccountExists(LoginRequest loginRequest){
+        String id = loginRequest.id();
+        String password = loginRequest.password();
 
         if(hostRepository.existsByHostIdAndPassword(id,password)){
             return new LoginResponse(id, UserType.HOST);

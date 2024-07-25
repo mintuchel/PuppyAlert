@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.food.dto.FoodResponseDTO;
+import seominkim.puppyAlert.domain.food.dto.FoodResponse;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.domain.food.dto.FoodRequestDTO;
+import seominkim.puppyAlert.domain.food.dto.FoodRequest;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.global.entity.Location;
 
@@ -60,17 +60,18 @@ public class FoodServiceTest {
         Host host = em.find(Host.class, "Ronaldo");
 
         // when
-        FoodRequestDTO foodRequestDTO = new FoodRequestDTO();
-        foodRequestDTO.setHostId(host.getHostId());
-        foodRequestDTO.setMenu("제육덮밥");
-        foodRequestDTO.setTime(LocalDateTime.now());
-        foodRequestDTO.setStatus(FoodStatus.MATCHED);
+        FoodRequest foodRequest = new FoodRequest(
+                host.getHostId(),
+                "제육덮밥",
+                LocalDateTime.now(),
+                FoodStatus.MATCHED
+        );
 
-        Long savedId = foodService.add(foodRequestDTO);
+        Long savedId = foodService.add(foodRequest);
 
         // then
-        FoodResponseDTO dto = foodService.findById(savedId);
-        Assertions.assertThat(dto.getFoodId()).isEqualTo(savedId);
+        FoodResponse response = foodService.findById(savedId);
+        Assertions.assertThat(response.foodId()).isEqualTo(savedId);
     }
 
     @Test

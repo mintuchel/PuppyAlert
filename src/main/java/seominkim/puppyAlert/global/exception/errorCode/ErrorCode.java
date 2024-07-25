@@ -11,6 +11,9 @@ public enum ErrorCode {
     // 회원가입
     EXISTING_ID_ERROR(HttpStatus.BAD_REQUEST, "이미 존재하는 ID입니다"),
 
+    // 옳지 않은 USERTYPE
+    USERTYPE_ERROR(HttpStatus.BAD_REQUEST, "옳지 않은 유저타입입니다"),
+
     // 닉네임 확인
     EXISTING_NICKNAME_ERROR(HttpStatus.BAD_REQUEST, "이미 존재하는 닉네임입니다"),
 
