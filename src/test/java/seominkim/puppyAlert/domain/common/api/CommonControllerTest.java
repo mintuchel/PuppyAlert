@@ -48,10 +48,10 @@ public class CommonControllerTest {
         loginRequestDTO.setPassword(host.getPassword());
 
         // then
-        LoginResponse responseDTO = commonController.login(loginRequestDTO);
+        LoginResponse loginResponse = commonController.login(loginRequestDTO);
 
-        Assertions.assertThat(responseDTO.getId()).isEqualTo(host.getHostId());
-        Assertions.assertThat(responseDTO.getUserType()).isEqualTo(UserType.HOST);
+        Assertions.assertThat(loginResponse.id()).isEqualTo(host.getHostId());
+        Assertions.assertThat(loginResponse.userType()).isEqualTo(UserType.HOST);
     }
 
     @Test
@@ -77,9 +77,9 @@ public class CommonControllerTest {
         loginRequestDTO.setPassword(puppy.getPassword());
 
         // then
-        LoginResponse responseDTO = commonController.login(loginRequestDTO);
+        LoginResponse loginResponse = commonController.login(loginRequestDTO);
 
-        Assertions.assertThat(responseDTO.getId()).isEqualTo(puppy.getPuppyId());
-        Assertions.assertThat(responseDTO.getUserType()).isEqualTo(UserType.PUPPY);
+        Assertions.assertThat(loginResponse.id()).isEqualTo(puppy.getPuppyId());
+        Assertions.assertThat(loginResponse.userType()).isEqualTo(UserType.PUPPY);
     }
 }
