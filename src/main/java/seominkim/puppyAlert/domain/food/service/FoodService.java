@@ -10,16 +10,13 @@ import seominkim.puppyAlert.domain.host.repository.HostRepository;
 import seominkim.puppyAlert.domain.food.dto.FoodRequestDTO;
 import seominkim.puppyAlert.domain.food.dto.FoodResponseDTO;
 import seominkim.puppyAlert.domain.food.repository.FoodRepository;
-import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
 import seominkim.puppyAlert.global.dto.MatchHistoryResponseDTO;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
 import seominkim.puppyAlert.global.exception.exception.HostException;
-import seominkim.puppyAlert.global.utils.LocationBasedSearch;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
