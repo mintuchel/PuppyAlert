@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.host.entity.Host;
-import seominkim.puppyAlert.global.dto.LoginRequestDTO;
 import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
 import seominkim.puppyAlert.global.dto.UserInfoResponseDTO;
 import seominkim.puppyAlert.global.entity.Location;
@@ -45,31 +43,5 @@ public class HostServiceTest {
         // then
         UserInfoResponseDTO findHost = hostService.findById(findId);
         Assertions.assertThat(findHost.getUserId()).isEqualTo(testHostId);
-    }
-
-    @Test
-    @Transactional
-    @Rollback
-    public void loginTest(){
-        // given
-        Host host = new Host();
-        host.setHostId("mbappe");
-        host.setPassword("7");
-        host.setNickName("나는야음바페");
-        host.setName("음바페");
-        host.setBirth(LocalDate.now());
-        host.setAddress("파리 생제르망");
-        host.setLocation(new Location(133.4135,137.58357));
-        host.setPhoneNumber("010-4822-3636");
-
-        em.persist(host);
-
-        // when
-        LoginRequestDTO loginRequestDTO = new LoginRequestDTO();
-        loginRequestDTO.setId(host.getHostId());
-        loginRequestDTO.setPassword(host.getPassword());
-
-        // then
-        hostService.checkLogin(loginRequestDTO);
     }
 }

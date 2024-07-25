@@ -1,11 +1,13 @@
 package seominkim.puppyAlert.domain.host.api;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import seominkim.puppyAlert.domain.host.service.HostService;
-import seominkim.puppyAlert.global.dto.LoginRequestDTO;
 import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
+import seominkim.puppyAlert.global.dto.UserInfoResponseDTO;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,30 +16,21 @@ public class HostController {
 
     private final HostService hostService;
 
-    // Host 회원가입
+    @Operation(summary = "Host 회원가입")
     @PostMapping("/signup")
-    public ResponseEntity signUp(@RequestBody SignUpRequestDTO signUpRequestDTO){
-        String hostId = hostService.signUp(signUpRequestDTO);
-        return ResponseEntity.ok(hostId);
+    public String signUp(@RequestBody SignUpRequestDTO signUpRequestDTO){
+        return hostService.signUp(signUpRequestDTO);
     }
 
-    // Host 로그인
-    @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDTO loginRequestDTO){
-        String hostId = loginRequestDTO.getId();
-        hostService.checkLogin(loginRequestDTO);
-        return ResponseEntity.ok(hostId);
-    }
-
-    // Host 전체 조회
+    @Operation(summary = "전체 Host 조회")
     @GetMapping("/all")
-    public ResponseEntity findAll() {
-        return ResponseEntity.ok(hostService.findAll());
+    public List<UserInfoResponseDTO> findAll() {
+        return hostService.findAll();
     }
 
-    // HOST 단건 조회
+    @Operation(summary = "특정 Host 조회")
     @GetMapping("/{hostId}")
-    public ResponseEntity findOne(@PathVariable String hostId){
-        return ResponseEntity.ok(hostService.findById(hostId));
+    public UserInfoResponseDTO findOne(@PathVariable String hostId){
+        return hostService.findById(hostId);
     }
 }

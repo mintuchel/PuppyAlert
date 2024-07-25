@@ -10,11 +10,13 @@ import seominkim.puppyAlert.domain.host.repository.HostRepository;
 import seominkim.puppyAlert.domain.food.dto.FoodRequestDTO;
 import seominkim.puppyAlert.domain.food.dto.FoodResponseDTO;
 import seominkim.puppyAlert.domain.food.repository.FoodRepository;
+import seominkim.puppyAlert.domain.puppy.entity.Puppy;
+import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
 import seominkim.puppyAlert.global.dto.MatchHistoryResponseDTO;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
 import seominkim.puppyAlert.global.exception.exception.HostException;
-import seominkim.puppyAlert.global.exception.exception.PuppyException;
+import seominkim.puppyAlert.global.utils.LocationBasedSearch;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class FoodService {
     private final FoodRepository foodRepository;
     private final HostRepository hostRepository;
+    private final PuppyRepository puppyRepository;
 
     @Transactional
     public Long add(FoodRequestDTO foodRequestDTO){
@@ -43,7 +46,7 @@ public class FoodService {
 
     @Transactional(readOnly = true)
     public List<FoodResponseDTO> findAll(){
-        List<FoodResponseDTO> availableFoodList = foodRepository.findAll().stream()
+        List<FoodResponseDTO> foodList = foodRepository.findAll().stream()
                 .map(food -> {
                     FoodResponseDTO dto = new FoodResponseDTO();
                     dto.setHostId(food.getHost().getHostId());
@@ -56,9 +59,24 @@ public class FoodService {
                 })
                 .collect(Collectors.toList());
 
-        return availableFoodList;
+        return foodList;
     }
 
+    /*
+    @Transactional(readOnly = true)
+    public List<FoodResponseDTO> findAvailable(String puppyId){
+        List<Food> foodList = foodRepository.findAll();
+
+        Puppy puppy = puppyRepository.findById(puppyId).get();
+
+        Double curPuppyLatitude = puppy.getLocation().getLatitude();
+        Double curPuppyLongitude = puppy.getLocation().getLatitude();
+
+        for(int i=0;i<foodList.size();i++){
+            if(LocationBasedSearch.findFoodWithinRange(curPuppyLatitude,curPuppyLongitude,500))
+        }
+    }
+    */
     @Transactional(readOnly = true)
     public FoodResponseDTO findById(Long zipbobId) {
         return foodRepository.findById(zipbobId)

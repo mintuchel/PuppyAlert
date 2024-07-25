@@ -11,13 +11,11 @@ import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.food.repository.FoodRepository;
-import seominkim.puppyAlert.global.dto.LoginRequestDTO;
 import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.PuppyException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +27,7 @@ public class PuppyService {
     // Puppy 회원가입
     @Transactional
     public String signUp(SignUpRequestDTO signUpDTO){
+
         Puppy puppy = new Puppy();
         puppy.setPuppyId(signUpDTO.getId());
         puppy.setPassword(signUpDTO.getPassword());
@@ -39,24 +38,8 @@ public class PuppyService {
         puppy.setBirth(signUpDTO.getBirth());
         puppy.setLocation(signUpDTO.getLocation());
 
-        validateDuplicatePuppy(puppy);
         puppyRepository.save(puppy);
         return puppy.getPuppyId();
-    }
-
-    private void validateDuplicatePuppy(Puppy puppy) {
-        List<Puppy> findHosts = puppyRepository.findByName(puppy.getName());
-        if (!findHosts.isEmpty()) {
-            throw new PuppyException(ErrorCode.EXISTING_ID_ERROR);
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public void checkLogin(LoginRequestDTO loginRequestDTO){
-        Optional<Puppy> loginPuppy = puppyRepository.findByPuppyIdAndPassword(loginRequestDTO.getId(), loginRequestDTO.getPassword());
-        if(!loginPuppy.isPresent()){
-            throw new PuppyException(ErrorCode.INVALID_LOGIN_ERROR);
-        }
     }
 
     // Puppy 전체 검색

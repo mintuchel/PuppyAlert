@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.repository.HostRepository;
-import seominkim.puppyAlert.global.dto.LoginRequestDTO;
 import seominkim.puppyAlert.global.dto.SignUpRequestDTO;
 import seominkim.puppyAlert.global.dto.UserInfoResponseDTO;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
@@ -23,6 +22,7 @@ public class HostService {
     // Host 회원가입
     @Transactional
     public String signUp(SignUpRequestDTO signUpDTO){
+
         Host host = new Host();
         host.setHostId(signUpDTO.getId());
         host.setPassword(signUpDTO.getPassword());
@@ -33,25 +33,8 @@ public class HostService {
         host.setAddress(signUpDTO.getAddress());
         host.setLocation(signUpDTO.getLocation());
 
-        validateDuplicateHost(host);
         hostRepository.save(host);
         return host.getHostId();
-    }
-
-    private void validateDuplicateHost(Host host) {
-        List<Host> findHosts = hostRepository.findByName(host.getName());
-        if (!findHosts.isEmpty()) {
-            throw new HostException(ErrorCode.EXISTING_ID_ERROR);
-        }
-    }
-
-    // Host 로그인 확인
-    @Transactional(readOnly = true)
-    public void checkLogin(LoginRequestDTO loginRequestDTO){
-        Optional<Host> loginHost = hostRepository.findByHostIdAndPassword(loginRequestDTO.getId(), loginRequestDTO.getPassword());
-        if(!loginHost.isPresent()){
-            throw new HostException(ErrorCode.INVALID_LOGIN_ERROR);
-        }
     }
 
     // Host 전체 검색

@@ -11,5 +11,7 @@ import java.util.Optional;
 public interface HostRepository extends JpaRepository<Host, String> {
     public List<Host> findByName(String name);
 
-    Optional<Host> findByHostIdAndPassword(String hostId, String password);
+    boolean existsByHostIdAndPassword(String hostId, String password);
+
+    boolean existsByNickName(String nickName);
 }
