@@ -53,6 +53,7 @@ public class FoodService {
                         food.getTime(),
                         food.getImageURL(),
                         food.getHost().getAddress(),
+                        food.getHost().getDetailAddress(),
                         food.getHost().getLocation(),
                         food.getStatus()
                 ))
@@ -77,6 +78,7 @@ public class FoodService {
                         food.getTime(),
                         food.getImageURL(),
                         food.getHost().getAddress(),
+                        food.getHost().getDetailAddress(),
                         food.getHost().getLocation(),
                         food.getStatus()
                 ))
@@ -93,6 +95,7 @@ public class FoodService {
                         food.getTime(),
                         food.getImageURL(),
                         food.getHost().getAddress(),
+                        food.getHost().getDetailAddress(),
                         food.getHost().getLocation(),
                         food.getStatus()
                 ))

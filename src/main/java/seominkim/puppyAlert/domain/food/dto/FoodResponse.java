@@ -13,6 +13,7 @@ public record FoodResponse(
         @NotBlank LocalDateTime time,
         @NotBlank String imageURL,
         @NotBlank String address,
+        @NotBlank String detailAddress,
         @NotBlank Location location,
         @NotBlank FoodStatus status
 ) {}

@@ -44,13 +44,13 @@ public class FoodController {
 
     @Operation(summary = "Host 집밥 기록 조회")
     @GetMapping("/hostHistory")
-    public ResponseEntity getHostHistory(@RequestBody String hostId){
+    public ResponseEntity getHostHistory(@RequestParam String hostId){
         return ResponseEntity.ok(foodService.findHostHistory(hostId));
     }
 
     @Operation(summary = "Puppy 집밥 기록 조회")
     @GetMapping("/puppyHistory")
-    public ResponseEntity<List<MatchHistoryResponse>> getPuppyHistory(@RequestBody String puppyId){
+    public ResponseEntity<List<MatchHistoryResponse>> getPuppyHistory(@RequestParam String puppyId){
         return ResponseEntity.ok(foodService.findPuppyHistory(puppyId));
     }
 }
