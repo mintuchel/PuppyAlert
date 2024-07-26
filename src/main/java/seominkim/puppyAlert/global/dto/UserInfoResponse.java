@@ -11,5 +11,6 @@ public record UserInfoResponse(
         @NotBlank LocalDate birth,
         @NotBlank String phoneNumber,
         @NotBlank String address,
+        @NotBlank String detailAddress,
         @NotBlank Location location
 ) {}

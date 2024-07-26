@@ -34,6 +34,7 @@ public class FoodServiceTest {
         host.setPassword("777");
         host.setBirth(LocalDate.now());
         host.setAddress("레알 마드리드");
+        host.setDetailAddress("산티아고 베르나베우");
         host.setLocation(new Location(100.5, 100.1));
         host.setPhoneNumber("010-4822-3636");
 
@@ -44,6 +45,7 @@ public class FoodServiceTest {
         puppy.setPassword("10");
         puppy.setBirth(LocalDate.now());
         puppy.setAddress("바르셀로나");
+        puppy.setDetailAddress("캄프누");
         puppy.setLocation(new Location(200.3, 200.2));
         puppy.setPhoneNumber("010-1111-2222");
 

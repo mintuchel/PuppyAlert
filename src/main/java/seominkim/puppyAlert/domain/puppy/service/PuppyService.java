@@ -35,6 +35,7 @@ public class PuppyService {
                         puppy.getBirth(),
                         puppy.getPhoneNumber(),
                         puppy.getAddress(),
+                        puppy.getDetailAddress(),
                         puppy.getLocation()
                 ))
                 .collect(Collectors.toList());
@@ -51,6 +52,7 @@ public class PuppyService {
                         puppy.getBirth(),
                         puppy.getPhoneNumber(),
                         puppy.getAddress(),
+                        puppy.getDetailAddress(),
                         puppy.getLocation()
                 ))
                 .orElseThrow(() -> new PuppyException(ErrorCode.NON_EXISTING_USER));

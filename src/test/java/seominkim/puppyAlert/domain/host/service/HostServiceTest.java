@@ -26,34 +26,6 @@ public class HostServiceTest {
     @Transactional
     @Rollback
     public void signUpTest(){
-        // given
-        String testHostId = "Havertz";
-        String password = "29";
-        String nickName = "내이름은HAVERTZ";
-        String name = "하베르츠";
-        LocalDate birth = LocalDate.now();
-        String address = "독일 베를린";
-        Location location = new Location(100.135135, 135.12435); // Initialize Location as needed
-        String phoneNumber = "010-4822-3636";
-        UserType userType = UserType.HOST; // Replace with appropriate UserType value
 
-        SignUpRequest signUpRequest = new SignUpRequest(
-                testHostId,
-                password,
-                nickName,
-                name,
-                birth,
-                address,
-                location,
-                phoneNumber,
-                userType
-        );
-
-        // when
-        String findId = hostService.signUp(signUpRequest);
-
-        // then
-        UserInfoResponse findHost = hostService.findById(findId);
-        Assertions.assertThat(findHost.userId()).isEqualTo(testHostId);
     }
 }

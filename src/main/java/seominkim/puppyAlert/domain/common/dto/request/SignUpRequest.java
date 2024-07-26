@@ -13,6 +13,7 @@ public record SignUpRequest(
         @NotBlank String name,
         @NotBlank LocalDate birth,
         @NotBlank String address,
+        @NotBlank String detailAddress,
         @NotBlank Location location,
         @NotBlank String phoneNumber,
         @NotBlank UserType userType

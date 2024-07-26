@@ -16,6 +16,7 @@ import seominkim.puppyAlert.global.dto.MatchHistoryResponse;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
 import seominkim.puppyAlert.global.exception.exception.HostException;
+import seominkim.puppyAlert.global.exception.exception.PuppyException;
 import seominkim.puppyAlert.global.utils.LocationBasedSearch;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class FoodService {
 
     @Transactional
     public Long add(FoodRequest foodRequest){
-        Host providerHost = hostRepository.findById(foodRequest.hostId()).orElseThrow(() -> new RuntimeException("Host not found"));
+        Host providerHost = hostRepository.findById(foodRequest.hostId()).orElseThrow(() -> new HostException(ErrorCode.NON_EXISTING_USER));
 
         Food food = new Food();
         food.setHost(providerHost);
@@ -61,7 +62,7 @@ public class FoodService {
     @Transactional(readOnly = true)
     public List<FoodResponse> findAvailable(String puppyId){
         List<Food> foodList = foodRepository.findAll();
-        Puppy puppy = puppyRepository.findById(puppyId).orElseThrow(() -> new RuntimeException("Puppy not found"));
+        Puppy puppy = puppyRepository.findById(puppyId).orElseThrow(() -> new PuppyException(ErrorCode.NON_EXISTING_USER));
 
         Double curPuppyLatitude = puppy.getLocation().getLatitude();
         Double curPuppyLongitude = puppy.getLocation().getLongitude();

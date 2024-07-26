@@ -35,6 +35,9 @@ public class Puppy {
     @Column(columnDefinition = "varchar(255)", nullable = false)
     private String address;
 
+    @Column(columnDefinition = "varchar(255)", nullable = false)
+    private String detailAddress;
+
     @Embedded
     private Location location;
 

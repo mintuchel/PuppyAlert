@@ -32,6 +32,7 @@ public class CommonService {
             host.setBirth(signUpRequest.birth());
             host.setPhoneNumber(signUpRequest.phoneNumber());
             host.setAddress(signUpRequest.address());
+            host.setDetailAddress(signUpRequest.detailAddress());
             host.setLocation(signUpRequest.location());
 
             hostRepository.save(host);
@@ -47,6 +48,7 @@ public class CommonService {
             puppy.setName(signUpRequest.name());
             puppy.setPhoneNumber(signUpRequest.phoneNumber());
             puppy.setAddress(signUpRequest.address());
+            puppy.setDetailAddress(signUpRequest.detailAddress());
             puppy.setBirth(signUpRequest.birth());
             puppy.setLocation(signUpRequest.location());
 
