@@ -11,8 +11,7 @@ import java.util.List;
 
 @Repository
 public interface FoodRepository extends JpaRepository<Food, Long> {
-    List<Food> findByHost_HostId(String hostId);
-    List<Food> findByPuppy_PuppyId(String puppyId);
+
     List<Food> findByPuppy_PuppyIdAndHost_HostId(String puppyId, String hostId);
 
     // JPQL 에는 LIMIT 절이 없으므로 Pageable 로 해결해야함

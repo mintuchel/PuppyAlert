@@ -10,6 +10,7 @@ import seominkim.puppyAlert.domain.favoriteHost.repository.FavoriteHostRepositor
 import seominkim.puppyAlert.domain.food.service.FoodService;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.repository.HostRepository;
+import seominkim.puppyAlert.domain.host.service.HostService;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
 
@@ -20,18 +21,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FavoriteHostService {
 
-    private final FoodService foodService;
-
+    private final FavoriteHostRepository favoriteHostRepository;
     private final HostRepository hostRepository;
     private final PuppyRepository puppyRepository;
-    private final FavoriteHostRepository favoriteHostRepository;
 
+    @Transactional(readOnly = true)
+    public boolean isFavoriteHost(Puppy puppy, Host host) {
+        return favoriteHostRepository.existsByPuppyAndHost(puppy, host);
+    }
+
+    // 관심 HOST 추가
     @Transactional
     public Long addFavoriteHost(FavoriteHostRequest favoriteHostRequest){
+
         Host host = hostRepository.findById(favoriteHostRequest.hostId()).get();
         Puppy puppy = puppyRepository.findById(favoriteHostRequest.puppyId()).get();
 
-        if(favoriteHostRepository.existsByHostAndPuppy(host, puppy)){
+        if(favoriteHostRepository.existsByPuppyAndHost(puppy, host)){
             throw new IllegalArgumentException("FavoriteHost already exists for the given host and puppy");
         }
 
@@ -42,29 +48,15 @@ public class FavoriteHostService {
         return favoriteHostRepository.save(favoriteHost).getFavoriteHostId();
     }
 
+    // 관심 HOST 삭제
     @Transactional
     public Long deleteFavoriteHost(FavoriteHostRequest favoriteHostRequest){
-        String puppyId = favoriteHostRequest.puppyId();
-        String hostId = favoriteHostRequest.hostId();
+        Host host = hostRepository.findById(favoriteHostRequest.hostId()).get();
+        Puppy puppy = puppyRepository.findById(favoriteHostRequest.puppyId()).get();
 
-        FavoriteHost favoriteHost = favoriteHostRepository.findByPuppy_PuppyIdAndHost_HostId(puppyId, hostId).get();
+        FavoriteHost favoriteHost = favoriteHostRepository.findByPuppyAndHost(puppy, host);
         favoriteHostRepository.delete(favoriteHost);
 
         return favoriteHost.getFavoriteHostId();
-    }
-
-    // foodService 통해서 가장 최근시간 JPQL 로 확인
-    @Transactional(readOnly = true)
-    public List<FavoriteHostResponse> findAll(String puppyId){
-        return favoriteHostRepository.findByPuppy_PuppyId(puppyId).stream()
-                .map(favoriteHost -> {
-                    String hostId = favoriteHost.getHost().getHostId();
-                    FavoriteHostResponse response = new FavoriteHostResponse(
-                            hostId,
-                            foodService.getMostRecentFood(puppyId, hostId).getTime()
-                    );
-                    return response;
-                })
-                .collect(Collectors.toList());
     }
 }

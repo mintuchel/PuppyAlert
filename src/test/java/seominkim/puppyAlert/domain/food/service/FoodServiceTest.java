@@ -56,29 +56,6 @@ public class FoodServiceTest {
     @Test
     @Transactional
     @Rollback
-    public void findOneTest(){
-
-        // given
-        Host host = em.find(Host.class, "Ronaldo");
-
-        // when
-        FoodRequest foodRequest = new FoodRequest(
-                host.getHostId(),
-                "제육덮밥",
-                LocalDateTime.now(),
-                FoodStatus.MATCHED
-        );
-
-        Long savedId = foodService.add(foodRequest);
-
-        // then
-        FoodResponse response = foodService.findById(savedId);
-        Assertions.assertThat(response.foodId()).isEqualTo(savedId);
-    }
-
-    @Test
-    @Transactional
-    @Rollback
     public void getMostRecentFoodTest(){
 
         // given

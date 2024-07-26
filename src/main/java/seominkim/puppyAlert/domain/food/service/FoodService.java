@@ -4,19 +4,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.food.entity.Food;
-import seominkim.puppyAlert.domain.host.entity.Host;
-import seominkim.puppyAlert.domain.host.repository.HostRepository;
 import seominkim.puppyAlert.domain.food.dto.FoodRequest;
+import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.dto.FoodResponse;
+import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.food.repository.FoodRepository;
+import seominkim.puppyAlert.domain.host.entity.Host;
+import seominkim.puppyAlert.domain.puppy.dto.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
-import seominkim.puppyAlert.global.dto.MatchHistoryResponse;
+import seominkim.puppyAlert.global.entity.Location;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
 import seominkim.puppyAlert.global.exception.exception.HostException;
-import seominkim.puppyAlert.global.exception.exception.PuppyException;
 import seominkim.puppyAlert.global.utils.LocationBasedSearch;
 
 import java.util.List;
@@ -26,21 +25,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FoodService {
     private final FoodRepository foodRepository;
-    private final HostRepository hostRepository;
-    private final PuppyRepository puppyRepository;
 
     @Transactional
-    public Long add(FoodRequest foodRequest){
-        Host providerHost = hostRepository.findById(foodRequest.hostId()).orElseThrow(() -> new HostException(ErrorCode.NON_EXISTING_USER));
+    public Long addNewFood(Host providerHost, FoodRequest foodRequest){
+        Food newFood = new Food();
+        newFood.setHost(providerHost);
+        newFood.setTime(foodRequest.time());
+        newFood.setStatus(foodRequest.status());
+        newFood.setMenu(foodRequest.menu());
 
-        Food food = new Food();
-        food.setHost(providerHost);
-        food.setTime(foodRequest.time());
-        food.setStatus(foodRequest.status());
-        food.setMenu(foodRequest.menu());
-
-        foodRepository.save(food);
-        return food.getFoodId();
+        // save 되면서 @Id @GeneratedValue 값이 생성됨
+        foodRepository.save(newFood);
+        return newFood.getFoodId();
     }
 
     @Transactional(readOnly = true)
@@ -61,12 +57,11 @@ public class FoodService {
     }
 
     @Transactional(readOnly = true)
-    public List<FoodResponse> findAvailable(String puppyId){
+    public List<FoodResponse> getAvailableFood(Location location){
         List<Food> foodList = foodRepository.findAll();
-        Puppy puppy = puppyRepository.findById(puppyId).orElseThrow(() -> new PuppyException(ErrorCode.NON_EXISTING_USER));
 
-        Double curPuppyLatitude = puppy.getLocation().getLatitude();
-        Double curPuppyLongitude = puppy.getLocation().getLongitude();
+        Double curPuppyLatitude = location.getLatitude();
+        Double curPuppyLongitude = location.getLongitude();
 
         List<Food> availableFoodList = LocationBasedSearch.findFoodWithinRange(curPuppyLatitude, curPuppyLongitude, foodList, 500);
 
@@ -86,8 +81,8 @@ public class FoodService {
     }
 
     @Transactional(readOnly = true)
-    public FoodResponse findById(Long zipbobId) {
-        return foodRepository.findById(zipbobId)
+    public FoodResponse findById(Long foodId) {
+        return foodRepository.findById(foodId)
                 .map(food -> new FoodResponse(
                         food.getFoodId(),
                         food.getHost().getHostId(),
@@ -102,31 +97,20 @@ public class FoodService {
                 .orElseThrow(() -> new FoodException(ErrorCode.NON_EXISTING_FOOD));
     }
 
-    @Transactional(readOnly = true)
-    public List<MatchHistoryResponse> findHostHistory(String hostId){
-        return foodRepository.findByHost_HostId(hostId).stream()
-                .map(zipbob -> new MatchHistoryResponse(
-                        zipbob.getPuppy().getPuppyId(),
-                        zipbob.getMenu(),
-                        zipbob.getTime()
-                ))
-                .collect(Collectors.toList());
-    }
+    @Transactional
+    public MatchResponse handleMatchRequest(Long foodId, Puppy puppy) {
+        Food matchedFood = foodRepository.findById(foodId)
+                .orElseThrow(() -> new FoodException(ErrorCode.NON_EXISTING_FOOD));
 
-    @Transactional(readOnly = true)
-    public List<MatchHistoryResponse> findPuppyHistory(String puppyId){
-        return foodRepository.findByPuppy_PuppyId(puppyId).stream()
-                .map(zipbob -> new MatchHistoryResponse(
-                        zipbob.getHost().getHostId(),
-                        zipbob.getMenu(),
-                        zipbob.getTime()
-                ))
-                .collect(Collectors.toList());
-    }
+        // 집밥 업데이트
+        matchedFood.setPuppy(puppy);
+        matchedFood.setStatus(FoodStatus.MATCHED);
 
-    @Transactional(readOnly = true)
-    public List<Food> findFavoriteHostHistory(String puppyId, String hostId){
-        return foodRepository.findByPuppy_PuppyIdAndHost_HostId(puppyId, hostId);
+        return new MatchResponse(
+                matchedFood.getFoodId(),
+                matchedFood.getHost().getHostId(),
+                puppy.getPuppyId()
+        );
     }
 
     @Transactional(readOnly = true)

@@ -10,12 +10,12 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.host.entity.Host;
+import seominkim.puppyAlert.domain.host.service.HostService;
 import seominkim.puppyAlert.domain.puppy.dto.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.food.dto.FoodRequest;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
-import seominkim.puppyAlert.domain.food.service.FoodService;
 import seominkim.puppyAlert.global.entity.Location;
 
 import java.time.LocalDate;
@@ -25,8 +25,7 @@ import java.time.LocalDateTime;
 public class PuppyServiceTest {
 
     @Autowired PuppyService puppyService;
-    @Autowired
-    FoodService foodService;
+    @Autowired HostService hostService;
     @Autowired EntityManager em;
 
     @BeforeEach
@@ -34,7 +33,7 @@ public class PuppyServiceTest {
         Host host = new Host();
         host.setHostId("Ronaldo");
         host.setName("호날두");
-        host.setNickName("나는사실수비수야");
+        host.setNickName("임마나는사실수비수야");
         host.setPassword("777");
         host.setBirth(LocalDate.now());
         host.setAddress("레알 마드리드");
@@ -45,7 +44,7 @@ public class PuppyServiceTest {
         Puppy puppy = new Puppy();
         puppy.setPuppyId("Messi");
         puppy.setName("메시");
-        puppy.setNickName("응이번발롱도르도나야");
+        puppy.setNickName("요리조리비사이로막가드리블");
         puppy.setPassword("10");
         puppy.setBirth(LocalDate.now());
         puppy.setAddress("바르셀로나");
@@ -60,8 +59,7 @@ public class PuppyServiceTest {
     @Test
     @Transactional
     @Rollback
-    public void matchZipbobTest(){
-
+    public void matchFoodTest(){
         // given
         Host host = em.find(Host.class, "Ronaldo");
         Puppy puppy = em.find(Puppy.class, "Messi");
@@ -69,14 +67,12 @@ public class PuppyServiceTest {
         // 아직 매칭안된 집밥
         FoodRequest foodRequest = new FoodRequest(
                 host.getHostId(),
-                "제육덮밥",
+                "알리오올리오",
                 LocalDateTime.now(),
                 FoodStatus.READY
         );
 
-        Long savedId = foodService.add(foodRequest);
-
-        System.out.println("Host ID : " + em.find(Food.class, savedId).getHost().getHostId());
+        Long savedId = hostService.addFood(foodRequest);
 
         // when
         System.out.println("==========");
@@ -99,7 +95,7 @@ public class PuppyServiceTest {
                 puppy.getPuppyId()
         );
 
-        MatchResponse matchResponse = puppyService.matchFood(matchRequest);
+        MatchResponse matchResponse = puppyService.handleMatchRequest(matchRequest);
 
         // then
         System.out.println("==========");
@@ -113,8 +109,7 @@ public class PuppyServiceTest {
         System.out.println("status   : " + matchedFood.getStatus().toString());
 
         Assertions.assertThat(savedId).isEqualTo(matchResponse.foodId());
-        // 이거 왜 null 뜨지??
-        Assertions.assertThat(host.getHostId()).isEqualTo(matchedFood.getHost().getHostId());
-        Assertions.assertThat(puppy.getPuppyId()).isEqualTo(matchedFood.getPuppy().getPuppyId());
+        Assertions.assertThat(host).isEqualTo(matchedFood.getHost());
+        Assertions.assertThat(puppy).isEqualTo(matchedFood.getPuppy());
     }
 }

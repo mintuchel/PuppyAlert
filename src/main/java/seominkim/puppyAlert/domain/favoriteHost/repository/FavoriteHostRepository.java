@@ -12,10 +12,10 @@ import java.util.Optional;
 @Repository
 public interface FavoriteHostRepository extends JpaRepository<FavoriteHost, Long> {
     // 존재성 확인
-    boolean existsByHostAndPuppy(Host host, Puppy puppy);
+    boolean existsByPuppyAndHost(Puppy puppy, Host host);
 
-    // 1개만 반환
-    Optional<FavoriteHost> findByPuppy_PuppyIdAndHost_HostId(String puppyId, String hostId);
+    FavoriteHost findByPuppyAndHost(Puppy puppy, Host host);
+
     // 여러개 반환
     List<FavoriteHost> findByPuppy_PuppyId(String puppyId);
 }

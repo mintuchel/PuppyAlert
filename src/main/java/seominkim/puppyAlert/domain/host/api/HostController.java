@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import seominkim.puppyAlert.domain.food.dto.FoodRequest;
 import seominkim.puppyAlert.domain.host.service.HostService;
 import seominkim.puppyAlert.global.dto.UserInfoResponse;
 
@@ -16,19 +17,26 @@ public class HostController {
 
     private final HostService hostService;
 
-    @Operation(summary = "전체 Host 조회")
+    @Operation(summary = "단건 조회")
+    @GetMapping()
+    public UserInfoResponse findOne(@RequestParam String hostId){
+        return hostService.findById(hostId);
+    }
+
+    @Operation(summary = "전체 조회 (관리자용)")
     @GetMapping("/all")
     public List<UserInfoResponse> findAll() {
         return hostService.findAll();
     }
 
-    @Operation(summary = "특정 Host 조회")
-    @GetMapping("/{hostId}")
-    public UserInfoResponse findOne(@PathVariable String hostId){
-        return hostService.findById(hostId);
+    @Operation(summary = "집밥 등록")
+    @PostMapping("/food")
+    public ResponseEntity addFood(@RequestBody FoodRequest foodRequest){
+        Long foodId = hostService.addFood(foodRequest);
+        return ResponseEntity.ok(foodId);
     }
 
-    @Operation(summary = "특정 Host 집밥 기록 조회")
+    @Operation(summary = "집밥 기록 조회")
     @GetMapping("/history")
     public ResponseEntity getHostHistory(@RequestParam String hostId){
         return ResponseEntity.ok(hostService.getHistory(hostId));

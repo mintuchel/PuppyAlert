@@ -18,7 +18,7 @@ public class CommonController {
 
     private final CommonService commonService;
 
-    @Operation(summary="로그인")
+    @Operation(summary = "로그인")
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest){
         return commonService.checkIfAccountExists(loginRequest);
@@ -31,14 +31,14 @@ public class CommonController {
     }
 
     // 쿼리 파라미터로 보내줘야함
-    @Operation(summary="아이디 중복확인")
+    @Operation(summary = "아이디 중복확인")
     @GetMapping("/checkId")
     public IdCheckResponse checkId(@RequestParam String id){
         return new IdCheckResponse(commonService.checkIfIdExists(id));
     }
 
     // 쿼리 파라미터로 보내줘야함
-    @Operation(summary="닉네임 중복확인")
+    @Operation(summary = "닉네임 중복확인")
     @GetMapping("/checkNickName")
     public NickNameCheckResponse checkNickName(@RequestParam String nickName){
         return new NickNameCheckResponse(commonService.checkIfNickNameExists(nickName));

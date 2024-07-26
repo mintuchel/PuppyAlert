@@ -10,19 +10,18 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequest;
 import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostResponse;
-import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.domain.food.entity.FoodStatus;
+import seominkim.puppyAlert.domain.puppy.service.PuppyService;
 import seominkim.puppyAlert.global.entity.Location;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootTest
 public class FavoriteHostServiceTest {
 
+    @Autowired PuppyService puppyService;
     @Autowired FavoriteHostService favoriteHostService;
     @Autowired EntityManager em;
 
@@ -52,64 +51,48 @@ public class FavoriteHostServiceTest {
 
         em.persist(host);
         em.persist(puppy);
-
-        Food food1 = new Food();
-        food1.setHost(host);
-        food1.setPuppy(puppy);
-        food1.setMenu("집밥1");
-        food1.setTime(LocalDateTime.of(2024,6,18,8,24,16));
-        food1.setStatus(FoodStatus.MATCHED);
-
-        Food food2 = new Food();
-        food2.setHost(host);
-        food2.setPuppy(puppy);
-        food2.setMenu("집밥2");
-        food2.setTime(LocalDateTime.of(2024,7,20,5,50,32));
-        food2.setStatus(FoodStatus.MATCHED);
-
-        em.persist(food1);
-        em.persist(food2);
     }
 
     @Test
     @Transactional
     @Rollback
-    public void getFavoriteHostTest(){
+    public void addFavoriteHostTest(){
         // given
-        String hostId = em.find(Host.class,"Ronaldo").getHostId();
-        String puppyId = em.find(Puppy.class, "Messi").getPuppyId();
+        Host host = em.find(Host.class,"Ronaldo");
+        Puppy puppy = em.find(Puppy.class, "Messi");
+        String hostId = host.getHostId();
+        String puppyId = puppy.getPuppyId();
 
         FavoriteHostRequest request = new FavoriteHostRequest(hostId, puppyId);
 
         // when
-        Long favoriteHostId = favoriteHostService.addFavoriteHost(request);
+        puppyService.addFavoriteHost(request);
 
         // then
-        List<FavoriteHostResponse> favoriteHostDTOList = favoriteHostService.findAll("Messi");
-
-        Assertions.assertThat(favoriteHostDTOList.get(0).hostId()).isEqualTo("Ronaldo");
+        Assertions.assertThat(favoriteHostService.isFavoriteHost(puppy, host)).isTrue();
     }
 
     @Test
     @Transactional
     @Rollback
-    public void addDeleteFavoriteHostTest(){
+    public void deleteFavoriteHostTest(){
 
         // given
-        String hostId = em.find(Host.class,"Ronaldo").getHostId();
-        String puppyId = em.find(Puppy.class, "Messi").getPuppyId();
+        Host host = em.find(Host.class,"Ronaldo");
+        Puppy puppy = em.find(Puppy.class, "Messi");
+        String hostId = host.getHostId();
+        String puppyId = puppy.getPuppyId();
 
         FavoriteHostRequest request = new FavoriteHostRequest(hostId, puppyId);
 
-        Long addedFavoriteHostId = favoriteHostService.addFavoriteHost(request);
+        puppyService.addFavoriteHost(request);
+
+        Assertions.assertThat(favoriteHostService.isFavoriteHost(puppy, host)).isTrue();
 
         // when
-        Long deletedFavoriteHostId = favoriteHostService.deleteFavoriteHost(request);
+        puppyService.deleteFavoriteHost(request);
 
         // then
-        List<FavoriteHostResponse> favoriteHostDTOList = favoriteHostService.findAll("Ronaldo");
-
-        Assertions.assertThat(addedFavoriteHostId).isEqualTo(deletedFavoriteHostId);
-        Assertions.assertThat(favoriteHostDTOList.size()).isEqualTo(0);
+        Assertions.assertThat(favoriteHostService.isFavoriteHost(puppy, host)).isFalse();
     }
 }
