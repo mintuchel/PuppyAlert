@@ -26,7 +26,7 @@ public class Food {
     //@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     //@JoinColumn(name="menuName")
     //private Menu menu; // 메뉴이름
-    @Column(columnDefinition = "varchar(225)", nullable = true)
+    @Column(columnDefinition = "varchar(225)", nullable = false)
     private String menu;
 
     @Column(nullable = false)

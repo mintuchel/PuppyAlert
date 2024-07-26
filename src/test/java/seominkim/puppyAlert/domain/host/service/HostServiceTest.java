@@ -1,17 +1,10 @@
 package seominkim.puppyAlert.domain.host.service;
 import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.common.dto.request.SignUpRequest;
-import seominkim.puppyAlert.global.dto.UserInfoResponse;
-import seominkim.puppyAlert.global.entity.Location;
-import seominkim.puppyAlert.global.entity.UserType;
-
-import java.time.LocalDate;
 
 @SpringBootTest
 public class HostServiceTest {

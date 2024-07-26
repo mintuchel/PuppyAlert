@@ -43,6 +43,7 @@ public class InitDomain {
             host1.setNickName("호날두");
             host1.setBirth(LocalDate.now());
             host1.setAddress("제주도");
+            host1.setDetailAddress("오두막집");
             host1.setLocation(new Location(37.551833438845506, 127.0753138390134));
             host1.setPhoneNumber("010-1582-3145");
             em.persist(host1);
@@ -54,6 +55,7 @@ public class InitDomain {
             host2.setPassword("a12345678!");
             host2.setBirth(LocalDate.now());
             host2.setAddress("서울");
+            host2.setDetailAddress("홍대사거리");
             host2.setLocation(new Location(37.54965636279012, 127.0750237101941));
             host2.setPhoneNumber("010-3244-7988");
             em.persist(host2);
@@ -65,6 +67,7 @@ public class InitDomain {
             host3.setPassword("a12345678!");
             host3.setBirth(LocalDate.now());
             host3.setAddress("부산");
+            host3.setDetailAddress("해운대 주막집");
             host3.setLocation(new Location(37.551833438845506, 127.0753138390134));
             host3.setPhoneNumber("010-5814-6568");
             em.persist(host3);
@@ -76,6 +79,7 @@ public class InitDomain {
             host4.setNickName("음바페");
             host4.setBirth(LocalDate.now());
             host4.setAddress("대구");
+            host4.setDetailAddress("삼성라이온즈 야구장");
             host4.setLocation(new Location(37.54965636279012, 127.0750237101941));
             host4.setPhoneNumber("010-4198-1241");
             em.persist(host4);
@@ -90,6 +94,7 @@ public class InitDomain {
             puppy1.setNickName("아자르");
             puppy1.setBirth(LocalDate.now());
             puppy1.setAddress("광주");
+            puppy1.setDetailAddress("어딘가 살고 있겠찌");
             puppy1.setLocation(new Location(37.8123, 124.9854));
             puppy1.setPhoneNumber("010-1111-2222");
 
@@ -102,6 +107,7 @@ public class InitDomain {
             puppy2.setNickName("뤼디거");
             puppy2.setBirth(LocalDate.now());
             puppy2.setAddress("서울");
+            puppy2.setDetailAddress("학생회관 530호");
             puppy2.setLocation(new Location(37.59999, 125.45));
             puppy2.setPhoneNumber("010-6457-9554");
 
@@ -114,6 +120,7 @@ public class InitDomain {
             puppy3.setNickName("카르바할");
             puppy3.setBirth(LocalDate.now());
             puppy3.setAddress("인천");
+            puppy3.setDetailAddress("어딘가에 살고있겠지");
             puppy3.setLocation(new Location(37.6569, 125.321));
             puppy3.setPhoneNumber("010-8221-7458");
 
