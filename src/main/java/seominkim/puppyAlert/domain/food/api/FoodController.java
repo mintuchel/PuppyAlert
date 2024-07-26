@@ -6,9 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import seominkim.puppyAlert.domain.food.dto.FoodRequest;
 import seominkim.puppyAlert.domain.food.service.FoodService;
-import seominkim.puppyAlert.global.dto.MatchHistoryResponse;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,17 +37,5 @@ public class FoodController {
     public ResponseEntity add(@RequestBody FoodRequest foodRequest){
         Long foodId = foodService.add(foodRequest);
         return ResponseEntity.ok(foodId);
-    }
-
-    @Operation(summary = "Host 집밥 기록 조회")
-    @GetMapping("/hostHistory")
-    public ResponseEntity getHostHistory(@RequestParam String hostId){
-        return ResponseEntity.ok(foodService.findHostHistory(hostId));
-    }
-
-    @Operation(summary = "Puppy 집밥 기록 조회")
-    @GetMapping("/puppyHistory")
-    public ResponseEntity<List<MatchHistoryResponse>> getPuppyHistory(@RequestParam String puppyId){
-        return ResponseEntity.ok(foodService.findPuppyHistory(puppyId));
     }
 }

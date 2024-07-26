@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.repository.HostRepository;
+import seominkim.puppyAlert.global.dto.MatchHistoryResponse;
 import seominkim.puppyAlert.global.dto.UserInfoResponse;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.HostException;
@@ -55,5 +56,18 @@ public class HostService {
             );
             return dto;
         }).orElseThrow(() -> new HostException(ErrorCode.NON_EXISTING_USER));
+    }
+
+    // Host 집밥 기록 검색
+    @Transactional(readOnly = true)
+    public List<MatchHistoryResponse> getHistory(String hostId){
+        Host host = hostRepository.findById(hostId).get();
+        return host.getFoodList().stream()
+                .map(food-> new MatchHistoryResponse(
+                        food.getPuppy().getPuppyId(),
+                        food.getMenu(),
+                        food.getTime()
+                ))
+                .collect(Collectors.toList());
     }
 }

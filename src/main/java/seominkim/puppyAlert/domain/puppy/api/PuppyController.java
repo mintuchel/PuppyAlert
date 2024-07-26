@@ -2,6 +2,7 @@ package seominkim.puppyAlert.domain.puppy.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import seominkim.puppyAlert.domain.puppy.dto.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.MatchResponse;
@@ -33,5 +34,11 @@ public class PuppyController {
     @PostMapping("/food")
     public MatchResponse matchFood(@RequestBody MatchRequest matchRequest){
         return puppyService.matchFood(matchRequest);
+    }
+
+    @Operation(summary = "특정 Puppy 집밥 기록 조회")
+    @GetMapping("/history")
+    public ResponseEntity getPuppyHistory(@RequestParam String puppyId){
+        return ResponseEntity.ok(puppyService.getHistory(puppyId));
     }
 }

@@ -3,8 +3,10 @@ package seominkim.puppyAlert.domain.puppy.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.puppy.dto.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.MatchResponse;
+import seominkim.puppyAlert.global.dto.MatchHistoryResponse;
 import seominkim.puppyAlert.global.dto.UserInfoResponse;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
@@ -77,5 +79,18 @@ public class PuppyService {
                 food.getHost().getHostId(),
                 puppy.getPuppyId()
         );
+    }
+
+    // Host 집밥 기록 검색
+    @Transactional(readOnly = true)
+    public List<MatchHistoryResponse> getHistory(String puppyId){
+        Puppy puppy = puppyRepository.findById(puppyId).get();
+        return puppy.getFoodList().stream()
+                .map(food-> new MatchHistoryResponse(
+                        food.getHost().getHostId(),
+                        food.getMenu(),
+                        food.getTime()
+                ))
+                .collect(Collectors.toList());
     }
 }
