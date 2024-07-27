@@ -10,9 +10,25 @@ import java.util.List;
 public class LocationBasedSearch {
     // 지구 반지름 (미터 단위)
     private static final double EARTH_RADIUS = 6371000;
-
     // 위도 1도당 미터 수 (고정 값)
     private static final double LATITUDE_METER = 111000;
+
+    private static final double TARGET_RANGE_METER = 500;
+
+    public static List<Food> findFoodWithinRange(double currentLatitude, double currentLongitude, List<Food> foodList) {
+        List<Food> foodWithinRange = new ArrayList<>();
+
+        for (Food food : foodList) {
+            Double curFoodLatitude = food.getHost().getLocation().getLatitude();
+            Double curFoodLongitude = food.getHost().getLocation().getLongitude();
+
+            if (isWithinRadius(currentLatitude, currentLongitude, curFoodLatitude, curFoodLongitude, TARGET_RANGE_METER)) {
+                foodWithinRange.add(food);
+            }
+        }
+
+        return foodWithinRange;
+    }
 
     public static boolean isWithinRadius(double latitude, double longitude, double targetLatitude, double targetLongitude, double radiusMeters) {
         // 위도와 경도 차이 계산
@@ -28,20 +44,5 @@ public class LocationBasedSearch {
         // 대상 지점이 범위 내에 있는지 확인
         return (minLatitude <= targetLatitude && targetLatitude <= maxLatitude) &&
                 (minLongitude <= targetLongitude && targetLongitude <= maxLongitude);
-    }
-
-    public static List<Food> findFoodWithinRange(double currentLatitude, double currentLongitude, List<Food> foodList, double radiusMeters) {
-        List<Food> foodWithinRange = new ArrayList<>();
-
-        for (Food food : foodList) {
-            Double curFoodLatitude = food.getHost().getLocation().getLatitude();
-            Double curFoodLongitude = food.getHost().getLocation().getLongitude();
-
-            if (isWithinRadius(currentLatitude, currentLongitude, curFoodLatitude, curFoodLongitude, radiusMeters)) {
-                foodWithinRange.add(food);
-            }
-        }
-
-        return foodWithinRange;
     }
 }
