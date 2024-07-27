@@ -9,12 +9,12 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     // 회원가입
-    EXISTING_ID(HttpStatus.UNPROCESSABLE_ENTITY, "이미 존재하는 ID입니다"),
+    EXISTING_ID(HttpStatus.UNPROCESSABLE_ENTITY, "이미 존재하는 아이디입니다"),
     EXISTING_NICKNAME(HttpStatus.UNPROCESSABLE_ENTITY, "이미 존재하는 닉네임입니다"),
 
     // 로그인
-    INVALID_ID(HttpStatus.NOT_FOUND, "존재하지 않는 ID입니다"),
-    INVALID_PASSWORD(HttpStatus.NOT_FOUND, "존재하지 않는 PASSWORD입니다"),
+    INVALID_ID(HttpStatus.NOT_FOUND, "존재하지 않는 아이디입니다"),
+    INVALID_PASSWORD(HttpStatus.NOT_FOUND, "비밀번호가 옳지 않습니다"),
 
     // 옳지 않은 USERTYPE
     INVALID_USERTYPE(HttpStatus.BAD_REQUEST, "옳지 않은 유저타입입니다"),

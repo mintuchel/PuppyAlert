@@ -23,16 +23,13 @@ public class Food {
     @JoinColumn(name="puppyId")
     private Puppy puppy;
 
-    //@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    //@JoinColumn(name="menuName")
-    //private Menu menu; // 메뉴이름
     @Column(columnDefinition = "varchar(225)", nullable = false)
     private String menu;
 
     @Column(nullable = false)
     private LocalDateTime time; // 식사시간
 
-    @Column(columnDefinition = "varchar(225)", nullable = true)
+    @Column(columnDefinition = "varchar(225)", nullable = false)
     private String imageURL;
 
     @Column(nullable = false)

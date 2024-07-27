@@ -9,5 +9,4 @@ public class PuppyAlertApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PuppyAlertApplication.class, args);
 	}
-
 }

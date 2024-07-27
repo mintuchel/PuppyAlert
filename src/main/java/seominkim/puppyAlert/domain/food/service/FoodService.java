@@ -15,6 +15,7 @@ import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.global.entity.Location;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
+import seominkim.puppyAlert.global.utils.ImageSearcher;
 import seominkim.puppyAlert.global.utils.LocationBasedSearch;
 
 import java.util.List;
@@ -32,9 +33,11 @@ public class FoodService {
         newFood.setTime(foodRequest.time());
         newFood.setStatus(foodRequest.status());
         newFood.setMenu(foodRequest.menu());
+        newFood.setImageURL(ImageSearcher.getImageURL(foodRequest.menu()));
 
         // save 되면서 @Id @GeneratedValue 값이 생성됨
         foodRepository.save(newFood);
+
         return newFood.getFoodId();
     }
 
