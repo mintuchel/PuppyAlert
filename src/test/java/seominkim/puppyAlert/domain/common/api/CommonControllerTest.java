@@ -106,7 +106,7 @@ public class CommonControllerTest {
         Puppy puppy = new Puppy();
         puppy.setPuppyId("Messi");
         puppy.setName("메시");
-        puppy.setNickName("응이번발롱도르도나야");
+        puppy.setNickName("요리조리드리블러");
         puppy.setPassword("10");
         puppy.setBirth(LocalDate.now());
         puppy.setAddress("바르셀로나");

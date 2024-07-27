@@ -57,12 +57,17 @@ public class CommonService {
             return new SignUpResponse(id, userType);
         }
 
-        throw new CommonException(ErrorCode.USERTYPE_ERROR);
+        throw new CommonException(ErrorCode.INVALID_USERTYPE);
     }
 
     public LoginResponse checkIfAccountExists(LoginRequest loginRequest){
         String id = loginRequest.id();
         String password = loginRequest.password();
+
+        // ID 확인 먼저
+        if(!checkIfIdExists(id)){
+            throw new CommonException(ErrorCode.INVALID_ID);
+        }
 
         if(hostRepository.existsByHostIdAndPassword(id,password)){
             return new LoginResponse(id, UserType.HOST);
@@ -72,7 +77,7 @@ public class CommonService {
             return new LoginResponse(id, UserType.PUPPY);
         }
 
-        throw new CommonException(ErrorCode.NON_EXISTING_USER);
+        throw new CommonException(ErrorCode.INVALID_PASSWORD);
     }
 
     public boolean checkIfIdExists(String id){

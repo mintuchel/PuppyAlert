@@ -38,6 +38,17 @@ public class FavoriteHostServiceTest {
         host.setLocation(new Location(100.5, 100.1));
         host.setPhoneNumber("010-4822-3636");
 
+        Host host2 = new Host();
+        host2.setHostId("Neymar");
+        host2.setName("네이마르");
+        host2.setNickName("아임네이마아르");
+        host2.setPassword("101011");
+        host2.setBirth(LocalDate.now());
+        host2.setAddress("파리생제르망");
+        host2.setDetailAddress("구장 이름 까먹음");
+        host2.setLocation(new Location(100.5, 100.1));
+        host2.setPhoneNumber("010-4465-8798");
+
         Puppy puppy = new Puppy();
         puppy.setPuppyId("Messi");
         puppy.setName("메시");
@@ -50,6 +61,7 @@ public class FavoriteHostServiceTest {
         puppy.setPhoneNumber("010-1111-2222");
 
         em.persist(host);
+        em.persist(host2);
         em.persist(puppy);
     }
 
@@ -94,5 +106,28 @@ public class FavoriteHostServiceTest {
 
         // then
         Assertions.assertThat(favoriteHostService.isFavoriteHost(puppy, host)).isFalse();
+    }
+
+    @Test
+    @Transactional(readOnly = true)
+    @Rollback
+    public void getFavoriteHostTest(){
+        // given
+        Host host = em.find(Host.class,"Ronaldo");
+        Host host2 = em.find(Host.class, "Neymar");
+        Puppy puppy = em.find(Puppy.class, "Messi");
+
+        String hostId = host.getHostId();
+        String puppyId = puppy.getPuppyId();
+
+        FavoriteHostRequest request = new FavoriteHostRequest(hostId, puppyId);
+
+        puppyService.addFavoriteHost(request);
+
+        // when
+        List<FavoriteHostResponse> list = puppyService.getFavoriteHost(puppyId);
+
+        // then
+        System.out.println(list);
     }
 }
