@@ -7,6 +7,7 @@ import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequest;
 import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostResponse;
 import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
 import seominkim.puppyAlert.domain.food.dto.FoodResponse;
+import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.service.FoodService;
 import seominkim.puppyAlert.domain.puppy.dto.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.MatchResponse;
@@ -17,6 +18,7 @@ import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.PuppyException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class PuppyService {
     private final FoodService foodService;
     private final FavoriteHostService favoriteHostService;
+
     private final PuppyRepository puppyRepository;
 
     // Puppy 전체 검색
@@ -104,9 +107,15 @@ public class PuppyService {
         return puppy.getFavoriteHostList().stream()
                 .map(favoriteHost -> {
                     String hostId = favoriteHost.getHost().getHostId();
+                    Food recentFoodInfo = foodService.getMostRecentFood(puppyId, hostId);
+                    LocalDateTime recentTime;
+
+                    if(recentFoodInfo==null) recentTime = null;
+                    else recentTime = recentFoodInfo.getTime();
+
                     FavoriteHostResponse response = new FavoriteHostResponse(
                             hostId,
-                            foodService.getMostRecentFood(puppyId, hostId).getTime()
+                            recentTime
                     );
                     return response;
                 })

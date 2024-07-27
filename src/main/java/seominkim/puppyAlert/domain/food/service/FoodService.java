@@ -15,7 +15,6 @@ import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.global.entity.Location;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
-import seominkim.puppyAlert.global.exception.exception.HostException;
 import seominkim.puppyAlert.global.utils.LocationBasedSearch;
 
 import java.util.List;
@@ -58,12 +57,12 @@ public class FoodService {
 
     @Transactional(readOnly = true)
     public List<FoodResponse> getAvailableFood(Location location){
-        List<Food> foodList = foodRepository.findAll();
-
         Double curPuppyLatitude = location.getLatitude();
         Double curPuppyLongitude = location.getLongitude();
 
-        List<Food> availableFoodList = LocationBasedSearch.findFoodWithinRange(curPuppyLatitude, curPuppyLongitude, foodList, 500);
+        List<Food> foodList = foodRepository.findAll();
+
+        List<Food> availableFoodList = LocationBasedSearch.findFoodWithinRange(curPuppyLatitude, curPuppyLongitude, foodList);
 
         return availableFoodList.stream()
                 .map(food -> new FoodResponse(
@@ -102,6 +101,10 @@ public class FoodService {
         Food matchedFood = foodRepository.findById(foodId)
                 .orElseThrow(() -> new FoodException(ErrorCode.NON_EXISTING_FOOD));
 
+        if(matchedFood.getStatus().equals(FoodStatus.MATCHED)){
+            throw new FoodException(ErrorCode.ALREADY_MATCHED);
+        }
+
         // 집밥 업데이트
         matchedFood.setPuppy(puppy);
         matchedFood.setStatus(FoodStatus.MATCHED);
@@ -116,10 +119,9 @@ public class FoodService {
     @Transactional(readOnly = true)
     public Food getMostRecentFood(String puppyId, String hostId){
         List<Food> mostRecentFood = foodRepository.findMostRecentByPuppyIdAndHostId(puppyId, hostId, PageRequest.of(0, 1));
-        if (mostRecentFood.isEmpty()) {
-            throw new HostException(ErrorCode.NO_RECENT_MATCH);
-        } else {
-            return mostRecentFood.get(0);
-        }
+
+        if(mostRecentFood.isEmpty()) return null;
+
+        return mostRecentFood.get(0);
     }
 }

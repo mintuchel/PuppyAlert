@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.food.dto.FoodResponse;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.domain.food.dto.FoodRequest;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.global.entity.Location;
 
@@ -27,16 +25,27 @@ public class FoodServiceTest {
 
     @BeforeEach
     public void initTestDummy(){
-        Host host = new Host();
-        host.setHostId("Ronaldo");
-        host.setName("호날두");
-        host.setNickName("내가바로좆두다");
-        host.setPassword("777");
-        host.setBirth(LocalDate.now());
-        host.setAddress("레알 마드리드");
-        host.setDetailAddress("산티아고 베르나베우");
-        host.setLocation(new Location(100.5, 100.1));
-        host.setPhoneNumber("010-4822-3636");
+        Host host1 = new Host();
+        host1.setHostId("Ronaldo");
+        host1.setName("호날두");
+        host1.setNickName("내가바로좆두다");
+        host1.setPassword("777");
+        host1.setBirth(LocalDate.now());
+        host1.setAddress("레알 마드리드");
+        host1.setDetailAddress("산티아고 베르나베우");
+        host1.setLocation(new Location(100.5, 100.1));
+        host1.setPhoneNumber("010-4822-3636");
+
+        Host host2 = new Host();
+        host2.setHostId("Neymar");
+        host2.setName("네이마르");
+        host2.setNickName("아임네이마아르");
+        host2.setPassword("101011");
+        host2.setBirth(LocalDate.now());
+        host2.setAddress("파리생제르망");
+        host2.setDetailAddress("구장 이름 까먹음");
+        host2.setLocation(new Location(100.5, 100.1));
+        host2.setPhoneNumber("010-4465-8798");
 
         Puppy puppy = new Puppy();
         puppy.setPuppyId("Messi");
@@ -49,8 +58,23 @@ public class FoodServiceTest {
         puppy.setLocation(new Location(200.3, 200.2));
         puppy.setPhoneNumber("010-1111-2222");
 
-        em.persist(host);
+        em.persist(host1);
+        em.persist(host2);
         em.persist(puppy);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void getHistoryTest(){
+        // given
+        Host host1 = em.find(Host.class, "Ronaldo");
+        Host host2 = em.find(Host.class, "Neymar");
+
+        System.out.println(host1.getFoodList());
+
+        // when
+        Assertions.assertThat(host2.getFoodList().size()).isEqualTo(0);
     }
 
     @Test

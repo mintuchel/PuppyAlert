@@ -53,7 +53,7 @@ public class PuppyController {
 
     @Operation(summary = "관심 호스트 조회")
     @GetMapping("/favoriteHost")
-    public List<FavoriteHostResponse> getFavoriteHost(@PathVariable String puppyId){
+    public List<FavoriteHostResponse> getFavoriteHost(@RequestParam String puppyId){
         return puppyService.getFavoriteHost(puppyId);
     }
 
