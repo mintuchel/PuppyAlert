@@ -87,6 +87,7 @@ public class FoodServiceTest {
         food1.setHost(em.find(Host.class, "Ronaldo"));
         food1.setPuppy(em.find(Puppy.class, "Messi"));
         food1.setMenu("집밥1");
+        food1.setImageURL("dummyUrl");
         food1.setTime(LocalDateTime.of(2024,6,18,8,24,16));
         food1.setStatus(FoodStatus.MATCHED);
 
@@ -94,6 +95,7 @@ public class FoodServiceTest {
         food2.setHost(em.find(Host.class, "Ronaldo"));
         food2.setPuppy(em.find(Puppy.class, "Messi"));
         food2.setMenu("집밥2");
+        food2.setImageURL("dummyUrl");
         food2.setTime(LocalDateTime.of(2024,7,20,5,50,32));
         food2.setStatus(FoodStatus.MATCHED);
 
