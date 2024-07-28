@@ -5,6 +5,6 @@ import java.time.LocalDateTime;
 
 public record MatchHistoryResponse(
         @NotBlank String partnerId,
-        @NotBlank String menu,
+        @NotBlank String menuName,
         @NotBlank LocalDateTime localDateTime
 ) {}
