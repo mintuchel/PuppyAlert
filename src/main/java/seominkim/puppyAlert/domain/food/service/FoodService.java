@@ -10,13 +10,13 @@ import seominkim.puppyAlert.domain.food.dto.FoodResponse;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.food.repository.FoodRepository;
 import seominkim.puppyAlert.domain.host.entity.Host;
+import seominkim.puppyAlert.domain.menu.service.MenuService;
 import seominkim.puppyAlert.domain.puppy.dto.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.global.entity.Location;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
-import seominkim.puppyAlert.global.utils.ImageSearcher;
-import seominkim.puppyAlert.global.utils.LocationBasedSearch;
+import seominkim.puppyAlert.global.utils.FoodLimitator;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,16 +24,17 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class FoodService {
+    private final MenuService menuService;
+
     private final FoodRepository foodRepository;
 
     @Transactional
     public Long addNewFood(Host providerHost, FoodRequest foodRequest){
         Food newFood = new Food();
         newFood.setHost(providerHost);
+        newFood.setMenu(menuService.findOne(foodRequest.menuName()));
         newFood.setTime(foodRequest.time());
         newFood.setStatus(foodRequest.status());
-        newFood.setMenu(foodRequest.menu());
-        newFood.setImageURL(ImageSearcher.getImageURL(foodRequest.menu()));
 
         // save 되면서 @Id @GeneratedValue 값이 생성됨
         foodRepository.save(newFood);
@@ -47,9 +48,9 @@ public class FoodService {
                 .map(food -> new FoodResponse(
                         food.getFoodId(),
                         food.getHost().getHostId(),
-                        food.getMenu(),
+                        food.getMenu().getMenuName(),
+                        food.getMenu().getImageURL(),
                         food.getTime(),
-                        food.getImageURL(),
                         food.getHost().getAddress(),
                         food.getHost().getDetailAddress(),
                         food.getHost().getLocation(),
@@ -65,15 +66,15 @@ public class FoodService {
 
         List<Food> foodList = foodRepository.findAll();
 
-        List<Food> availableFoodList = LocationBasedSearch.findFoodWithinRange(curPuppyLatitude, curPuppyLongitude, foodList);
+        List<Food> availableFoodList = FoodLimitator.findFoodWithinPuppyRange(curPuppyLatitude, curPuppyLongitude, foodList);
 
         return availableFoodList.stream()
                 .map(food -> new FoodResponse(
                         food.getFoodId(),
                         food.getHost().getHostId(),
-                        food.getMenu(),
+                        food.getMenu().getMenuName(),
+                        food.getMenu().getImageURL(),
                         food.getTime(),
-                        food.getImageURL(),
                         food.getHost().getAddress(),
                         food.getHost().getDetailAddress(),
                         food.getHost().getLocation(),
@@ -88,9 +89,9 @@ public class FoodService {
                 .map(food -> new FoodResponse(
                         food.getFoodId(),
                         food.getHost().getHostId(),
-                        food.getMenu(),
+                        food.getMenu().getMenuName(),
+                        food.getMenu().getImageURL(),
                         food.getTime(),
-                        food.getImageURL(),
                         food.getHost().getAddress(),
                         food.getHost().getDetailAddress(),
                         food.getHost().getLocation(),

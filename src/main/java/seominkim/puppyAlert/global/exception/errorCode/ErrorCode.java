@@ -28,6 +28,9 @@ public enum ErrorCode {
     // FOOD 상태 확인
     ALREADY_MATCHED(HttpStatus.BAD_REQUEST, "이미 매칭된 집밥입니다"),
 
+    // FAVORITE HOST 존재성 확인
+    ALREADY_FAVORITE_HOST(HttpStatus.BAD_REQUEST, "이미 등록된 관심 호스트입니다"),
+
     // 최근 집밥 약속 확인
     NO_RECENT_MATCH(HttpStatus.NOT_FOUND, "최근 집밥을 먹은 적이 없습니다");
 

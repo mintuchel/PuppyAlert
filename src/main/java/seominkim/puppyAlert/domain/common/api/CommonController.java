@@ -1,6 +1,7 @@
 package seominkim.puppyAlert.domain.common.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import seominkim.puppyAlert.domain.common.dto.request.LoginRequest;
@@ -14,6 +15,7 @@ import seominkim.puppyAlert.domain.common.dto.request.SignUpRequest;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/common")
+@Tag(name = "Common API", description = "로그인, 회원가입, 중복확인")
 public class CommonController {
 
     private final CommonService commonService;

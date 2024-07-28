@@ -1,6 +1,7 @@
 package seominkim.puppyAlert.domain.puppy.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/puppy")
+@Tag(name = "Puppy API", description = "정보 조회, 집밥 신청, 기록 조회, 관심 호스트 조회")
 public class PuppyController {
 
     private final PuppyService puppyService;

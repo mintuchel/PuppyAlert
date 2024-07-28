@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @UtilityClass
-public class LocationBasedSearch {
-    
+public class FoodLimitator {
+
     // 지구 반지름 (미터 단위)
     private static final double EARTH_RADIUS = 6371000;
     // 위도 1도당 미터 수 (고정 값)
@@ -16,7 +16,7 @@ public class LocationBasedSearch {
 
     private static final double TARGET_RANGE_METER = 500;
 
-    public static List<Food> findFoodWithinRange(double currentLatitude, double currentLongitude, List<Food> foodList) {
+    public static List<Food> findFoodWithinPuppyRange(double currentLatitude, double currentLongitude, List<Food> foodList) {
         List<Food> foodWithinRange = new ArrayList<>();
 
         for (Food food : foodList) {

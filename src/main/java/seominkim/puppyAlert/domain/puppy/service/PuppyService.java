@@ -84,14 +84,14 @@ public class PuppyService {
 
     // Puppy 집밥 기록 검색
     // 이건 READONLY 작업이므로 그냥 getFoodList 로 해주면 됨
-    // 연관관계의 주인이 Puppy 가 아니긴 한데 CRUD 작업이 아니므로
+    // 연관관계의 주인이 Puppy 가 아니긴 한데 CUD 작업이 아니므로
     @Transactional(readOnly = true)
     public List<MatchHistoryResponse> getHistory(String puppyId){
         Puppy puppy = puppyRepository.findById(puppyId).get();
         return puppy.getFoodList().stream()
                 .map(food-> new MatchHistoryResponse(
                         food.getHost().getHostId(),
-                        food.getMenu(),
+                        food.getMenu().getMenuName(),
                         food.getTime()
                 ))
                 .collect(Collectors.toList());

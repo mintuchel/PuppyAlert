@@ -1,6 +1,7 @@
 package seominkim.puppyAlert.domain.food.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import seominkim.puppyAlert.domain.food.dto.FoodResponse;
@@ -11,11 +12,12 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/food")
+@Tag(name = "Food API")
 public class FoodController {
 
     private final FoodService foodService;
 
-    @Operation(summary = "특정 집밥 정보 조회")
+    @Operation(summary = "단건 조회")
     @GetMapping()
     public FoodResponse findOne(@RequestParam long foodId){ return foodService.findById(foodId); }
 

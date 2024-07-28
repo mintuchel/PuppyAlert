@@ -9,10 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.host.entity.Host;
+import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.global.entity.Location;
 
+import javax.crypto.MacSpi;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -25,6 +27,7 @@ public class InitDomain {
     private void init(){
         initDomainService.initHost();
         initDomainService.initPuppy();
+        initDomainService.initMenu();
         initDomainService.initFood();
         initDomainService.initFavoriteHost();
     }
@@ -186,84 +189,124 @@ public class InitDomain {
         }
 
         @Transactional
+        public void initMenu(){
+            Menu menu1 = new Menu();
+            menu1.setMenuName("까르보나라");
+            menu1.setImageURL("https://blog.kakaocdn.net/dn/cDOn0y/btruVLrLi88/aXkUtkaXRvdWVqaJv89Jn0/img.jpg");
+
+            Menu menu2 = new Menu();
+            menu2.setMenuName("제육볶음");
+            menu2.setImageURL("https://godomall.speedycdn.net/0f1081f2872a5b54f665bd623a5689cb/goods/1159/image/detail/1159_detail_097.jpg");
+
+            Menu menu3 = new Menu();
+            menu3.setMenuName("삼계탕");
+            menu3.setImageURL("https://sitem.ssgcdn.com/43/44/21/item/1000412214443_i1_750.jpg");
+
+            Menu menu4 = new Menu();
+            menu4.setMenuName("순두부찌개");
+            menu4.setImageURL("https://honestkfood.co.kr/wp-content/uploads/2014/08/16.%EC%88%9C%EB%91%90%EB%B6%80%EC%B0%8C%EA%B0%9C1.png");
+
+            Menu menu5 = new Menu();
+            menu5.setMenuName("얼큰한 해물라면");
+            menu5.setImageURL("https://sitem.ssgcdn.com/53/50/93/item/1000018935053_i2_750.jpg");
+
+            Menu menu6 = new Menu();
+            menu6.setMenuName("우거지 해장국");
+            menu6.setImageURL("https://gdimg1.gmarket.co.kr/goods_image2/shop_moreimg/213/691/2136917571/2136917571_01.jpg?ver=1682053775");
+
+            Menu menu7 = new Menu();
+            menu7.setMenuName("통등심 돈까스");
+            menu7.setImageURL("https://cdn.oasis.co.kr:48581/product/81639/thumb/3dc6cd2f-09cd-47aa-a425-3772887d03bf.jpg");
+
+            Menu menu8 = new Menu();
+            menu8.setMenuName("녹두전");
+            menu8.setImageURL("https://thenaum.cdn-nhncommerce.com/data/goods/20/07/31/1000005027/1000005027_detail_093.jpg");
+
+            Menu menu9 = new Menu();
+            menu9.setMenuName("불고기고구마 피자");
+            menu9.setImageURL("https://cdn.dominos.co.kr/admin/upload/goods/20230619_F33836Pn.jpg");
+
+            em.persist(menu1);
+            em.persist(menu2);
+            em.persist(menu3);
+            em.persist(menu4);
+            em.persist(menu5);
+            em.persist(menu6);
+            em.persist(menu7);
+            em.persist(menu8);
+            em.persist(menu9);
+        }
+
+        @Transactional
         public void initFood(){
             // 서상혁-권오성
             Food food1 = new Food();
             food1.setHost(em.find(Host.class,"KwonOhSung"));
             food1.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
+            food1.setMenu(em.find(Menu.class, "까르보나라"));
             food1.setTime(LocalDateTime.of(2024,7,19,14,30));
             food1.setStatus(FoodStatus.MATCHED);
-            food1.setMenu("까르보나라");
-            food1.setImageURL("https://blog.kakaocdn.net/dn/cDOn0y/btruVLrLi88/aXkUtkaXRvdWVqaJv89Jn0/img.jpg");
 
             // 민재홍-김세현
             Food food2 = new Food();
             food2.setHost(em.find(Host.class, "KimSeHyun"));
             food2.setPuppy(em.find(Puppy.class, "MinJaeHong"));
+            food2.setMenu(em.find(Menu.class, "제육볶음"));
             food2.setTime(LocalDateTime.of(2024,7,20,18,00));
             food2.setStatus(FoodStatus.MATCHED);
-            food2.setMenu("제육볶음");
-            food2.setImageURL("https://godomall.speedycdn.net/0f1081f2872a5b54f665bd623a5689cb/goods/1159/image/detail/1159_detail_097.jpg");
 
             // 김지원-조상준
             Food food3 = new Food();
             food3.setHost(em.find(Host.class, "ChoSangJun"));
             food3.setPuppy(em.find(Puppy.class, "KimJiWon"));
+            food3.setMenu(em.find(Menu.class, "삼계탕"));
             food3.setTime(LocalDateTime.of(2024,7,21,15,20));
             food3.setStatus(FoodStatus.MATCHED);
-            food3.setMenu("삼계탕");
-            food3.setImageURL("https://sitem.ssgcdn.com/43/44/21/item/1000412214443_i1_750.jpg");
 
             // 김지원-임우진
             Food food4 = new Food();
             food4.setHost(em.find(Host.class, "LimWooJin"));
             food4.setPuppy(em.find(Puppy.class, "KimJiWon"));
+            food4.setMenu(em.find(Menu.class, "순두부찌개"));
             food4.setTime(LocalDateTime.of(2024,7,12,17,45));
             food4.setStatus(FoodStatus.MATCHED);
-            food4.setMenu("순두부찌개");
-            food4.setImageURL("https://honestkfood.co.kr/wp-content/uploads/2014/08/16.%EC%88%9C%EB%91%90%EB%B6%80%EC%B0%8C%EA%B0%9C1.png");
 
             // 서상혁-김현아
             Food food5 = new Food();
             food5.setHost(em.find(Host.class, "KimHyunA"));
             food5.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
+            food5.setMenu(em.find(Menu.class, "얼큰한 해물라면"));
             food5.setTime(LocalDateTime.of(2024,7,23,18,00));
             food5.setStatus(FoodStatus.MATCHED);
-            food5.setMenu("얼큰한 해물라면");
-            food5.setImageURL("https://sitem.ssgcdn.com/53/50/93/item/1000018935053_i2_750.jpg");
 
             // 민재홍-박대원
             Food food6 = new Food();
             food6.setHost(em.find(Host.class, "ParkDaeWon"));
             food6.setPuppy(em.find(Puppy.class, "MinJaeHong"));
+            food6.setMenu(em.find(Menu.class, "우거지 해장국"));
             food6.setTime(LocalDateTime.of(2024,7,24,19,00));
             food6.setStatus(FoodStatus.MATCHED);
-            food6.setMenu("우거지 해장국");
-            food6.setImageURL("https://gdimg1.gmarket.co.kr/goods_image2/shop_moreimg/213/691/2136917571/2136917571_01.jpg?ver=1682053775");
 
             // 아직 매칭안된 박대원 집밥
             Food food7 = new Food();
             food7.setHost(em.find(Host.class, "ParkDaeWon"));
+            food7.setMenu(em.find(Menu.class, "통등심 돈까스"));
             food7.setTime(LocalDateTime.of(2024,7,25,18,00));
             food7.setStatus(FoodStatus.READY);
-            food7.setMenu("통등심 돈까스");
-            food7.setImageURL("https://cdn.oasis.co.kr:48581/product/81639/thumb/3dc6cd2f-09cd-47aa-a425-3772887d03bf.jpg");
 
             // 아직 매칭안된 조형준 집밥
             Food food8 = new Food();
             food8.setHost(em.find(Host.class, "ChoHyungJun"));
+            food8.setMenu(em.find(Menu.class, "녹두전"));
             food8.setTime(LocalDateTime.of(2024,7,26,21,00));
             food8.setStatus(FoodStatus.READY);
-            food8.setMenu("녹두전");
-            food8.setImageURL("https://thenaum.cdn-nhncommerce.com/data/goods/20/07/31/1000005027/1000005027_detail_093.jpg");
 
             // 아직 매칭안된 신지훈 집밥
             Food food9 = new Food();
             food9.setHost(em.find(Host.class, "ShinJiHun"));
+            food9.setMenu(em.find(Menu.class, "불고기고구마 피자"));
             food9.setTime(LocalDateTime.of(2024,7,26,21,00));
             food9.setStatus(FoodStatus.READY);
-            food9.setMenu("불고기고구마 피자");
-            food9.setImageURL("https://cdn.dominos.co.kr/admin/upload/goods/20230619_F33836Pn.jpg");
 
             em.persist(food1);
             em.persist(food2);

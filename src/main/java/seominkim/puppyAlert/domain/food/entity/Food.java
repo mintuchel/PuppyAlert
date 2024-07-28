@@ -3,6 +3,7 @@ package seominkim.puppyAlert.domain.food.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import seominkim.puppyAlert.domain.host.entity.Host;
+import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 
 import java.time.LocalDateTime;
@@ -16,21 +17,19 @@ public class Food {
     private Long foodId;
 
     @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="hostId")
+    @JoinColumn(name = "hostId")
     private Host host;
 
     @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="puppyId")
+    @JoinColumn(name = "puppyId")
     private Puppy puppy;
 
-    @Column(columnDefinition = "varchar(225)", nullable = false)
-    private String menu;
+    @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "menuName")
+    private Menu menu;
 
     @Column(nullable = false)
     private LocalDateTime time; // 식사시간
-
-    @Column(columnDefinition = "varchar(225)", nullable = false)
-    private String imageURL;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

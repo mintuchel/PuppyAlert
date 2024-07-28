@@ -76,9 +76,9 @@ public class HostService {
                 .orElseThrow(() -> new HostException(ErrorCode.NON_EXISTING_USER));
 
         return host.getFoodList().stream()
-                .map(food-> new MatchHistoryResponse(
-                        food.getPuppy().getPuppyId(),
-                        food.getMenu(),
+                .map(food -> new MatchHistoryResponse(
+                        food.getPuppy() != null ? food.getPuppy().getPuppyId() : null,
+                        food.getMenu().getMenuName(),
                         food.getTime()
                 ))
                 .collect(Collectors.toList());

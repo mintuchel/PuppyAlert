@@ -4,18 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequest;
-import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostResponse;
 import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
 import seominkim.puppyAlert.domain.favoriteHost.repository.FavoriteHostRepository;
-import seominkim.puppyAlert.domain.food.service.FoodService;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.repository.HostRepository;
-import seominkim.puppyAlert.domain.host.service.HostService;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
+import seominkim.puppyAlert.global.exception.exception.PuppyException;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +34,7 @@ public class FavoriteHostService {
         Puppy puppy = puppyRepository.findById(favoriteHostRequest.puppyId()).get();
 
         if(favoriteHostRepository.existsByPuppyAndHost(puppy, host)){
-            throw new IllegalArgumentException("FavoriteHost already exists for the given host and puppy");
+            throw new PuppyException(ErrorCode.ALREADY_FAVORITE_HOST);
         }
 
         FavoriteHost favoriteHost = new FavoriteHost();
