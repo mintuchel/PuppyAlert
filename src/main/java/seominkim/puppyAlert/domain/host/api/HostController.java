@@ -34,9 +34,8 @@ public class HostController {
 
     @Operation(summary = "집밥 등록")
     @PostMapping("/food")
-    public ResponseEntity addFood(@RequestBody FoodRequest foodRequest){
-        Long foodId = hostService.addFood(foodRequest);
-        return ResponseEntity.ok(foodId);
+    public Long addFood(@RequestBody FoodRequest foodRequest){
+        return hostService.addFood(foodRequest);
     }
 
     @Operation(summary = "집밥 기록 조회")

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
 import seominkim.puppyAlert.domain.food.dto.FoodRequest;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.dto.FoodResponse;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FoodService {
     private final MenuService menuService;
-
+    private final FavoriteHostService favoriteHostService;
     private final FoodRepository foodRepository;
 
     @Transactional
@@ -48,6 +49,7 @@ public class FoodService {
                 .map(food -> new FoodResponse(
                         food.getFoodId(),
                         food.getHost().getHostId(),
+                        false,
                         food.getMenu().getMenuName(),
                         food.getMenu().getImageURL(),
                         food.getTime(),
@@ -60,9 +62,10 @@ public class FoodService {
     }
 
     @Transactional(readOnly = true)
-    public List<FoodResponse> getAvailableFood(Location location){
-        Double curPuppyLatitude = location.getLatitude();
-        Double curPuppyLongitude = location.getLongitude();
+    public List<FoodResponse> getAvailableFood(Puppy puppy){
+
+        Double curPuppyLatitude = puppy.getLocation().getLatitude();
+        Double curPuppyLongitude = puppy.getLocation().getLongitude();
 
         List<Food> foodList = foodRepository.findAll();
 
@@ -72,6 +75,7 @@ public class FoodService {
                 .map(food -> new FoodResponse(
                         food.getFoodId(),
                         food.getHost().getHostId(),
+                        favoriteHostService.isFavoriteHost(puppy, food.getHost()),
                         food.getMenu().getMenuName(),
                         food.getMenu().getImageURL(),
                         food.getTime(),
@@ -89,6 +93,7 @@ public class FoodService {
                 .map(food -> new FoodResponse(
                         food.getFoodId(),
                         food.getHost().getHostId(),
+                        false,
                         food.getMenu().getMenuName(),
                         food.getMenu().getImageURL(),
                         food.getTime(),

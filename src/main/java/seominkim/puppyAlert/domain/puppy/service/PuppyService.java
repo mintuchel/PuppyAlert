@@ -70,7 +70,7 @@ public class PuppyService {
         Puppy puppy = puppyRepository.findById(puppyId)
                 .orElseThrow(() -> new PuppyException(ErrorCode.NON_EXISTING_USER));
 
-        return foodService.getAvailableFood(puppy.getLocation());
+        return foodService.getAvailableFood(puppy);
     }
 
     // Puppy 집밥 신청

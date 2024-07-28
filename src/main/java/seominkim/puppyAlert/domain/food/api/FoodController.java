@@ -17,7 +17,7 @@ public class FoodController {
 
     private final FoodService foodService;
 
-    @Operation(summary = "단건 조회")
+    @Operation(summary = "단건 조회 (관리자용)")
     @GetMapping()
     public FoodResponse findOne(@RequestParam long foodId){ return foodService.findById(foodId); }
 

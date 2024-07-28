@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public record FoodResponse(
         @NotBlank Long foodId,
         @NotBlank String hostId,
+        @NotBlank Boolean isFavorite,
         @NotBlank String menuName,
         @NotBlank String imageURL,
         @NotBlank LocalDateTime time,
