@@ -11,6 +11,7 @@ import seominkim.puppyAlert.domain.food.dto.FoodResponse;
 import seominkim.puppyAlert.domain.puppy.dto.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.service.PuppyService;
+import seominkim.puppyAlert.global.dto.MatchHistoryResponse;
 import seominkim.puppyAlert.global.dto.UserInfoResponse;
 
 import java.util.List;
@@ -49,8 +50,8 @@ public class PuppyController {
 
     @Operation(summary = "집밥 기록 조회")
     @GetMapping("/history")
-    public ResponseEntity getHistory(@RequestParam String puppyId){
-        return ResponseEntity.ok(puppyService.getHistory(puppyId));
+    public List<MatchHistoryResponse> getHistory(@RequestParam String puppyId){
+        return puppyService.getHistory(puppyId);
     }
 
     @Operation(summary = "관심 호스트 조회")

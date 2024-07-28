@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import seominkim.puppyAlert.domain.food.dto.FoodRequest;
 import seominkim.puppyAlert.domain.host.service.HostService;
+import seominkim.puppyAlert.global.dto.MatchHistoryResponse;
 import seominkim.puppyAlert.global.dto.UserInfoResponse;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class HostController {
 
     @Operation(summary = "집밥 기록 조회")
     @GetMapping("/history")
-    public ResponseEntity getHostHistory(@RequestParam String hostId){
-        return ResponseEntity.ok(hostService.getHistory(hostId));
+    public List<MatchHistoryResponse> getHostHistory(@RequestParam String hostId){
+        return hostService.getHistory(hostId);
     }
 }
