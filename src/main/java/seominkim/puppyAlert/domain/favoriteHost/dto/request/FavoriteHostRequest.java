@@ -1,4 +1,4 @@
-package seominkim.puppyAlert.domain.favoriteHost.dto;
+package seominkim.puppyAlert.domain.favoriteHost.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 

@@ -3,12 +3,12 @@ package seominkim.puppyAlert.domain.host.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import seominkim.puppyAlert.domain.food.dto.FoodRequest;
+import seominkim.puppyAlert.domain.food.dto.request.FoodRequest;
+import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.host.service.HostService;
-import seominkim.puppyAlert.global.dto.MatchHistoryResponse;
-import seominkim.puppyAlert.global.dto.UserInfoResponse;
+import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
+import seominkim.puppyAlert.global.dto.response.UserInfoResponse;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class HostController {
 
     @Operation(summary = "집밥 등록")
     @PostMapping("/food")
-    public Long addFood(@RequestBody FoodRequest foodRequest){
+    public AddFoodResponse addFood(@RequestBody FoodRequest foodRequest){
         return hostService.addFood(foodRequest);
     }
 

@@ -3,12 +3,13 @@ package seominkim.puppyAlert.domain.host.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.food.dto.FoodRequest;
+import seominkim.puppyAlert.domain.food.dto.request.FoodRequest;
+import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.food.service.FoodService;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.repository.HostRepository;
-import seominkim.puppyAlert.global.dto.MatchHistoryResponse;
-import seominkim.puppyAlert.global.dto.UserInfoResponse;
+import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
+import seominkim.puppyAlert.global.dto.response.UserInfoResponse;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.HostException;
 
@@ -24,7 +25,7 @@ public class HostService {
 
     // 집밥 추가
     @Transactional
-    public Long addFood(FoodRequest foodRequest){
+    public AddFoodResponse addFood(FoodRequest foodRequest){
         Host providerHost = hostRepository.findById(foodRequest.hostId())
                 .orElseThrow(() -> new HostException(ErrorCode.NON_EXISTING_USER));
 

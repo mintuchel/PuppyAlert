@@ -15,7 +15,7 @@ import seominkim.puppyAlert.domain.common.dto.response.SignUpResponse;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.service.HostService;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.global.dto.UserInfoResponse;
+import seominkim.puppyAlert.global.dto.response.UserInfoResponse;
 import seominkim.puppyAlert.global.entity.Location;
 import seominkim.puppyAlert.global.entity.UserType;
 

@@ -1,4 +1,4 @@
-package seominkim.puppyAlert.global.dto;
+package seominkim.puppyAlert.global.dto.response;
 
 import jakarta.validation.constraints.NotBlank;
 import seominkim.puppyAlert.global.entity.Location;

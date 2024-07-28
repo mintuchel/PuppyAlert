@@ -3,16 +3,15 @@ package seominkim.puppyAlert.domain.puppy.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequest;
-import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostResponse;
-import seominkim.puppyAlert.domain.food.dto.FoodResponse;
-import seominkim.puppyAlert.domain.puppy.dto.MatchRequest;
-import seominkim.puppyAlert.domain.puppy.dto.MatchResponse;
+import seominkim.puppyAlert.domain.favoriteHost.dto.request.FavoriteHostRequest;
+import seominkim.puppyAlert.domain.favoriteHost.dto.response.FavoriteHostResponse;
+import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
+import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
+import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.service.PuppyService;
-import seominkim.puppyAlert.global.dto.MatchHistoryResponse;
-import seominkim.puppyAlert.global.dto.UserInfoResponse;
+import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
+import seominkim.puppyAlert.global.dto.response.UserInfoResponse;
 
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class PuppyController {
 
     @Operation(summary = "신청 가능한 집밥 조회")
     @GetMapping("/food")
-    public List<FoodResponse> getAvailableFood(@RequestParam String puppyId){
+    public List<FoodInfoResponse> getAvailableFood(@RequestParam String puppyId){
         return puppyService.getAvailableFood(puppyId);
     }
 

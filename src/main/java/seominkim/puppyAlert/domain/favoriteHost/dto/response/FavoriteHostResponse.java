@@ -1,4 +1,4 @@
-package seominkim.puppyAlert.domain.favoriteHost.dto;
+package seominkim.puppyAlert.domain.favoriteHost.dto.response;
 
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;

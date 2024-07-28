@@ -3,16 +3,16 @@ package seominkim.puppyAlert.domain.puppy.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequest;
-import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostResponse;
+import seominkim.puppyAlert.domain.favoriteHost.dto.request.FavoriteHostRequest;
+import seominkim.puppyAlert.domain.favoriteHost.dto.response.FavoriteHostResponse;
 import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
-import seominkim.puppyAlert.domain.food.dto.FoodResponse;
+import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.service.FoodService;
-import seominkim.puppyAlert.domain.puppy.dto.MatchRequest;
-import seominkim.puppyAlert.domain.puppy.dto.MatchResponse;
-import seominkim.puppyAlert.global.dto.MatchHistoryResponse;
-import seominkim.puppyAlert.global.dto.UserInfoResponse;
+import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
+import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
+import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
+import seominkim.puppyAlert.global.dto.response.UserInfoResponse;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
@@ -66,7 +66,7 @@ public class PuppyService {
 
     // Puppy 신청 가능한 집밥
     @Transactional(readOnly = true)
-    public List<FoodResponse> getAvailableFood(String puppyId){
+    public List<FoodInfoResponse> getAvailableFood(String puppyId){
         Puppy puppy = puppyRepository.findById(puppyId)
                 .orElseThrow(() -> new PuppyException(ErrorCode.NON_EXISTING_USER));
 

@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.service.HostService;
-import seominkim.puppyAlert.domain.puppy.dto.MatchRequest;
-import seominkim.puppyAlert.domain.puppy.dto.MatchResponse;
+import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
+import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.domain.food.dto.FoodRequest;
+import seominkim.puppyAlert.domain.food.dto.request.FoodRequest;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.global.entity.Location;
 
@@ -72,7 +73,8 @@ public class PuppyServiceTest {
                 FoodStatus.READY
         );
 
-        Long savedId = hostService.addFood(foodRequest);
+        AddFoodResponse addFoodResponse = hostService.addFood(foodRequest);
+        Long savedId = addFoodResponse.foodId();
 
         // when
         System.out.println("==========");

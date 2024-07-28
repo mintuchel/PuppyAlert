@@ -5,16 +5,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
-import seominkim.puppyAlert.domain.food.dto.FoodRequest;
+import seominkim.puppyAlert.domain.food.dto.request.FoodRequest;
+import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.food.entity.Food;
-import seominkim.puppyAlert.domain.food.dto.FoodResponse;
+import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.food.repository.FoodRepository;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.menu.service.MenuService;
-import seominkim.puppyAlert.domain.puppy.dto.MatchResponse;
+import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.global.entity.Location;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
 import seominkim.puppyAlert.global.utils.FoodLimitator;
@@ -27,10 +27,11 @@ import java.util.stream.Collectors;
 public class FoodService {
     private final MenuService menuService;
     private final FavoriteHostService favoriteHostService;
+
     private final FoodRepository foodRepository;
 
     @Transactional
-    public Long addNewFood(Host providerHost, FoodRequest foodRequest){
+    public AddFoodResponse addNewFood(Host providerHost, FoodRequest foodRequest){
         Food newFood = new Food();
         newFood.setHost(providerHost);
         newFood.setMenu(menuService.findOne(foodRequest.menuName()));
@@ -40,13 +41,13 @@ public class FoodService {
         // save 되면서 @Id @GeneratedValue 값이 생성됨
         foodRepository.save(newFood);
 
-        return newFood.getFoodId();
+        return new AddFoodResponse(newFood.getFoodId(), newFood.getMenu().getImageURL());
     }
 
     @Transactional(readOnly = true)
-    public List<FoodResponse> findAll(){
+    public List<FoodInfoResponse> findAll(){
         return foodRepository.findAll().stream()
-                .map(food -> new FoodResponse(
+                .map(food -> new FoodInfoResponse(
                         food.getFoodId(),
                         food.getHost().getHostId(),
                         false,
@@ -62,7 +63,7 @@ public class FoodService {
     }
 
     @Transactional(readOnly = true)
-    public List<FoodResponse> getAvailableFood(Puppy puppy){
+    public List<FoodInfoResponse> getAvailableFood(Puppy puppy){
 
         Double curPuppyLatitude = puppy.getLocation().getLatitude();
         Double curPuppyLongitude = puppy.getLocation().getLongitude();
@@ -72,7 +73,7 @@ public class FoodService {
         List<Food> availableFoodList = FoodLimitator.findFoodWithinPuppyRange(curPuppyLatitude, curPuppyLongitude, foodList);
 
         return availableFoodList.stream()
-                .map(food -> new FoodResponse(
+                .map(food -> new FoodInfoResponse(
                         food.getFoodId(),
                         food.getHost().getHostId(),
                         favoriteHostService.isFavoriteHost(puppy, food.getHost()),
@@ -88,9 +89,9 @@ public class FoodService {
     }
 
     @Transactional(readOnly = true)
-    public FoodResponse findById(Long foodId) {
+    public FoodInfoResponse findById(Long foodId) {
         return foodRepository.findById(foodId)
-                .map(food -> new FoodResponse(
+                .map(food -> new FoodInfoResponse(
                         food.getFoodId(),
                         food.getHost().getHostId(),
                         false,

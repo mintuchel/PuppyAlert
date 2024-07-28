@@ -3,7 +3,7 @@ package seominkim.puppyAlert.domain.favoriteHost.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.favoriteHost.dto.FavoriteHostRequest;
+import seominkim.puppyAlert.domain.favoriteHost.dto.request.FavoriteHostRequest;
 import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
 import seominkim.puppyAlert.domain.favoriteHost.repository.FavoriteHostRepository;
 import seominkim.puppyAlert.domain.host.entity.Host;
