@@ -68,7 +68,7 @@ public class HostServiceTest {
                 host.getHostId(),
                 "제육덮밥",
                 LocalDateTime.now(),
-                FoodStatus.MATCHED
+                FoodStatus.READY
         );
 
         Long savedId = hostService.addFood(foodRequest);

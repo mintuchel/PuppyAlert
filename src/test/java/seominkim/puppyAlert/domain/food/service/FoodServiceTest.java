@@ -10,6 +10,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.host.entity.Host;
+import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.global.entity.Location;
@@ -58,9 +59,19 @@ public class FoodServiceTest {
         puppy.setLocation(new Location(200.3, 200.2));
         puppy.setPhoneNumber("010-1111-2222");
 
+        Menu menu1 = new Menu();
+        menu1.setMenuName("testMenu1");
+        menu1.setImageURL("testURL1");
+
+        Menu menu2 = new Menu();
+        menu2.setMenuName("testMenu2");
+        menu2.setImageURL("testURL2");
+
         em.persist(host1);
         em.persist(host2);
         em.persist(puppy);
+        em.persist(menu1);
+        em.persist(menu2);
     }
 
     @Test
@@ -86,16 +97,14 @@ public class FoodServiceTest {
         Food food1 = new Food();
         food1.setHost(em.find(Host.class, "Ronaldo"));
         food1.setPuppy(em.find(Puppy.class, "Messi"));
-        food1.setMenu("집밥1");
-        food1.setImageURL("dummyUrl");
-        food1.setTime(LocalDateTime.of(2024,6,18,8,24,16));
+        food1.setMenu(em.find(Menu.class, "testMenu1"));
+        food1.setTime(LocalDateTime.of(2020,6,18,8,24,16));
         food1.setStatus(FoodStatus.MATCHED);
 
         Food food2 = new Food();
         food2.setHost(em.find(Host.class, "Ronaldo"));
         food2.setPuppy(em.find(Puppy.class, "Messi"));
-        food2.setMenu("집밥2");
-        food2.setImageURL("dummyUrl");
+        food2.setMenu(em.find(Menu.class, "testMenu2"));
         food2.setTime(LocalDateTime.of(2024,7,20,5,50,32));
         food2.setStatus(FoodStatus.MATCHED);
 
