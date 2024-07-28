@@ -8,6 +8,7 @@ import java.util.List;
 
 @UtilityClass
 public class LocationBasedSearch {
+    
     // 지구 반지름 (미터 단위)
     private static final double EARTH_RADIUS = 6371000;
     // 위도 1도당 미터 수 (고정 값)
