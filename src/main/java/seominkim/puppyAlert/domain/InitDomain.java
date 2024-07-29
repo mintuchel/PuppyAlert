@@ -329,6 +329,14 @@ public class InitDomain {
             favoriteHost4.setHost(em.find(Host.class,"KimHyunA"));
             favoriteHost4.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
 
+            FavoriteHost favoriteHost8 = new FavoriteHost();
+            favoriteHost8.setHost(em.find(Host.class, "ChoSangJun"));
+            favoriteHost8.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
+
+            FavoriteHost favoriteHost9 = new FavoriteHost();
+            favoriteHost9.setHost(em.find(Host.class, "ChoHyungJun"));
+            favoriteHost9.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
+
             // 민재홍
             FavoriteHost favoriteHost2 = new FavoriteHost();
             favoriteHost2.setHost(em.find(Host.class,"KimSeHyun"));
@@ -339,7 +347,7 @@ public class InitDomain {
             favoriteHost7.setPuppy(em.find(Puppy.class, "MinJaeHong"));
 
             FavoriteHost favoriteHost5 = new FavoriteHost();
-            favoriteHost5.setHost(em.find(Host.class,"ChoSangJun"));
+            favoriteHost5.setHost(em.find(Host.class,"ShinJiHun"));
             favoriteHost5.setPuppy(em.find(Puppy.class, "MinJaeHong"));
 
             // 김지원
@@ -358,6 +366,8 @@ public class InitDomain {
             em.persist(favoriteHost5);
             em.persist(favoriteHost6);
             em.persist(favoriteHost7);
+            em.persist(favoriteHost8);
+            em.persist(favoriteHost9);
         }
     }
 }
