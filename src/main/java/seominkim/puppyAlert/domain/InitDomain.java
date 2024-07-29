@@ -14,7 +14,6 @@ import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.global.entity.Location;
 
-import javax.crypto.MacSpi;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 

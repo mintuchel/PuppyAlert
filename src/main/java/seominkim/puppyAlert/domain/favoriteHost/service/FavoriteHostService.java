@@ -50,6 +50,10 @@ public class FavoriteHostService {
         Host host = hostRepository.findById(favoriteHostRequest.hostId()).get();
         Puppy puppy = puppyRepository.findById(favoriteHostRequest.puppyId()).get();
 
+        if(!favoriteHostRepository.existsByPuppyAndHost(puppy, host)){
+            throw new PuppyException(ErrorCode.DELETED_FAVORITE_HOST);
+        }
+
         FavoriteHost favoriteHost = favoriteHostRepository.findByPuppyAndHost(puppy, host);
         favoriteHostRepository.delete(favoriteHost);
 
