@@ -92,6 +92,7 @@ public class PuppyService {
                 .map(food-> new MatchHistoryResponse(
                         food.getHost().getHostId(),
                         food.getMenu().getMenuName(),
+                        food.getMenu().getImageURL(),
                         food.getTime()
                 ))
                 .collect(Collectors.toList());

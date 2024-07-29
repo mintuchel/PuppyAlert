@@ -80,6 +80,7 @@ public class HostService {
                 .map(food -> new MatchHistoryResponse(
                         food.getPuppy() != null ? food.getPuppy().getPuppyId() : null,
                         food.getMenu().getMenuName(),
+                        food.getMenu().getImageURL(),
                         food.getTime()
                 ))
                 .collect(Collectors.toList());

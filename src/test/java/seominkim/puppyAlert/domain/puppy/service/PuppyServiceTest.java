@@ -10,6 +10,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.food.entity.Food;
+import seominkim.puppyAlert.domain.food.service.FoodService;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.service.HostService;
 import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
@@ -25,6 +26,8 @@ import java.time.LocalDateTime;
 @SpringBootTest
 public class PuppyServiceTest {
 
+    @Autowired
+    FoodService foodService;
     @Autowired PuppyService puppyService;
     @Autowired HostService hostService;
     @Autowired EntityManager em;
@@ -114,4 +117,54 @@ public class PuppyServiceTest {
         Assertions.assertThat(host).isEqualTo(matchedFood.getHost());
         Assertions.assertThat(puppy).isEqualTo(matchedFood.getPuppy());
     }
+
+    /*
+    @Test
+    @Transactional
+    @Rollback
+    public void getHistoryTest(){
+        // given
+        Menu menu = new Menu();
+        menu.setMenuName("testMenu");
+        menu.setImageURL("testURL");
+
+        em.persist(menu);
+
+        Host host = em.find(Host.class, "Ronaldo");
+        Puppy puppy = em.find(Puppy.class, "Messi");
+
+        // Host 집밥 등록
+        FoodRequest foodRequest = new FoodRequest(
+                host.getHostId(),
+                "testMenu",
+                LocalDateTime.now(),
+                FoodStatus.READY
+        );
+
+        AddFoodResponse addFoodResponse = hostService.addFood(foodRequest);
+        Long savedId = addFoodResponse.foodId();
+        System.out.println(savedId);
+
+        // Puppy 집밥 신청
+        MatchRequest matchRequest = new MatchRequest(
+                savedId,
+                puppy.getPuppyId()
+        );
+
+        MatchResponse matchResponse = puppyService.handleMatchRequest(matchRequest);
+        System.out.println(matchResponse.hostId());
+        System.out.println(matchResponse.puppyId());
+        System.out.println(matchResponse.foodId());
+
+        List<FoodInfoResponse> foodInfoResponseList = foodService.findAll();
+
+        // when
+        List<MatchHistoryResponse> matchHistoryResponseList = puppyService.getHistory("Messi");
+        MatchHistoryResponse matchHistoryResponse = matchHistoryResponseList.get(0);
+
+        // then
+        Assertions.assertThat(matchHistoryResponse.partnerId()).isEqualTo("Ronaldo");
+        Assertions.assertThat(matchHistoryResponse.menuName()).isEqualTo("testMenu");
+    }
+    */
 }
