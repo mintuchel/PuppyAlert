@@ -13,21 +13,23 @@ import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.service.FoodService;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.service.HostService;
+import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.food.dto.request.FoodRequest;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
+import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
 import seominkim.puppyAlert.global.entity.Location;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootTest
 public class PuppyServiceTest {
 
-    @Autowired
-    FoodService foodService;
+    @Autowired FoodService foodService;
     @Autowired PuppyService puppyService;
     @Autowired HostService hostService;
     @Autowired EntityManager em;
@@ -38,7 +40,7 @@ public class PuppyServiceTest {
         host.setHostId("Ronaldo");
         host.setName("호날두");
         host.setNickName("임마나는사실수비수야");
-        host.setPassword("777");
+        host.setPassword("7");
         host.setBirth(LocalDate.now());
         host.setAddress("레알 마드리드");
         host.setDetailAddress("산티아고 베르나베우");
@@ -48,7 +50,7 @@ public class PuppyServiceTest {
         Puppy puppy = new Puppy();
         puppy.setPuppyId("Messi");
         puppy.setName("메시");
-        puppy.setNickName("요리조리비사이로막가드리블");
+        puppy.setNickName("요리조리비사이로막가드리블러");
         puppy.setPassword("10");
         puppy.setBirth(LocalDate.now());
         puppy.setAddress("바르셀로나");
@@ -128,6 +130,8 @@ public class PuppyServiceTest {
         menu.setMenuName("testMenu");
         menu.setImageURL("testURL");
 
+        // 엔티티 영속
+        // 1차 캐시에 저장
         em.persist(menu);
 
         Host host = em.find(Host.class, "Ronaldo");
@@ -156,8 +160,6 @@ public class PuppyServiceTest {
         System.out.println(matchResponse.puppyId());
         System.out.println(matchResponse.foodId());
 
-        List<FoodInfoResponse> foodInfoResponseList = foodService.findAll();
-
         // when
         List<MatchHistoryResponse> matchHistoryResponseList = puppyService.getHistory("Messi");
         MatchHistoryResponse matchHistoryResponse = matchHistoryResponseList.get(0);
@@ -166,5 +168,5 @@ public class PuppyServiceTest {
         Assertions.assertThat(matchHistoryResponse.partnerId()).isEqualTo("Ronaldo");
         Assertions.assertThat(matchHistoryResponse.menuName()).isEqualTo("testMenu");
     }
-    */
+     */
 }

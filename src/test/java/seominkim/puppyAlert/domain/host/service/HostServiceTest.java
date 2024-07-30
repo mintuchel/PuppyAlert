@@ -34,7 +34,7 @@ public class HostServiceTest {
         Host host = new Host();
         host.setHostId("Ronaldo");
         host.setName("호날두");
-        host.setNickName("내가바로좆두다");
+        host.setNickName("iam노쇼에요");
         host.setPassword("777");
         host.setBirth(LocalDate.now());
         host.setAddress("레알 마드리드");
@@ -45,7 +45,7 @@ public class HostServiceTest {
         Puppy puppy = new Puppy();
         puppy.setPuppyId("Messi");
         puppy.setName("메시");
-        puppy.setNickName("신이라불러라");
+        puppy.setNickName("요리조리비사이로막가드리블러");
         puppy.setPassword("10");
         puppy.setBirth(LocalDate.now());
         puppy.setAddress("바르셀로나");

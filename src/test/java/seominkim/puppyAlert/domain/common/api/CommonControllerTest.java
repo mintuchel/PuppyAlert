@@ -35,10 +35,10 @@ public class CommonControllerTest {
     @Rollback
     public void signUpTest(){
         // given
-        String testHostId = "Havertz";
+        String testHostId = "havertz";
         String password = "29";
-        String nickName = "내이름은HAVERTZ";
-        String name = "하베르츠";
+        String nickName = "독일의차세대제로톱";
+        String name = "KaiHavertzzzzzzz";
         LocalDate birth = LocalDate.now();
         String address = "독일 베를린";
         String detailAddress = "축구장에 사는 놈임";
@@ -46,6 +46,7 @@ public class CommonControllerTest {
         String phoneNumber = "010-4822-3636";
         UserType userType = UserType.HOST;
 
+        // when
         SignUpRequest signUpRequest = new SignUpRequest(
                 testHostId,
                 password,
@@ -59,7 +60,6 @@ public class CommonControllerTest {
                 userType
         );
 
-        // when
         SignUpResponse signUpResponse = commonController.signUp(signUpRequest);
 
         // then
@@ -81,7 +81,7 @@ public class CommonControllerTest {
         host.setAddress("파리 생제르망");
         host.setDetailAddress("파리 어느 아파트에 살겠찌");
         host.setLocation(new Location(133.4135,137.58357));
-        host.setPhoneNumber("010-4822-3636");
+        host.setPhoneNumber("010-1234-5678");
 
         em.persist(host);
 
@@ -91,9 +91,9 @@ public class CommonControllerTest {
                 host.getPassword()
         );
 
-        // then
         LoginResponse loginResponse = commonController.login(request);
 
+        // then
         Assertions.assertThat(loginResponse.id()).isEqualTo(host.getHostId());
         Assertions.assertThat(loginResponse.userType()).isEqualTo(UserType.HOST);
     }
@@ -102,7 +102,7 @@ public class CommonControllerTest {
     @Transactional
     @Rollback
     public void puppyLoginTest(){
-        // when
+        // given
         Puppy puppy = new Puppy();
         puppy.setPuppyId("Messi");
         puppy.setName("메시");
@@ -116,15 +116,15 @@ public class CommonControllerTest {
 
         em.persist(puppy);
 
-        // then
+        // when
         LoginRequest request = new LoginRequest(
                 puppy.getPuppyId(),
                 puppy.getPassword()
         );
 
-        // then
         LoginResponse loginResponse = commonController.login(request);
 
+        // then
         Assertions.assertThat(loginResponse.id()).isEqualTo(puppy.getPuppyId());
         Assertions.assertThat(loginResponse.userType()).isEqualTo(UserType.PUPPY);
     }

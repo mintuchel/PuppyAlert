@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/food")
-@Tag(name = "Food API")
+@Tag(name = "Food API", description = "정보 조회")
 public class FoodController {
 
     private final FoodService foodService;

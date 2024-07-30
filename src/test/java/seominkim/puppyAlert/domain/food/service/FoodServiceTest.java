@@ -29,8 +29,8 @@ public class FoodServiceTest {
         Host host1 = new Host();
         host1.setHostId("Ronaldo");
         host1.setName("호날두");
-        host1.setNickName("내가바로좆두다");
-        host1.setPassword("777");
+        host1.setNickName("iam노쇼에요");
+        host1.setPassword("7");
         host1.setBirth(LocalDate.now());
         host1.setAddress("레알 마드리드");
         host1.setDetailAddress("산티아고 베르나베우");
@@ -40,8 +40,8 @@ public class FoodServiceTest {
         Host host2 = new Host();
         host2.setHostId("Neymar");
         host2.setName("네이마르");
-        host2.setNickName("아임네이마아르");
-        host2.setPassword("101011");
+        host2.setNickName("밥은묵고다니냐");
+        host2.setPassword("11");
         host2.setBirth(LocalDate.now());
         host2.setAddress("파리생제르망");
         host2.setDetailAddress("구장 이름 까먹음");
@@ -51,7 +51,7 @@ public class FoodServiceTest {
         Puppy puppy = new Puppy();
         puppy.setPuppyId("Messi");
         puppy.setName("메시");
-        puppy.setNickName("신이라불러라");
+        puppy.setNickName("요리조리비사이로막가드리블러");
         puppy.setPassword("10");
         puppy.setBirth(LocalDate.now());
         puppy.setAddress("바르셀로나");

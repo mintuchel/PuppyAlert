@@ -36,7 +36,6 @@ public class MenuServiceTest {
         System.out.println(menuService.findOne(keyword).getImageURL());
 
         // 중복된 키워드 들어왔을때 URL DB에서 끌어오는지 확인
-
         String protoURL = menuService.findOne("콩국수").getImageURL();
         Assertions.assertThat(protoURL).isEqualTo(menuService.findOne("콩국수").getImageURL());
     }
