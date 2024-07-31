@@ -225,6 +225,10 @@ public class InitDomain {
             menu9.setMenuName("불고기고구마 피자");
             menu9.setImageURL("https://cdn.dominos.co.kr/admin/upload/goods/20230619_F33836Pn.jpg");
 
+            Menu menu10 = new Menu();
+            menu10.setMenuName("순대국");
+            menu10.setMenuName("https://cdn.hotplacehunter.co.kr/hotplacehunter/2023/07/18123819/%EA%B0%9C%EA%B5%B0%ED%95%A0%EB%A8%B8%EB%8B%88%ED%86%A0%EC%A2%85%EC%88%9C%EB%8C%80%EA%B5%AD-rarara__mk%EB%8B%98-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8-3.jpg");
+
             em.persist(menu1);
             em.persist(menu2);
             em.persist(menu3);
@@ -234,6 +238,7 @@ public class InitDomain {
             em.persist(menu7);
             em.persist(menu8);
             em.persist(menu9);
+            em.persist(menu10);
         }
 
         @Transactional
