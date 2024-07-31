@@ -248,7 +248,7 @@ public class InitDomain {
             food1.setHost(em.find(Host.class,"KwonOhSung"));
             food1.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
             food1.setMenu(em.find(Menu.class, "까르보나라"));
-            food1.setTime(LocalDateTime.of(2024,7,19,14,30));
+            food1.setTime(LocalDateTime.of(2024,8,1,14,30));
             food1.setStatus(FoodStatus.MATCHED);
 
             // 민재홍-김세현
@@ -256,7 +256,7 @@ public class InitDomain {
             food2.setHost(em.find(Host.class, "KimSeHyun"));
             food2.setPuppy(em.find(Puppy.class, "MinJaeHong"));
             food2.setMenu(em.find(Menu.class, "제육볶음"));
-            food2.setTime(LocalDateTime.of(2024,7,20,18,00));
+            food2.setTime(LocalDateTime.of(2024,8,1,18,00));
             food2.setStatus(FoodStatus.MATCHED);
 
             // 김지원-조상준
@@ -264,7 +264,7 @@ public class InitDomain {
             food3.setHost(em.find(Host.class, "ChoSangJun"));
             food3.setPuppy(em.find(Puppy.class, "KimJiWon"));
             food3.setMenu(em.find(Menu.class, "삼계탕"));
-            food3.setTime(LocalDateTime.of(2024,7,21,15,20));
+            food3.setTime(LocalDateTime.of(2024,8,1,9,20));
             food3.setStatus(FoodStatus.MATCHED);
 
             // 김지원-임우진
@@ -272,7 +272,7 @@ public class InitDomain {
             food4.setHost(em.find(Host.class, "LimWooJin"));
             food4.setPuppy(em.find(Puppy.class, "KimJiWon"));
             food4.setMenu(em.find(Menu.class, "순두부찌개"));
-            food4.setTime(LocalDateTime.of(2024,7,12,17,45));
+            food4.setTime(LocalDateTime.of(2024,8,1,17,45));
             food4.setStatus(FoodStatus.MATCHED);
 
             // 서상혁-김현아
@@ -280,7 +280,7 @@ public class InitDomain {
             food5.setHost(em.find(Host.class, "KimHyunA"));
             food5.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
             food5.setMenu(em.find(Menu.class, "얼큰한 해물라면"));
-            food5.setTime(LocalDateTime.of(2024,7,23,18,00));
+            food5.setTime(LocalDateTime.of(2024,8,1,18,00));
             food5.setStatus(FoodStatus.MATCHED);
 
             // 민재홍-박대원
@@ -288,28 +288,28 @@ public class InitDomain {
             food6.setHost(em.find(Host.class, "ParkDaeWon"));
             food6.setPuppy(em.find(Puppy.class, "MinJaeHong"));
             food6.setMenu(em.find(Menu.class, "우거지 해장국"));
-            food6.setTime(LocalDateTime.of(2024,7,24,19,00));
+            food6.setTime(LocalDateTime.of(2024,8,1,19,00));
             food6.setStatus(FoodStatus.MATCHED);
 
             // 아직 매칭안된 박대원 집밥
             Food food7 = new Food();
             food7.setHost(em.find(Host.class, "ParkDaeWon"));
             food7.setMenu(em.find(Menu.class, "통등심 돈까스"));
-            food7.setTime(LocalDateTime.of(2024,7,25,18,00));
+            food7.setTime(LocalDateTime.of(2024,8,1,10,20));
             food7.setStatus(FoodStatus.READY);
 
             // 아직 매칭안된 조형준 집밥
             Food food8 = new Food();
             food8.setHost(em.find(Host.class, "ChoHyungJun"));
             food8.setMenu(em.find(Menu.class, "녹두전"));
-            food8.setTime(LocalDateTime.of(2024,7,26,21,00));
+            food8.setTime(LocalDateTime.of(2024,8,1,15,35));
             food8.setStatus(FoodStatus.READY);
 
             // 아직 매칭안된 신지훈 집밥
             Food food9 = new Food();
             food9.setHost(em.find(Host.class, "ShinJiHun"));
             food9.setMenu(em.find(Menu.class, "불고기고구마 피자"));
-            food9.setTime(LocalDateTime.of(2024,7,26,21,00));
+            food9.setTime(LocalDateTime.of(2024,8,1,21,00));
             food9.setStatus(FoodStatus.READY);
 
             em.persist(food1);
