@@ -312,6 +312,13 @@ public class InitDomain {
             food9.setTime(LocalDateTime.of(2024,8,1,21,00));
             food9.setStatus(FoodStatus.READY);
 
+            // 아직 매칭안된 권오성 집밥
+            Food food10 = new Food();
+            food10.setHost(em.find(Host.class, "KwonOhSung"));
+            food10.setMenu(em.find(Menu.class, "순대국"));
+            food10.setTime(LocalDateTime.of(2024,8,1,12,00));
+            food10.setStatus(FoodStatus.READY);
+
             em.persist(food1);
             em.persist(food2);
             em.persist(food3);
@@ -321,6 +328,7 @@ public class InitDomain {
             em.persist(food7);
             em.persist(food8);
             em.persist(food9);
+            em.persist(food10);
         }
 
         @Transactional
