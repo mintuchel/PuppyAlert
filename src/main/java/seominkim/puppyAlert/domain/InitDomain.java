@@ -227,7 +227,7 @@ public class InitDomain {
 
             Menu menu10 = new Menu();
             menu10.setMenuName("순대국");
-            menu10.setMenuName("https://d12zq4w4guyljn.cloudfront.net/750_750_20210603124244841_photo_41af3676fc32.jpg");
+            menu10.setImageURL("https://d12zq4w4guyljn.cloudfront.net/750_750_20210603124244841_photo_41af3676fc32.jpg");
 
             em.persist(menu1);
             em.persist(menu2);
