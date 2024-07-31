@@ -227,7 +227,7 @@ public class InitDomain {
 
             Menu menu10 = new Menu();
             menu10.setMenuName("순대국");
-            menu10.setMenuName("https://cdn.hotplacehunter.co.kr/hotplacehunter/2023/07/18123819/%EA%B0%9C%EA%B5%B0%ED%95%A0%EB%A8%B8%EB%8B%88%ED%86%A0%EC%A2%85%EC%88%9C%EB%8C%80%EA%B5%AD-rarara__mk%EB%8B%98-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8-3.jpg");
+            menu10.setMenuName("https://d12zq4w4guyljn.cloudfront.net/750_750_20210603124244841_photo_41af3676fc32.jpg");
 
             em.persist(menu1);
             em.persist(menu2);
