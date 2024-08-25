@@ -3,8 +3,8 @@ spring:
     name: PuppyAlert-Server
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://testdb1.cri44kk86bwv.ap-northeast-2.rds.amazonaws.com:3306/db1?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
-    username: admin
+    url: jdbc:mysql://puppyalert-db.cri44kk86bwv.ap-northeast-2.rds.amazonaws.com:3306/db1?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: mintuchel
     password: max56685668!
   jpa:
     hibernate:
