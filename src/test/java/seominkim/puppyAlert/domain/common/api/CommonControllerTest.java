@@ -94,7 +94,7 @@ public class CommonControllerTest {
         LoginResponse loginResponse = commonController.login(request);
 
         // then
-        Assertions.assertThat(loginResponse.id()).isEqualTo(host.getHostId());
+        Assertions.assertThat(loginResponse.nickName()).isEqualTo(host.getNickName());
         Assertions.assertThat(loginResponse.userType()).isEqualTo(UserType.HOST);
     }
 
@@ -125,7 +125,7 @@ public class CommonControllerTest {
         LoginResponse loginResponse = commonController.login(request);
 
         // then
-        Assertions.assertThat(loginResponse.id()).isEqualTo(puppy.getPuppyId());
+        Assertions.assertThat(loginResponse.nickName()).isEqualTo(puppy.getNickName());
         Assertions.assertThat(loginResponse.userType()).isEqualTo(UserType.PUPPY);
     }
 }
