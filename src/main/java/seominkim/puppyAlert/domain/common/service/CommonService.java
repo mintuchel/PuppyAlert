@@ -63,6 +63,7 @@ public class CommonService {
     public LoginResponse checkIfAccountExists(LoginRequest loginRequest){
         String id = loginRequest.id();
         String password = loginRequest.password();
+        String nickName;
 
         // ID 확인 먼저
         if(!checkIfIdExists(id)){
@@ -70,11 +71,13 @@ public class CommonService {
         }
 
         if(hostRepository.existsByHostIdAndPassword(id,password)){
-            return new LoginResponse(id, UserType.HOST);
+            nickName = hostRepository.findById(id).get().getNickName();
+            return new LoginResponse(nickName, UserType.HOST);
         }
 
         if(puppyRepository.existsByPuppyIdAndPassword(id,password)){
-            return new LoginResponse(id, UserType.PUPPY);
+            nickName = puppyRepository.findById(id).get().getNickName();
+            return new LoginResponse(nickName, UserType.PUPPY);
         }
 
         throw new CommonException(ErrorCode.INVALID_PASSWORD);

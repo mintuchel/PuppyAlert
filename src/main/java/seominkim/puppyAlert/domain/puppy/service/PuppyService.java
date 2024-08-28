@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PuppyService {
     private final FoodService foodService;
@@ -74,7 +75,6 @@ public class PuppyService {
     }
 
     // Puppy 집밥 신청
-    @Transactional
     public MatchResponse handleMatchRequest(MatchRequest matchRequest) {
         Long foodId = matchRequest.foodId();
         Puppy puppy = puppyRepository.findById(matchRequest.puppyId())
@@ -90,7 +90,7 @@ public class PuppyService {
         Puppy puppy = puppyRepository.findById(puppyId).get();
         return puppy.getFoodList().stream()
                 .map(food-> new MatchHistoryResponse(
-                        food.getHost().getHostId(),
+                        food.getHost().getNickName(),
                         food.getMenu().getMenuName(),
                         food.getMenu().getImageURL(),
                         food.getTime()
@@ -114,11 +114,12 @@ public class PuppyService {
                     if(recentFoodInfo==null) recentTime = null;
                     else recentTime = recentFoodInfo.getTime();
 
-                    FavoriteHostResponse response = new FavoriteHostResponse(
-                            hostId,
+                    String hostNickName = favoriteHost.getHost().getNickName();
+                    FavoriteHostResponse favoriteHostResponse = new FavoriteHostResponse(
+                            hostNickName,
                             recentTime
                     );
-                    return response;
+                    return favoriteHostResponse;
                 })
                 .collect(Collectors.toList());
     }
@@ -127,13 +128,11 @@ public class PuppyService {
     // CRUD 작업은 FavoriteService(FavoriteRepository)에게 위임
 
     // 관심 HOST 추가
-    @Transactional
     public void addFavoriteHost(FavoriteHostRequest favoriteHostRequest){
         favoriteHostService.addFavoriteHost(favoriteHostRequest);
     }
 
     // 관심 HOST 삭제
-    @Transactional
     public void deleteFavoriteHost(FavoriteHostRequest favoriteHostRequest){
         favoriteHostService.deleteFavoriteHost(favoriteHostRequest);
     }
