@@ -97,6 +97,7 @@ public class PuppyService {
                         food.getMenu().getImageURL(),
                         food.getHost().getAddress(),
                         food.getHost().getDetailAddress(),
+                        food.getHost().getLocation(),
                         food.getTime()
                 ))
                 .collect(Collectors.toList());
