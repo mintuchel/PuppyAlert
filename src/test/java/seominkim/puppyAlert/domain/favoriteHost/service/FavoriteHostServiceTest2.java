@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootTest
-public class FavoriteHostServiceTest {
+public class FavoriteHostServiceTest2 {
 
     @Autowired PuppyService puppyService;
     @Autowired FavoriteHostService favoriteHostService;
