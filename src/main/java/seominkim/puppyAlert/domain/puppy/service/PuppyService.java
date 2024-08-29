@@ -90,9 +90,13 @@ public class PuppyService {
         Puppy puppy = puppyRepository.findById(puppyId).get();
         return puppy.getFoodList().stream()
                 .map(food-> new MatchHistoryResponse(
+                        food.getFoodId(),
+                        food.getHost().getHostId(),
                         food.getHost().getNickName(),
                         food.getMenu().getMenuName(),
                         food.getMenu().getImageURL(),
+                        food.getHost().getAddress(),
+                        food.getHost().getDetailAddress(),
                         food.getTime()
                 ))
                 .collect(Collectors.toList());

@@ -78,9 +78,13 @@ public class HostService {
 
         return host.getFoodList().stream()
                 .map(food -> new MatchHistoryResponse(
+                        food.getFoodId(),
                         food.getPuppy() != null ? food.getPuppy().getPuppyId() : null,
+                        food.getPuppy() != null ? food.getPuppy().getNickName() : null,
                         food.getMenu().getMenuName(),
                         food.getMenu().getImageURL(),
+                        food.getHost().getAddress(),
+                        food.getHost().getDetailAddress(),
                         food.getTime()
                 ))
                 .collect(Collectors.toList());
