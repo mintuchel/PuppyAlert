@@ -44,10 +44,10 @@ public class Puppy {
     // 연관관계 매핑
 
     // 집밥
-    @OneToMany(mappedBy = "puppy", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "puppy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Food> foodList = new ArrayList<>();
 
     // 팔로우
-    @OneToMany(mappedBy = "puppy", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "puppy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FavoriteHost> favoriteHostList = new ArrayList<>();
 }

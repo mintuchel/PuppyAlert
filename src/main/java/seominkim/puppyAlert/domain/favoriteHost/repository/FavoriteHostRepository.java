@@ -8,7 +8,8 @@ import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 
 @Repository
 public interface FavoriteHostRepository extends JpaRepository<FavoriteHost, Long> {
-    boolean existsByPuppyAndHost(Puppy puppy, Host host);
 
-    FavoriteHost findByPuppyAndHost(Puppy puppy, Host host);
+    boolean existsByPuppy_PuppyIdAndHost_HostId(String puppyId, String hostId);
+
+    FavoriteHost findByPuppy_PuppyIdAndHost_HostId(String puppyId, String hostId);
 }

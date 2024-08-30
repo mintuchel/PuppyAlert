@@ -23,23 +23,22 @@ public class FavoriteHostService {
 
     @Transactional(readOnly = true)
     public boolean isFavoriteHost(Puppy puppy, Host host) {
-        return favoriteHostRepository.existsByPuppyAndHost(puppy, host);
+        return favoriteHostRepository.existsByPuppy_PuppyIdAndHost_HostId(puppy.getPuppyId(), host.getHostId());
     }
 
     // 관심 HOST 추가
     @Transactional
     public Long addFavoriteHost(FavoriteHostRequest favoriteHostRequest){
+        String puppyId = favoriteHostRequest.puppyId();
+        String hostId = favoriteHostRequest.hostId();
 
-        Host host = hostRepository.findById(favoriteHostRequest.hostId()).get();
-        Puppy puppy = puppyRepository.findById(favoriteHostRequest.puppyId()).get();
-
-        if(favoriteHostRepository.existsByPuppyAndHost(puppy, host)){
+        if(favoriteHostRepository.existsByPuppy_PuppyIdAndHost_HostId(puppyId, hostId)){
             throw new PuppyException(ErrorCode.ALREADY_FAVORITE_HOST);
         }
 
         FavoriteHost favoriteHost = new FavoriteHost();
-        favoriteHost.setHost(host);
-        favoriteHost.setPuppy(puppy);
+        favoriteHost.setHost(hostRepository.findById(hostId).get());
+        favoriteHost.setPuppy(puppyRepository.findById(puppyId).get());
 
         return favoriteHostRepository.save(favoriteHost).getFavoriteHostId();
     }
@@ -47,14 +46,14 @@ public class FavoriteHostService {
     // 관심 HOST 삭제
     @Transactional
     public Long deleteFavoriteHost(FavoriteHostRequest favoriteHostRequest){
-        Host host = hostRepository.findById(favoriteHostRequest.hostId()).get();
-        Puppy puppy = puppyRepository.findById(favoriteHostRequest.puppyId()).get();
+        String puppyId = favoriteHostRequest.puppyId();
+        String hostId = favoriteHostRequest.hostId();
 
-        if(!favoriteHostRepository.existsByPuppyAndHost(puppy, host)){
+        if(!favoriteHostRepository.existsByPuppy_PuppyIdAndHost_HostId(puppyId, hostId)){
             throw new PuppyException(ErrorCode.DELETED_FAVORITE_HOST);
         }
 
-        FavoriteHost favoriteHost = favoriteHostRepository.findByPuppyAndHost(puppy, host);
+        FavoriteHost favoriteHost = favoriteHostRepository.findByPuppy_PuppyIdAndHost_HostId(puppyId, hostId);
         favoriteHostRepository.delete(favoriteHost);
 
         return favoriteHost.getFavoriteHostId();

@@ -40,6 +40,6 @@ public class Host {
     @Embedded
     private Location location;
 
-    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "host", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Food> foodList = new ArrayList<>();
 }
