@@ -54,8 +54,7 @@ public class LoginTest {
 
         // then
         resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("nickName",response.nickName()).exists())
-                .andExpect(jsonPath("userType",response.userType()).exists());
+                .andExpect(jsonPath("nickName").value(response.nickName()));
     }
 
     private String loginRequest() {
