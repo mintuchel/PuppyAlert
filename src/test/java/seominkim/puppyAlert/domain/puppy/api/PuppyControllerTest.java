@@ -1,86 +1,110 @@
 package seominkim.puppyAlert.domain.puppy.api;
 
-import jakarta.persistence.EntityManager;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.host.entity.Host;
-import seominkim.puppyAlert.domain.menu.entity.Menu;
-import seominkim.puppyAlert.domain.puppy.entity.Puppy;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
+import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
+import seominkim.puppyAlert.domain.puppy.service.PuppyService;
+import seominkim.puppyAlert.global.dto.response.UserInfoResponse;
 import seominkim.puppyAlert.global.entity.Location;
 
 import java.time.LocalDate;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@WebMvcTest(PuppyController.class)
+@ActiveProfiles("test")
 public class PuppyControllerTest {
+    @Autowired
+    MockMvc mockMvc;
 
-    /*
-    @Autowired private MockMvc mockMvc;
-    @Autowired private EntityManager em;
+    @MockBean
+    PuppyService puppyService;
 
-    @BeforeEach
-    public void beforeMockMvcTest(){
-        Host host = new Host();
-        host.setHostId("Ronaldo");
-        host.setName("호날두");
-        host.setNickName("임마나는사실수비수야");
-        host.setPassword("7");
-        host.setBirth(LocalDate.now());
-        host.setAddress("레알 마드리드");
-        host.setDetailAddress("산티아고 베르나베우");
-        host.setLocation(new Location(100.12, 100.44));
-        host.setPhoneNumber("010-4822-3636");
+    @Test
+    @DisplayName("Puppy 단건 조회")
+    void FindOne() throws Exception {
+        // given
+        String puppyId = "modric";
+        UserInfoResponse response = userInfoResponse();
 
-        Puppy puppy = new Puppy();
-        puppy.setPuppyId("Messi");
-        puppy.setName("메시");
-        puppy.setNickName("요리조리비사이로막가드리블러");
-        puppy.setPassword("10");
-        puppy.setBirth(LocalDate.now());
-        puppy.setAddress("바르셀로나");
-        puppy.setDetailAddress("캄프누");
-        puppy.setLocation(new Location(200.3562254, 200.1241));
-        puppy.setPhoneNumber("010-1111-2222");
+        given(puppyService.findById(puppyId)).willReturn(response);
 
-        em.persist(host);
-        em.persist(puppy);
+        // when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/v1/puppy")
+                        .param("puppyId","modric")
+        );
 
-        Menu menu = new Menu();
-        menu.setMenuName("testMenu");
-        menu.setImageURL("testURL");
-
-        // 엔티티 영속
-        // 1차 캐시에 저장
-        em.persist(menu);
+        // then
+        // HTTP 응답 상태 코드가 200인지 확인
+        // userId 를 추출해서 value 함수를 통해 puppyId와 동일한지 검증
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("userId").value(puppyId));
     }
 
     @Test
-    @Transactional
-    @Rollback
-    public void getMatchHistoryAPITest() throws Exception {
-        String foodRequestContent = "{ " +
-                "\"hostId\": \"Ronaldo\", " +
-                "\"menuName\": \"testMenu\", " +
-                "\"requestTime\": \"2024-07-30T12:34:56\", " +
-                "\"status\": \"READY\" " +
-                "}";
+    @DisplayName("집밥 신청")
+    void matchFood() throws Exception {
+        // given
+        String puppyId = "modric";
+        String request = matchRequest();
+        MatchResponse response = matchResponse();
 
-        mockMvc.perform(post("/api/v1/host/food")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(foodRequestContent))
-                .andExpect(jsonPath("$.foodId").value(10))
-                .andExpect(jsonPath("$.imageURL").value("testMenu"));
+        // MatchRequest 클래스이기만 하면 response 반환하게 stub
+        given(puppyService.handleMatchRequest(any(MatchRequest.class))).willReturn(response);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/v1/puppy/food")
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("puppyId").value(puppyId));
     }
- */
+
+    private UserInfoResponse userInfoResponse() {
+        return new UserInfoResponse(
+                "modric",
+                "luka",
+                "maestro",
+                LocalDate.parse("2024-08-30"),
+                "010-3020-1111",
+                "real madrid",
+                "Santiago Bernabeu",
+                new Location(100.5, 50.1)
+        );
+    }
+
+    private String matchRequest() {
+        return """
+                {
+                    "foodId": 1,
+                    "puppyId": "modric"
+                }
+               """;
+    }
+
+
+    private MatchResponse matchResponse(){
+        return new MatchResponse(
+                1L,
+                "vini",
+                "modric"
+        );
+    }
 }
