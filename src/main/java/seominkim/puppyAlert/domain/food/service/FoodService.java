@@ -17,7 +17,7 @@ import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
-import seominkim.puppyAlert.global.utils.FoodLimitator;
+import seominkim.puppyAlert.global.utility.FoodLimitator;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +30,8 @@ public class FoodService {
 
     private final FoodRepository foodRepository;
 
+    private final FoodLimitator foodLimitator;
+
     @Transactional
     public AddFoodResponse addNewFood(Host providerHost, FoodRequest foodRequest){
         Food newFood = new Food();
@@ -39,6 +41,8 @@ public class FoodService {
         newFood.setStatus(foodRequest.status());
 
         // save 되면서 @Id @GeneratedValue 값이 생성됨
+        // food와 menu의 관계 중 food가 연관관계의 주인이기 때문에
+        // foodRepository.save 되면서 menu도 저장이 됨
         foodRepository.save(newFood);
 
         return new AddFoodResponse(newFood.getFoodId(), newFood.getMenu().getImageURL());
@@ -71,7 +75,7 @@ public class FoodService {
 
         List<Food> foodList = foodRepository.findAll();
 
-        List<Food> availableFoodList = FoodLimitator.findFoodWithinPuppyRange(curPuppyLatitude, curPuppyLongitude, foodList);
+        List<Food> availableFoodList = foodLimitator.findFoodWithinPuppyRange(curPuppyLatitude, curPuppyLongitude, foodList);
 
         return availableFoodList.stream()
                 .map(food -> new FoodInfoResponse(

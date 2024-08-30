@@ -1,12 +1,12 @@
-package seominkim.puppyAlert.global.utils;
+package seominkim.puppyAlert.global.utility;
 
-import lombok.experimental.UtilityClass;
+import org.springframework.stereotype.Component;
 import seominkim.puppyAlert.domain.food.entity.Food;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@UtilityClass
+@Component
 public class FoodLimitator {
 
     // 지구 반지름 (미터 단위)
@@ -16,7 +16,7 @@ public class FoodLimitator {
 
     private static final double TARGET_RANGE_METER = 500;
 
-    public static List<Food> findFoodWithinPuppyRange(double currentLatitude, double currentLongitude, List<Food> foodList) {
+    public List<Food> findFoodWithinPuppyRange(double currentLatitude, double currentLongitude, List<Food> foodList) {
         List<Food> foodWithinRange = new ArrayList<>();
 
         for (Food food : foodList) {
@@ -31,7 +31,7 @@ public class FoodLimitator {
         return foodWithinRange;
     }
 
-    public static boolean isWithinRadius(double latitude, double longitude, double targetLatitude, double targetLongitude, double radiusMeters) {
+    public boolean isWithinRadius(double latitude, double longitude, double targetLatitude, double targetLongitude, double radiusMeters) {
         // 위도와 경도 차이 계산
         double latDifference = radiusMeters / LATITUDE_METER;
         double lonDifference = radiusMeters / (LATITUDE_METER * Math.cos(Math.toRadians(latitude)));
