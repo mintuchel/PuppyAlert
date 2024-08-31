@@ -1,3 +1,3 @@
-package seominkim.puppyAlert.domain.common.dto.response;
+package seominkim.puppyAlert.domain.user.dto.response;
 
 public record NickNameCheckResponse(Boolean isExists){}
