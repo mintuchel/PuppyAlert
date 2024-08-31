@@ -43,10 +43,10 @@ public class FavoriteHostServiceTest {
     @BeforeEach
     public void testSetUp(){
         host = new Host();
-        host.setHostId(hostId);
+        host.setId(hostId);
 
         puppy = new Puppy();
-        puppy.setPuppyId(puppyId);
+        puppy.setId(puppyId);
 
         favoriteHost = new FavoriteHost();
         favoriteHost.setHost(host);
@@ -60,7 +60,7 @@ public class FavoriteHostServiceTest {
     @DisplayName("관심 호스트 추가")
     public void addFavoriteHost(){
         // given
-        given(favoriteHostRepository.existsByPuppy_PuppyIdAndHost_HostId(puppyId, hostId)).willReturn(false);
+        given(favoriteHostRepository.existsByPuppyIdAndHostId(puppyId, hostId)).willReturn(false);
         given(hostRepository.findById(hostId)).willReturn(Optional.of(host));
         given(puppyRepository.findById(puppyId)).willReturn(Optional.of(puppy));
         given(favoriteHostRepository.save(any(FavoriteHost.class))).willReturn(favoriteHost);
@@ -69,7 +69,7 @@ public class FavoriteHostServiceTest {
         Long savedId = favoriteHostService.addFavoriteHost(request);
 
         // then
-        verify(favoriteHostRepository, times(1)).existsByPuppy_PuppyIdAndHost_HostId(puppyId, hostId);
+        verify(favoriteHostRepository, times(1)).existsByPuppyIdAndHostId(puppyId, hostId);
         verify(hostRepository, times(1)).findById(hostId);
         verify(puppyRepository, times(1)).findById(puppyId);
         verify(favoriteHostRepository, times(1)).save(any(FavoriteHost.class));
@@ -81,8 +81,8 @@ public class FavoriteHostServiceTest {
     @DisplayName("관심 호스트 삭제")
     public void deleteFavoriteHostTest() {
         // given
-        given(favoriteHostRepository.existsByPuppy_PuppyIdAndHost_HostId(puppyId, hostId)).willReturn(true);
-        given(favoriteHostRepository.findByPuppy_PuppyIdAndHost_HostId(puppyId, hostId)).willReturn(favoriteHost);
+        given(favoriteHostRepository.existsByPuppyIdAndHostId(puppyId, hostId)).willReturn(true);
+        given(favoriteHostRepository.findByPuppyIdAndHostId(puppyId, hostId)).willReturn(favoriteHost);
 
         // when
         Long savedId = favoriteHostService.deleteFavoriteHost(request);
@@ -95,7 +95,7 @@ public class FavoriteHostServiceTest {
     @DisplayName("관심 호스트 조회")
     public void getFavoriteHostTest(){
         // given
-        given(favoriteHostRepository.existsByPuppy_PuppyIdAndHost_HostId(puppyId, hostId)).willReturn(true);
+        given(favoriteHostRepository.existsByPuppyIdAndHostId(puppyId, hostId)).willReturn(true);
 
         // when
         Boolean isFavoriteHost = favoriteHostService.isFavoriteHost(puppy, host);

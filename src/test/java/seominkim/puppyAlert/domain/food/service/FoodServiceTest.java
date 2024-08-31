@@ -29,7 +29,7 @@ public class FoodServiceTest {
     @BeforeEach
     public void initTestDummy(){
         Host host1 = new Host();
-        host1.setHostId("Ronaldo");
+        host1.setId("Ronaldo");
         host1.setName("호날두");
         host1.setNickName("iam노쇼에요");
         host1.setPassword("7");
@@ -40,7 +40,7 @@ public class FoodServiceTest {
         host1.setPhoneNumber("010-4822-3636");
 
         Host host2 = new Host();
-        host2.setHostId("Neymar");
+        host2.setId("Neymar");
         host2.setName("네이마르");
         host2.setNickName("밥은묵고다니냐");
         host2.setPassword("11");
@@ -51,7 +51,7 @@ public class FoodServiceTest {
         host2.setPhoneNumber("010-4465-8798");
 
         Puppy puppy = new Puppy();
-        puppy.setPuppyId("Messi");
+        puppy.setId("Messi");
         puppy.setName("메시");
         puppy.setNickName("요리조리비사이로막가드리블러");
         puppy.setPassword("10");

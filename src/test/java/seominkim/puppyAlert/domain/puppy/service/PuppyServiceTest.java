@@ -41,11 +41,11 @@ public class PuppyServiceTest {
     @BeforeEach
     private void testSetUp(){
         host = new Host();
-        host.setHostId("kane");
+        host.setId("kane");
         host.setNickName("harrykane");
 
         puppy = new Puppy();
-        puppy.setPuppyId("son");
+        puppy.setId("son");
 
         food = new Food();
         food.setFoodId(7L);

@@ -26,7 +26,7 @@ public class HostRepositoryTest {
     @BeforeEach
     private void testSetUp(){
         host = new Host();
-        host.setHostId("Ronaldo");
+        host.setId("Ronaldo");
     }
 
     @DisplayName("호스트 추가")
@@ -38,7 +38,7 @@ public class HostRepositoryTest {
         Host savedHost = hostRepository.save(host);
 
         // then
-        Assertions.assertThat(savedHost.getHostId()).isEqualTo(host.getHostId());
+        Assertions.assertThat(savedHost.getId()).isEqualTo(host.getId());
     }
 
     @DisplayName("호스트 조회")
@@ -48,10 +48,10 @@ public class HostRepositoryTest {
 
         // when
         hostRepository.save(host);
-        Host findHost = hostRepository.findById(host.getHostId())
+        Host findHost = hostRepository.findById(host.getId())
                 .orElseThrow(() -> new HostException(ErrorCode.NON_EXISTING_USER));
 
         // then
-        Assertions.assertThat(host.getHostId()).isEqualTo(findHost.getHostId());
+        Assertions.assertThat(host.getId()).isEqualTo(findHost.getId());
     }
 }

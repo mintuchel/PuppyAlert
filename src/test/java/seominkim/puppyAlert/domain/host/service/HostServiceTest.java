@@ -38,7 +38,7 @@ public class HostServiceTest {
     @BeforeEach
     private void testSetUp(){
         host = new Host();
-        host.setHostId("mbappe");
+        host.setId("mbappe");
 
         request = foodRequest();
         response = addFoodResponse();
