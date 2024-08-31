@@ -36,7 +36,7 @@ public class PuppyService {
     public List<UserInfoResponse> findAll() {
         return puppyRepository.findAll().stream()
                 .map(puppy -> new UserInfoResponse(
-                        puppy.getPuppyId(),
+                        puppy.getId(),
                         puppy.getName(),
                         puppy.getNickName(),
                         puppy.getBirth(),
@@ -53,7 +53,7 @@ public class PuppyService {
     public UserInfoResponse findById(String puppyId) {
         return puppyRepository.findById(puppyId)
                 .map(puppy -> new UserInfoResponse(
-                        puppy.getPuppyId(),
+                        puppy.getId(),
                         puppy.getName(),
                         puppy.getNickName(),
                         puppy.getBirth(),
@@ -91,7 +91,7 @@ public class PuppyService {
         return puppy.getFoodList().stream()
                 .map(food-> new MatchHistoryResponse(
                         food.getFoodId(),
-                        food.getHost().getHostId(),
+                        food.getHost().getId(),
                         food.getHost().getNickName(),
                         food.getMenu().getMenuName(),
                         food.getMenu().getImageURL(),
@@ -112,7 +112,7 @@ public class PuppyService {
 
         return puppy.getFavoriteHostList().stream()
                 .map(favoriteHost -> {
-                    String hostId = favoriteHost.getHost().getHostId();
+                    String hostId = favoriteHost.getHost().getId();
                     Food recentFoodInfo = foodService.getMostRecentFood(puppyId, hostId);
                     LocalDateTime recentTime;
 

@@ -38,7 +38,7 @@ public class HostService {
         return hostRepository.findAll().stream()
                 .map(host -> {
                     UserInfoResponse dto = new UserInfoResponse(
-                            host.getHostId(),
+                            host.getId(),
                             host.getName(),
                             host.getNickName(),
                             host.getBirth(),
@@ -57,7 +57,7 @@ public class HostService {
     public UserInfoResponse findById(String hostId){
         return hostRepository.findById(hostId).map(host -> {
             UserInfoResponse dto = new UserInfoResponse(
-                    host.getHostId(),
+                    host.getId(),
                     host.getName(),
                     host.getNickName(),
                     host.getBirth(),
@@ -79,7 +79,7 @@ public class HostService {
         return host.getFoodList().stream()
                 .map(food -> new MatchHistoryResponse(
                         food.getFoodId(),
-                        food.getPuppy() != null ? food.getPuppy().getPuppyId() : null,
+                        food.getPuppy() != null ? food.getPuppy().getId() : null,
                         food.getPuppy() != null ? food.getPuppy().getNickName() : null,
                         food.getMenu().getMenuName(),
                         food.getMenu().getImageURL(),

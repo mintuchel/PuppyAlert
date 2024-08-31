@@ -39,7 +39,7 @@ public class InitDomain {
         @Transactional
         public void initHost() {
             Host host1 = new Host();
-            host1.setHostId("KwonOhSung");
+            host1.setId("KwonOhSung");
             host1.setName("권오성");
             host1.setPassword("a12345678!");
             host1.setNickName("호날두");
@@ -51,7 +51,7 @@ public class InitDomain {
             host1.setPhoneNumber("010-1582-3145");
 
             Host host2 = new Host();
-            host2.setHostId("KimSeHyun");
+            host2.setId("KimSeHyun");
             host2.setName("김세현");
             host2.setNickName("메시");
             host2.setPassword("a12345678!");
@@ -63,7 +63,7 @@ public class InitDomain {
             host2.setPhoneNumber("010-3244-7988");
 
             Host host3 = new Host();
-            host3.setHostId("ChoSangJun");
+            host3.setId("ChoSangJun");
             host3.setName("조상준");
             host3.setNickName("우원재");
             host3.setPassword("a12345678!");
@@ -75,7 +75,7 @@ public class InitDomain {
             host3.setPhoneNumber("010-5814-6568");
 
             Host host4 = new Host();
-            host4.setHostId("LimWooJin");
+            host4.setId("LimWooJin");
             host4.setName("임우진");
             host4.setPassword("a12345678!");
             host4.setNickName("킬리안음바페요");
@@ -87,7 +87,7 @@ public class InitDomain {
             host4.setPhoneNumber("010-4198-1241");
 
             Host host5 = new Host();
-            host5.setHostId("KimHyunA");
+            host5.setId("KimHyunA");
             host5.setName("김현아");
             host5.setPassword("a12345678!");
             host5.setNickName("팔로얄토");
@@ -99,7 +99,7 @@ public class InitDomain {
             host5.setPhoneNumber("010-8731-1245");
 
             Host host6 = new Host();
-            host6.setHostId("ParkDaeWon");
+            host6.setId("ParkDaeWon");
             host6.setName("박대원");
             host6.setPassword("a12345678!");
             host6.setNickName("슈퍼비");
@@ -111,7 +111,7 @@ public class InitDomain {
             host6.setPhoneNumber("010-1211-1000");
 
             Host host7 = new Host();
-            host7.setHostId("ChoHyungJun");
+            host7.setId("ChoHyungJun");
             host7.setName("조형준");
             host7.setPassword("a12345678!");
             host7.setNickName("키드밀리");
@@ -123,7 +123,7 @@ public class InitDomain {
             host7.setPhoneNumber("010-6587-8014");
 
             Host host8 = new Host();
-            host8.setHostId("ShinJiHun");
+            host8.setId("ShinJiHun");
             host8.setName("신지훈");
             host8.setPassword("a12345678!");
             host8.setNickName("오왼 오바도즈");
@@ -147,7 +147,7 @@ public class InitDomain {
         @Transactional
         public void initPuppy() {
             Puppy puppy1 = new Puppy();
-            puppy1.setPuppyId("SeoSangHyeok");
+            puppy1.setId("SeoSangHyeok");
             puppy1.setName("서상혁");
             puppy1.setPassword("a12345678!");
             puppy1.setNickName("후식없으면안감요");
@@ -159,7 +159,7 @@ public class InitDomain {
             puppy1.setPhoneNumber("010-1111-2222");
 
             Puppy puppy2 = new Puppy();
-            puppy2.setPuppyId("MinJaeHong");
+            puppy2.setId("MinJaeHong");
             puppy2.setName("민재홍");
             puppy2.setPassword("a12345678!");
             puppy2.setNickName("제육헌터");
@@ -171,7 +171,7 @@ public class InitDomain {
             puppy2.setPhoneNumber("010-6457-9554");
 
             Puppy puppy3 = new Puppy();
-            puppy3.setPuppyId("KimJiWon");
+            puppy3.setId("KimJiWon");
             puppy3.setName("김지원");
             puppy3.setPassword("a12345678!");
             puppy3.setNickName("니가가라하와이");

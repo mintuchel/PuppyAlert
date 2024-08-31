@@ -13,6 +13,6 @@ import java.util.List;
 public interface FoodRepository extends JpaRepository<Food, Long> {
 
     // JPQL 에는 LIMIT 절이 없으므로 Pageable 로 해결해야함
-    @Query("SELECT z FROM Food z WHERE z.puppy.puppyId = :puppyId AND z.host.hostId = :hostId ORDER BY z.time DESC")
+    @Query("SELECT z FROM Food z WHERE z.puppy.id = :puppyId AND z.host.id = :hostId ORDER BY z.time DESC")
     List<Food> findMostRecentByPuppyIdAndHostId(@Param("puppyId") String puppyId, @Param("hostId") String hostId, Pageable pageable);
 }

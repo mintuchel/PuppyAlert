@@ -53,7 +53,7 @@ public class FoodService {
         return foodRepository.findAll().stream()
                 .map(food -> new FoodInfoResponse(
                         food.getFoodId(),
-                        food.getHost().getHostId(),
+                        food.getHost().getId(),
                         food.getHost().getNickName(),
                         false,
                         food.getMenu().getMenuName(),
@@ -80,7 +80,7 @@ public class FoodService {
         return availableFoodList.stream()
                 .map(food -> new FoodInfoResponse(
                         food.getFoodId(),
-                        food.getHost().getHostId(),
+                        food.getHost().getId(),
                         food.getHost().getNickName(),
                         favoriteHostService.isFavoriteHost(puppy, food.getHost()),
                         food.getMenu().getMenuName(),
@@ -99,7 +99,7 @@ public class FoodService {
         return foodRepository.findById(foodId)
                 .map(food -> new FoodInfoResponse(
                         food.getFoodId(),
-                        food.getHost().getHostId(),
+                        food.getHost().getId(),
                         food.getHost().getNickName(),
                         false,
                         food.getMenu().getMenuName(),
@@ -129,7 +129,7 @@ public class FoodService {
         return new MatchResponse(
                 matchedFood.getFoodId(),
                 matchedFood.getHost().getNickName(),
-                puppy.getPuppyId()
+                puppy.getId()
         );
     }
 

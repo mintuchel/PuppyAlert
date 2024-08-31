@@ -5,9 +5,4 @@ import org.springframework.stereotype.Repository;
 import seominkim.puppyAlert.domain.host.entity.Host;
 
 @Repository
-public interface HostRepository extends JpaRepository<Host, String> {
-
-    boolean existsByHostIdAndPassword(String hostId, String password);
-
-    boolean existsByNickName(String nickName);
-}
+public interface HostRepository extends JpaRepository<Host, String> { }
