@@ -14,5 +14,6 @@ public record MatchHistoryResponse(
         @NotBlank String address,
         @NotBlank String detailAddress,
         @NotBlank Location location,
-        @NotBlank LocalDateTime localDateTime
+        @NotBlank LocalDateTime localDateTime,
+        String partnerProfileImageUrl
 ) {}

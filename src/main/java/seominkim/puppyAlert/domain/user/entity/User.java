@@ -39,4 +39,6 @@ public class User {
 
     @Embedded
     private Location location;
+
+    private String profileImageURL;
 }
