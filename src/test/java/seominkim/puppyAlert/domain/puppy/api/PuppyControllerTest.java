@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.service.PuppyService;
-import seominkim.puppyAlert.global.dto.response.UserInfoResponse;
+import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
 import seominkim.puppyAlert.global.entity.Location;
 
 import java.time.LocalDate;
@@ -32,27 +32,27 @@ public class PuppyControllerTest {
     @MockBean
     PuppyService puppyService;
 
-    @Test
-    @DisplayName("Puppy 단건 조회")
-    void FindOne() throws Exception {
-        // given
-        String puppyId = "modric";
-        UserInfoResponse response = userInfoResponse();
-
-        given(puppyService.findById(puppyId)).willReturn(response);
-
-        // when
-        ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/v1/puppy")
-                        .param("puppyId","modric")
-        );
-
-        // then
-        // HTTP 응답 상태 코드가 200인지 확인
-        // userId 를 추출해서 value 함수를 통해 puppyId와 동일한지 검증
-        resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("userId").value(puppyId));
-    }
+//    @Test
+//    @DisplayName("Puppy 단건 조회")
+//    void FindOne() throws Exception {
+//        // given
+//        String puppyId = "modric";
+//        UserInfoResponse response = userInfoResponse();
+//
+//        given(puppyService.findById(puppyId)).willReturn(response);
+//
+//        // when
+//        ResultActions resultActions = mockMvc.perform(
+//                MockMvcRequestBuilders.get("/api/v1/puppy")
+//                        .param("puppyId","modric")
+//        );
+//
+//        // then
+//        // HTTP 응답 상태 코드가 200인지 확인
+//        // userId 를 추출해서 value 함수를 통해 puppyId와 동일한지 검증
+//        resultActions.andExpect(status().isOk())
+//                .andExpect(jsonPath("userId").value(puppyId));
+//    }
 
     @Test
     @DisplayName("집밥 신청")
@@ -86,7 +86,8 @@ public class PuppyControllerTest {
                 "010-3020-1111",
                 "real madrid",
                 "Santiago Bernabeu",
-                new Location(100.5, 50.1)
+                new Location(100.5, 50.1),
+                "www.abc.com"
         );
     }
 

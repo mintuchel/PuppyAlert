@@ -8,8 +8,10 @@ import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.food.service.FoodService;
 import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.repository.HostRepository;
+import seominkim.puppyAlert.domain.menu.entity.Menu;
+import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
-import seominkim.puppyAlert.global.dto.response.UserInfoResponse;
+import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.HostException;
 
@@ -45,29 +47,12 @@ public class HostService {
                             host.getPhoneNumber(),
                             host.getAddress(),
                             host.getDetailAddress(),
-                            host.getLocation()
+                            host.getLocation(),
+                            host.getProfileImageURL()
                     );
                     return dto;
                 })
                 .collect(Collectors.toList());
-    }
-
-    // Host 단건 검색
-    @Transactional(readOnly = true)
-    public UserInfoResponse findById(String hostId){
-        return hostRepository.findById(hostId).map(host -> {
-            UserInfoResponse dto = new UserInfoResponse(
-                    host.getId(),
-                    host.getName(),
-                    host.getNickName(),
-                    host.getBirth(),
-                    host.getPhoneNumber(),
-                    host.getAddress(),
-                    host.getDetailAddress(),
-                    host.getLocation()
-            );
-            return dto;
-        }).orElseThrow(() -> new HostException(ErrorCode.NON_EXISTING_USER));
     }
 
     // Host 집밥 기록 검색
@@ -77,17 +62,25 @@ public class HostService {
                 .orElseThrow(() -> new HostException(ErrorCode.NON_EXISTING_USER));
 
         return host.getFoodList().stream()
-                .map(food -> new MatchHistoryResponse(
+                .map(food -> {
+                    // 필요한 엔티티 미리 추출
+                    // 참조할때마다 jpa join 쿼리 나가서 미리 해주는게 좋음
+                    Puppy puppy = food.getPuppy();
+                    Menu menu = food.getMenu();
+
+                    return new MatchHistoryResponse(
                         food.getFoodId(),
-                        food.getPuppy() != null ? food.getPuppy().getId() : null,
-                        food.getPuppy() != null ? food.getPuppy().getNickName() : null,
-                        food.getMenu().getMenuName(),
-                        food.getMenu().getImageURL(),
-                        food.getHost().getAddress(),
-                        food.getHost().getDetailAddress(),
-                        food.getHost().getLocation(),
-                        food.getTime()
-                ))
+                        puppy != null ? puppy.getId() : null,
+                        puppy != null ? puppy.getNickName() : null,
+                        menu.getMenuName(),
+                        menu.getImageURL(),
+                        host.getAddress(),
+                        host.getDetailAddress(),
+                        host.getLocation(),
+                        food.getTime(),
+                        puppy.getProfileImageURL()
+                    );
+                })
                 .collect(Collectors.toList());
     }
 }

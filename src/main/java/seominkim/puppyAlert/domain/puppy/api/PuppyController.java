@@ -11,7 +11,7 @@ import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.service.PuppyService;
 import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
-import seominkim.puppyAlert.global.dto.response.UserInfoResponse;
+import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
 
 import java.util.List;
 
@@ -22,12 +22,6 @@ import java.util.List;
 public class PuppyController {
 
     private final PuppyService puppyService;
-
-    @Operation(summary = "단건 조회")
-    @GetMapping()
-    public UserInfoResponse findOne(@RequestParam String puppyId){
-        return puppyService.findById(puppyId);
-    }
 
     @Operation(summary = "전체 조회 (관리자용)")
     @GetMapping("/all")

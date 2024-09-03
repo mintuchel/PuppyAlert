@@ -12,6 +12,7 @@ import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.food.repository.FoodRepository;
 import seominkim.puppyAlert.domain.host.entity.Host;
+import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.menu.service.MenuService;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
@@ -35,8 +36,10 @@ public class FoodService {
     @Transactional
     public AddFoodResponse addNewFood(Host providerHost, FoodRequest foodRequest){
         Food newFood = new Food();
+        Menu menu = menuService.findOne(foodRequest.menuName());
+
         newFood.setHost(providerHost);
-        newFood.setMenu(menuService.findOne(foodRequest.menuName()));
+        newFood.setMenu(menu);
         newFood.setTime(foodRequest.time());
         newFood.setStatus(foodRequest.status());
 
@@ -45,25 +48,30 @@ public class FoodService {
         // foodRepository.save 되면서 menu도 저장이 됨
         foodRepository.save(newFood);
 
-        return new AddFoodResponse(newFood.getFoodId(), newFood.getMenu().getImageURL());
+        return new AddFoodResponse(newFood.getFoodId(), menu.getImageURL());
     }
 
     @Transactional(readOnly = true)
     public List<FoodInfoResponse> findAll(){
         return foodRepository.findAll().stream()
-                .map(food -> new FoodInfoResponse(
-                        food.getFoodId(),
-                        food.getHost().getId(),
-                        food.getHost().getNickName(),
-                        false,
-                        food.getMenu().getMenuName(),
-                        food.getMenu().getImageURL(),
-                        food.getTime(),
-                        food.getHost().getAddress(),
-                        food.getHost().getDetailAddress(),
-                        food.getHost().getLocation(),
-                        food.getStatus()
-                ))
+                .map(food -> {
+                    Host curHost = food.getHost();
+                    Menu menu = food.getMenu();
+
+                    return new FoodInfoResponse(
+                            food.getFoodId(),
+                            curHost.getId(),
+                            curHost.getNickName(),
+                            false,
+                            menu.getMenuName(),
+                            menu.getImageURL(),
+                            food.getTime(),
+                            curHost.getAddress(),
+                            curHost.getDetailAddress(),
+                            curHost.getLocation(),
+                            food.getStatus()
+                    );
+                })
                 .collect(Collectors.toList());
     }
 
@@ -78,40 +86,53 @@ public class FoodService {
         List<Food> availableFoodList = foodLimitator.findFoodWithinPuppyRange(curPuppyLatitude, curPuppyLongitude, foodList);
 
         return availableFoodList.stream()
-                .map(food -> new FoodInfoResponse(
-                        food.getFoodId(),
-                        food.getHost().getId(),
-                        food.getHost().getNickName(),
-                        favoriteHostService.isFavoriteHost(puppy.getId(), food.getHost().getId()),
-                        food.getMenu().getMenuName(),
-                        food.getMenu().getImageURL(),
-                        food.getTime(),
-                        food.getHost().getAddress(),
-                        food.getHost().getDetailAddress(),
-                        food.getHost().getLocation(),
-                        food.getStatus()
-                ))
+                .map(food -> {
+                    Host curHost = food.getHost();
+                    Menu menu = food.getMenu();
+                    boolean isFavorite = favoriteHostService.isFavoriteHost(puppy.getId(), curHost.getId());
+
+                    return new FoodInfoResponse(
+                            food.getFoodId(),
+                            curHost.getId(),
+                            curHost.getNickName(),
+                            isFavorite,
+                            menu.getMenuName(),
+                            menu.getImageURL(),
+                            food.getTime(),
+                            curHost.getAddress(),
+                            curHost.getDetailAddress(),
+                            curHost.getLocation(),
+                            food.getStatus()
+                    );
+                })
                 .collect(Collectors.toList());
+
     }
 
     @Transactional(readOnly = true)
     public FoodInfoResponse findById(Long foodId) {
         return foodRepository.findById(foodId)
-                .map(food -> new FoodInfoResponse(
-                        food.getFoodId(),
-                        food.getHost().getId(),
-                        food.getHost().getNickName(),
-                        false,
-                        food.getMenu().getMenuName(),
-                        food.getMenu().getImageURL(),
-                        food.getTime(),
-                        food.getHost().getAddress(),
-                        food.getHost().getDetailAddress(),
-                        food.getHost().getLocation(),
-                        food.getStatus()
-                ))
+                .map(food -> {
+                    Host curHost = food.getHost();
+                    Menu menu = food.getMenu();
+
+                    return new FoodInfoResponse(
+                            food.getFoodId(),
+                            curHost.getId(),
+                            curHost.getNickName(),
+                            false,
+                            menu.getMenuName(),
+                            menu.getImageURL(),
+                            food.getTime(),
+                            curHost.getAddress(),
+                            curHost.getDetailAddress(),
+                            curHost.getLocation(),
+                            food.getStatus()
+                    );
+                })
                 .orElseThrow(() -> new FoodException(ErrorCode.NON_EXISTING_FOOD));
     }
+
 
     @Transactional
     public MatchResponse handleMatchRequest(Long foodId, Puppy puppy) {
@@ -128,6 +149,8 @@ public class FoodService {
 
         return new MatchResponse(
                 matchedFood.getFoodId(),
+                // 이거 뺼까? 차피 사용안하는데?? 내일 꼭 물어보기
+                // 이거 하려고 또 join 쿼리 나가서 성능 안좋아짐
                 matchedFood.getHost().getNickName(),
                 puppy.getId()
         );
@@ -135,6 +158,8 @@ public class FoodService {
 
     @Transactional(readOnly = true)
     public Food getMostRecentFood(String puppyId, String hostId){
+        // JPA는 limit 구문 지원안해서 이런 방식으로 해야함
+        // .get(0)하는게 없어보이긴하다
         List<Food> mostRecentFood = foodRepository.findMostRecentByPuppyIdAndHostId(puppyId, hostId, PageRequest.of(0, 1));
 
         if(mostRecentFood.isEmpty()) return null;

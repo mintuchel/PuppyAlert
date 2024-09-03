@@ -8,7 +8,7 @@ import seominkim.puppyAlert.domain.food.dto.request.FoodRequest;
 import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.host.service.HostService;
 import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
-import seominkim.puppyAlert.global.dto.response.UserInfoResponse;
+import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
 
 import java.util.List;
 
@@ -19,12 +19,6 @@ import java.util.List;
 public class HostController {
 
     private final HostService hostService;
-
-    @Operation(summary = "단건 조회")
-    @GetMapping()
-    public UserInfoResponse findOne(@RequestParam String hostId){
-        return hostService.findById(hostId);
-    }
 
     @Operation(summary = "전체 조회 (관리자용)")
     @GetMapping("/all")

@@ -1,7 +1,8 @@
 package seominkim.puppyAlert.domain.user.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.user.dto.request.LoginRequest;
 import seominkim.puppyAlert.domain.user.dto.request.SignUpRequest;
 import seominkim.puppyAlert.domain.user.dto.response.LoginResponse;
@@ -10,21 +11,23 @@ import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.host.repository.HostRepository;
 import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
+import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
 import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.domain.user.repository.UserRepository;
 import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.CommonException;
+import seominkim.puppyAlert.global.exception.exception.HostException;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    PuppyRepository puppyRepository;
-    @Autowired
-    HostRepository hostRepository;
 
+    private final UserRepository userRepository;
+    private final PuppyRepository puppyRepository;
+    private final HostRepository hostRepository;
+
+    @Transactional
     public SignUpResponse signUp(SignUpRequest signUpRequest){
         String id = signUpRequest.id();
 
@@ -63,7 +66,8 @@ public class UserService {
         return new SignUpResponse(id, userType);
     }
 
-    public LoginResponse checkIfAccountExists(LoginRequest loginRequest){
+    @Transactional(readOnly = true)
+    public LoginResponse login(LoginRequest loginRequest){
         String id = loginRequest.id();
         String password = loginRequest.password();
 
@@ -87,11 +91,32 @@ public class UserService {
         throw new CommonException(ErrorCode.INVALID_PASSWORD);
     }
 
+    @Transactional(readOnly = true)
     public boolean checkIfIdExists(String id){
         return userRepository.existsById(id);
     }
 
+    @Transactional(readOnly = true)
     public boolean checkIfNickNameExists(String nickName) {
         return userRepository.existsByNickName(nickName);
+    }
+
+    @Transactional(readOnly=true)
+    public UserInfoResponse findOne(String id) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    UserInfoResponse dto = new UserInfoResponse(
+                            user.getId(),
+                            user.getName(),
+                            user.getNickName(),
+                            user.getBirth(),
+                            user.getPhoneNumber(),
+                            user.getAddress(),
+                            user.getDetailAddress(),
+                            user.getLocation(),
+                            user.getProfileImageURL()
+                    );
+                    return dto;
+                }).orElseThrow(() -> new HostException(ErrorCode.NON_EXISTING_USER));
     }
 }

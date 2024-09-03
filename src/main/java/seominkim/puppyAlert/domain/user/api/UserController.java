@@ -5,11 +5,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import seominkim.puppyAlert.domain.user.dto.request.LoginRequest;
-import seominkim.puppyAlert.domain.user.dto.response.IdCheckResponse;
-import seominkim.puppyAlert.domain.user.dto.response.NickNameCheckResponse;
-import seominkim.puppyAlert.domain.user.dto.response.SignUpResponse;
+import seominkim.puppyAlert.domain.user.dto.response.*;
 import seominkim.puppyAlert.domain.user.service.UserService;
-import seominkim.puppyAlert.domain.user.dto.response.LoginResponse;
 import seominkim.puppyAlert.domain.user.dto.request.SignUpRequest;
 
 @RestController
@@ -23,7 +20,7 @@ public class UserController {
     @Operation(summary = "로그인")
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest){
-        return userService.checkIfAccountExists(loginRequest);
+        return userService.login(loginRequest);
     }
 
     @Operation(summary = "회원가입")
@@ -44,5 +41,11 @@ public class UserController {
     @GetMapping("/checkNickName")
     public NickNameCheckResponse checkNickName(@RequestParam String nickName){
         return new NickNameCheckResponse(userService.checkIfNickNameExists(nickName));
+    }
+
+    @Operation(summary = "유저 단건 조회")
+    @GetMapping()
+    public UserInfoResponse findOne(@RequestParam String id){
+        return userService.findOne(id);
     }
 }
