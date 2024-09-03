@@ -2,6 +2,7 @@ package seominkim.puppyAlert.global.utility;
 
 import org.springframework.stereotype.Component;
 import seominkim.puppyAlert.domain.food.entity.Food;
+import seominkim.puppyAlert.domain.market.entity.Market;
 
 import java.util.ArrayList;
 import java.util.List;

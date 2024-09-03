@@ -98,7 +98,7 @@ public class FavoriteHostServiceTest {
         given(favoriteHostRepository.existsByPuppyIdAndHostId(puppyId, hostId)).willReturn(true);
 
         // when
-        Boolean isFavoriteHost = favoriteHostService.isFavoriteHost(puppy, host);
+        Boolean isFavoriteHost = favoriteHostService.isFavoriteHost(puppyId, hostId);
 
         // then
         Assertions.assertThat(isFavoriteHost).isTrue();

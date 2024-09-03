@@ -82,7 +82,7 @@ public class FoodService {
                         food.getFoodId(),
                         food.getHost().getId(),
                         food.getHost().getNickName(),
-                        favoriteHostService.isFavoriteHost(puppy, food.getHost()),
+                        favoriteHostService.isFavoriteHost(puppy.getId(), food.getHost().getId()),
                         food.getMenu().getMenuName(),
                         food.getMenu().getImageURL(),
                         food.getTime(),

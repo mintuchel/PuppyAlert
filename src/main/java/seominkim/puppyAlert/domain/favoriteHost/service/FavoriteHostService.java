@@ -22,8 +22,8 @@ public class FavoriteHostService {
     private final PuppyRepository puppyRepository;
 
     @Transactional(readOnly = true)
-    public boolean isFavoriteHost(Puppy puppy, Host host) {
-        return favoriteHostRepository.existsByPuppyIdAndHostId(puppy.getId(), host.getId());
+    public boolean isFavoriteHost(String puppyId, String hostId) {
+        return favoriteHostRepository.existsByPuppyIdAndHostId(puppyId, hostId);
     }
 
     // 관심 HOST 추가
