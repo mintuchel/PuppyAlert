@@ -1,10 +1,8 @@
-package seominkim.puppyAlert.domain;
+package seominkim.puppyAlert.domain.dummy;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
@@ -21,29 +19,9 @@ import seominkim.puppyAlert.global.entity.Location;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Component
-@RequiredArgsConstructor
-public class InitDomain {
-    private final InitDomainService initDomainService;
-
-    @PostConstruct
-    private void init() {
-        initDomainService.initHost();
-        initDomainService.initPuppy();
-        initDomainService.initMenu();
-        initDomainService.initFood();
-        initDomainService.initFavoriteHost();
-        initDomainService.initMarket1();
-        initDomainService.initMarket2();
-        initDomainService.initMarket3();
-        initDomainService.initMarket4();
-    }
-}
-
-
 @Service
 @RequiredArgsConstructor
-class InitDomainService {
+class DummyService {
     @PersistenceContext
     private final EntityManager em;
 
@@ -60,6 +38,7 @@ class InitDomainService {
         host1.setDetailAddress("엔샵빌라 16동 209호");
         host1.setLocation(new Location(37.55379265523353, 127.07382983231048));
         host1.setPhoneNumber("010-1582-3145");
+        host1.setProfileImageURL("https://avatars.githubusercontent.com/u/79124461?v=4");
 
         Host host2 = new Host();
         host2.setId("KimSeHyun");
@@ -72,6 +51,7 @@ class InitDomainService {
         host2.setDetailAddress("한마음빌라 201동 103호");
         host2.setLocation(new Location(37.55007773494337, 127.07106493659647));
         host2.setPhoneNumber("010-3244-7988");
+        host2.setProfileImageURL("https://avatars.githubusercontent.com/u/102282703?v=4");
 
         Host host3 = new Host();
         host3.setId("ChoSangJun");
@@ -84,6 +64,7 @@ class InitDomainService {
         host3.setDetailAddress("금성빌라 302호");
         host3.setLocation(new Location(37.551907956849995, 127.07636576512374));
         host3.setPhoneNumber("010-5814-6568");
+        host3.setProfileImageURL("https://avatars.githubusercontent.com/u/43038815?v=4");
 
         Host host4 = new Host();
         host4.setId("LimWooJin");
@@ -96,6 +77,7 @@ class InitDomainService {
         host4.setDetailAddress("카카오텔 405호");
         host4.setLocation(new Location(37.5475940875437, 127.06962825715127));
         host4.setPhoneNumber("010-4198-1241");
+        host4.setProfileImageURL("https://avatars.githubusercontent.com/u/25877253?v=4");
 
         Host host5 = new Host();
         host5.setId("KimHyunA");
@@ -108,6 +90,7 @@ class InitDomainService {
         host5.setDetailAddress("영앤리치빌라 506호");
         host5.setLocation(new Location(37.54593669782253, 127.07619842193493));
         host5.setPhoneNumber("010-8731-1245");
+        host5.setProfileImageURL("https://avatars.githubusercontent.com/u/129165742?v=4");
 
         Host host6 = new Host();
         host6.setId("ParkDaeWon");
@@ -120,6 +103,7 @@ class InitDomainService {
         host6.setDetailAddress("현대빌라 1203호");
         host6.setLocation(new Location(37.55262356990496, 127.07741047989005));
         host6.setPhoneNumber("010-1211-1000");
+        host6.setProfileImageURL("https://avatars.githubusercontent.com/u/101173462?v=4");
 
         Host host7 = new Host();
         host7.setId("ChoHyungJun");
@@ -132,6 +116,7 @@ class InitDomainService {
         host7.setDetailAddress("화양주택 2동 101호");
         host7.setLocation(new Location(37.547096349517936, 127.07324610787151));
         host7.setPhoneNumber("010-6587-8014");
+        host7.setProfileImageURL("https://avatars.githubusercontent.com/u/1024025?v=4");
 
         Host host8 = new Host();
         host8.setId("ShinJiHun");
@@ -144,6 +129,7 @@ class InitDomainService {
         host8.setDetailAddress("저스트뮤직빌라 402호");
         host8.setLocation(new Location(37.54588160784895, 127.0706083175839));
         host8.setPhoneNumber("010-3265-0541");
+        host8.setProfileImageURL("https://avatars.githubusercontent.com/u/82876698?v=4");
 
         em.persist(host1);
         em.persist(host2);
@@ -168,6 +154,7 @@ class InitDomainService {
         puppy1.setDetailAddress("현대아파트 103동 801호");
         puppy1.setLocation(new Location(37.55191738446834, 127.0721191456786));
         puppy1.setPhoneNumber("010-1111-2222");
+        puppy1.setProfileImageURL("https://avatars.githubusercontent.com/u/126949574?v=4");
 
         Puppy puppy2 = new Puppy();
         puppy2.setId("MinJaeHong");
@@ -180,6 +167,7 @@ class InitDomainService {
         puppy2.setDetailAddress("세종대학교 학생회관 530호");
         puppy2.setLocation(new Location(37.549611195346664, 127.07514407425086));
         puppy2.setPhoneNumber("010-6457-9554");
+        puppy2.setProfileImageURL("https://avatars.githubusercontent.com/u/103743166?v=4");
 
         Puppy puppy3 = new Puppy();
         puppy3.setId("KimJiWon");
@@ -192,6 +180,7 @@ class InitDomainService {
         puppy3.setDetailAddress("화양타워 103동 204호");
         puppy3.setLocation(new Location(37.547023288665116, 127.07116671038504));
         puppy3.setPhoneNumber("010-8221-7458");
+        puppy3.setProfileImageURL("https://avatars.githubusercontent.com/u/15929412?v=4");
 
         em.persist(puppy1);
         em.persist(puppy2);
