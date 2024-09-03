@@ -19,11 +19,11 @@ import java.util.List;
 @Tag(name = "Market API", description = "전통시장 조회, 전통시장 내 가맹점 조회")
 public class MarketController {
 
-    private MarketService marketService;
+    private final MarketService marketService;
 
     @Operation(summary = "지역구 내 전통시장 조회")
     @GetMapping("")
-    public List<MarketResponse> getMarketsByRegion(String region){
+    public List<MarketResponse> getMarketsByRegion(@RequestParam String region){
         return marketService.getMarketsByRegion(region);
     }
 

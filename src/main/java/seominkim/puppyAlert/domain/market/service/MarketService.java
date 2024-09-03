@@ -22,7 +22,7 @@ public class MarketService {
     public List<MarketResponse> findAll(){
         return marketRepository.findAll().stream()
                 .map(market -> new MarketResponse(
-                        market.getMarketId(),
+                        market.getId(),
                         market.getName(),
                         market.getDetailAddress(),
                         market.getLocation(),
@@ -37,7 +37,7 @@ public class MarketService {
 
         return markets.stream()
                 .map(market -> new MarketResponse(
-                        market.getMarketId(),
+                        market.getId(),
                         market.getName(),
                         market.getDetailAddress(),
                         market.getLocation(),

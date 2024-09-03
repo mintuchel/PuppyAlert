@@ -1,5 +1,3 @@
-// try 하고 있는거
-
 package seominkim.puppyAlert.domain;
 
 import jakarta.annotation.PostConstruct;
@@ -30,14 +28,15 @@ public class InitDomain {
 
     @PostConstruct
     private void init() {
-        initDomainService.initMarket();
-        initDomainService.initShop();
-
         initDomainService.initHost();
         initDomainService.initPuppy();
         initDomainService.initMenu();
         initDomainService.initFood();
         initDomainService.initFavoriteHost();
+        initDomainService.initMarket1();
+        initDomainService.initMarket2();
+        initDomainService.initMarket3();
+        initDomainService.initMarket4();
     }
 }
 
@@ -387,53 +386,272 @@ class InitDomainService {
         em.persist(favoriteHost9);
     }
 
-    int marketId;
-
     @Transactional
-    public void initMarket() {
+    public void initMarket1() {
         Market market1 = new Market();
         market1.setName("화양제일골목시장");
         market1.setAddress("서울 광진구");
         market1.setDetailAddress("아차산로29길 59");
         market1.setLocation(new Location(37.5434999708465, 127.069283286229));
         market1.setImageURL("https://www.gwangjin.com/imgdata/gwangjin_com/202206/2022061306069649.jpg");
-        em.persist(market1);
-        marketId = market1.getMarketId();
-    }
-
-    @Transactional
-    public void initShop() {
-
-        Market market1 = em.find(Market.class, marketId);
 
         Shop shop1 = new Shop();
         shop1.setShopName("고기사랑");
         shop1.setDetailAddress("아차산로29길 57");
         shop1.setProductType(ProductType.MEAT);
-        shop1.setMarket(market1);
 
         Shop shop2 = new Shop();
         shop2.setShopName("명희네젓갈");
         shop2.setDetailAddress("아차산로29길 55");
         shop2.setProductType(ProductType.SIDE_DISH);
-        shop2.setMarket(market1);
 
         Shop shop3 = new Shop();
         shop3.setShopName("여수반찬");
         shop3.setDetailAddress("아차산로29길 52");
         shop3.setProductType(ProductType.SIDE_DISH);
-        shop3.setMarket(market1);
 
         Shop shop4 = new Shop();
         shop4.setShopName("제일상회");
         shop4.setDetailAddress("아차산로29길 55");
         shop4.setProductType(ProductType.AGRICULTURAL);
-        shop4.setMarket(market1);
 
-        // Market 객체를 저장하면 shopList에 있는 Shop 객체들도 함께 저장됩니다.
-        em.persist(shop1);
-        em.persist(shop2);
-        em.persist(shop3);
-        em.persist(shop4);
+        // 여기부터
+        Shop shop5 = new Shop();
+        shop5.setShopName("한아름과일");
+        shop5.setDetailAddress("아차산로29길 55");
+        shop5.setProductType(ProductType.FRUIT);
+
+        Shop shop6 = new Shop();
+        shop6.setShopName("황금축산");
+        shop6.setDetailAddress("아차산로29길 71");
+        shop6.setProductType(ProductType.MEAT);
+
+        Shop shop7 = new Shop();
+        shop7.setShopName("우리농산물");
+        shop7.setDetailAddress("아차산로29길 69");
+        shop7.setProductType(ProductType.VEGETABLES);
+
+        Shop shop8 = new Shop();
+        shop8.setShopName("영희네반찬");
+        shop8.setDetailAddress("아차산로29길 69");
+        shop8.setProductType(ProductType.SIDE_DISH);
+
+        Shop shop9 = new Shop();
+        shop9.setShopName("화양두부");
+        shop9.setDetailAddress("아차산로29길 59");
+        shop9.setProductType(ProductType.SIDE_DISH);
+
+        Shop shop10 = new Shop();
+        shop10.setShopName("광어2마리");
+        shop10.setDetailAddress("아차산로29길 71");
+        shop10.setProductType(ProductType.SEA_FOOD);
+
+        market1.getShopList().add(shop1);
+        market1.getShopList().add(shop2);
+        market1.getShopList().add(shop3);
+        market1.getShopList().add(shop4);
+        market1.getShopList().add(shop5);
+        market1.getShopList().add(shop6);
+        market1.getShopList().add(shop7);
+        market1.getShopList().add(shop8);
+        market1.getShopList().add(shop9);
+        market1.getShopList().add(shop10);
+
+        em.persist(market1);
+    }
+
+    @Transactional
+    public void initMarket2() {
+        Market market2 = new Market();
+        market2.setName("자양전통시장");
+        market2.setAddress("서울 광진구");
+        market2.setDetailAddress("뚝섬로49길 43");
+        market2.setLocation(new Location(37.53486821102412, 127.07917411360432));
+        market2.setImageURL("https://cdn.weeklyseoul.net/news/photo/201802/38135_15280_2712.jpg");
+
+        Shop shop1 = new Shop();
+        shop1.setShopName("맛있는 반찬");
+        shop1.setDetailAddress("자양로15길 79");
+        shop1.setProductType(ProductType.SIDE_DISH);
+
+        Shop shop2 = new Shop();
+        shop2.setShopName("스마일 청과");
+        shop2.setDetailAddress("자양로13나길 32");
+        shop2.setProductType(ProductType.FRUIT);
+
+        Shop shop3 = new Shop();
+        shop3.setShopName("영남떡");
+        shop3.setDetailAddress("자양로13나길 11");
+        shop3.setProductType(ProductType.RICE_CAKE);
+
+        Shop shop4 = new Shop();
+        shop4.setShopName("여수돌산갓김치");
+        shop4.setDetailAddress("자양로15길 73");
+        shop4.setProductType(ProductType.SIDE_DISH);
+
+        Shop shop5 = new Shop();
+        shop5.setShopName("스마일 청과");
+        shop5.setDetailAddress("자양로13나길 32");
+        shop5.setProductType(ProductType.FRUIT);
+
+        Shop shop6 = new Shop();
+        shop6.setShopName("으뜸채소");
+        shop6.setDetailAddress("뚝섬로49길 50");
+        shop6.setProductType(ProductType.VEGETABLES);
+
+        Shop shop7 = new Shop();
+        shop7.setShopName("즐겨찾는그린야채");
+        shop7.setDetailAddress("자양로13나길 37");
+        shop7.setProductType(ProductType.VEGETABLES);
+
+        Shop shop8 = new Shop();
+        shop8.setShopName("웰빙하우스");
+        shop8.setDetailAddress("뚝섬로25길 16");
+        shop8.setProductType(ProductType.AGRICULTURAL);
+
+        Shop shop9 = new Shop();
+        shop9.setShopName("풍년방앗간");
+        shop9.setDetailAddress("동일로10길 13");
+        shop9.setProductType(ProductType.RICE_CAKE);
+
+        market2.getShopList().add(shop1);
+        market2.getShopList().add(shop2);
+        market2.getShopList().add(shop3);
+        market2.getShopList().add(shop4);
+        market2.getShopList().add(shop5);
+        market2.getShopList().add(shop6);
+        market2.getShopList().add(shop7);
+        market2.getShopList().add(shop8);
+        market2.getShopList().add(shop9);
+
+        em.persist(market2);
+    }
+
+    @Transactional
+    public void initMarket3() {
+        Market market3 = new Market();
+        market3.setName("신성종합시장");
+        market3.setAddress("서울 광진구");
+        market3.setDetailAddress("용마산로 50");
+        market3.setLocation(new Location(37.557954199838896, 127.08848471638808));
+        market3.setImageURL("https://cdn.welfarehello.com/naver-blog/production/gwangjin_b/2024-05/223446165879/gwangjin_b_223446165879_2.jpg");
+
+        Shop shop1 = new Shop();
+        shop1.setShopName("대우홈마트");
+        shop1.setDetailAddress("영화사로 14");
+        shop1.setProductType(ProductType.SUPER_MARKET);
+
+        Shop shop2 = new Shop();
+        shop2.setShopName("목포수산");
+        shop2.setDetailAddress("양화사로 12");
+        shop2.setProductType(ProductType.SEA_FOOD);
+
+        Shop shop3 = new Shop();
+        shop3.setShopName("서울방앗간");
+        shop3.setDetailAddress("용마산로6길 19");
+        shop3.setProductType(ProductType.RICE_CAKE);
+
+        Shop shop4 = new Shop();
+        shop4.setShopName("종로떡집");
+        shop4.setDetailAddress("영화사로 7");
+        shop4.setProductType(ProductType.RICE_CAKE);
+
+        Shop shop5 = new Shop();
+        shop5.setShopName("오빠네명품축산");
+        shop5.setDetailAddress("영화사로 4");
+        shop5.setProductType(ProductType.MEAT);
+
+        Shop shop6 = new Shop();
+        shop6.setShopName("윤미네즉석반찬");
+        shop6.setDetailAddress("영화사로 18");
+        shop6.setProductType(ProductType.SIDE_DISH);
+
+        Shop shop7 = new Shop();
+        shop7.setShopName("드림야채과일");
+        shop7.setDetailAddress("양화사로 4");
+        shop7.setProductType(ProductType.VEGETABLES);
+
+        Shop shop8 = new Shop();
+        shop8.setShopName("영일만수산시장");
+        shop8.setDetailAddress("용마산로6길 9");
+        shop8.setProductType(ProductType.SEA_FOOD);
+
+        Shop shop9 = new Shop();
+        shop9.setShopName("백운농산");
+        shop9.setDetailAddress("양화사로 12");
+        shop9.setProductType(ProductType.AGRICULTURAL);
+
+        market3.getShopList().add(shop1);
+        market3.getShopList().add(shop2);
+        market3.getShopList().add(shop3);
+        market3.getShopList().add(shop4);
+        market3.getShopList().add(shop5);
+        market3.getShopList().add(shop6);
+        market3.getShopList().add(shop7);
+        market3.getShopList().add(shop8);
+        market3.getShopList().add(shop9);
+
+        em.persist(market3);
+    }
+
+    @Transactional
+    public void initMarket4() {
+        Market market4 = new Market();
+        market4.setName("중곡제일골목시장");
+        market4.setAddress("서울 광진구");
+        market4.setDetailAddress("능동로47길 30");
+        market4.setLocation(new Location(37.563574942881296, 127.08113146885285));
+        market4.setImageURL("https://fastly.4sqi.net/img/general/600x600/5080516_3N5Yo-jincoLGU6sffXY4neJhtrQiRk1KdN-UmKg8IY.jpg");
+
+        Shop shop1 = new Shop();
+        shop1.setShopName("광성축산");
+        shop1.setDetailAddress("능동로47길 30");
+        shop1.setProductType(ProductType.MEAT);
+
+        Shop shop2 = new Shop();
+        shop2.setShopName("남해수산");
+        shop2.setDetailAddress("능동로47길 30");
+        shop2.setProductType(ProductType.SEA_FOOD);
+
+        Shop shop3 = new Shop();
+        shop3.setShopName("독도횟포장전문");
+        shop3.setDetailAddress("긴고랑로11길 11");
+        shop3.setProductType(ProductType.SEA_FOOD);
+
+        Shop shop4 = new Shop();
+        shop4.setShopName("서울청과");
+        shop4.setDetailAddress("능동로47길 37-1");
+        shop4.setProductType(ProductType.FRUIT);
+
+        Shop shop5 = new Shop();
+        shop5.setShopName("웰빙야채");
+        shop5.setDetailAddress("능동로47길 20");
+        shop5.setProductType(ProductType.VEGETABLES);
+
+        Shop shop6 = new Shop();
+        shop6.setShopName("엄마손반찬");
+        shop6.setDetailAddress("긴고랑로9길 16-1");
+        shop6.setProductType(ProductType.SIDE_DISH);
+
+        Shop shop7 = new Shop();
+        shop7.setShopName("믿음을주는농산물");
+        shop7.setDetailAddress("능동로47길 41");
+        shop7.setProductType(ProductType.AGRICULTURAL);
+
+        Shop shop8 = new Shop();
+        shop8.setShopName("포도밭사나이");
+        shop8.setDetailAddress("긴고랑로13길 15");
+        shop8.setProductType(ProductType.FRUIT);
+
+        market4.getShopList().add(shop1);
+        market4.getShopList().add(shop2);
+        market4.getShopList().add(shop3);
+        market4.getShopList().add(shop4);
+        market4.getShopList().add(shop5);
+        market4.getShopList().add(shop6);
+        market4.getShopList().add(shop7);
+        market4.getShopList().add(shop8);
+
+        em.persist(market4);
     }
 }
