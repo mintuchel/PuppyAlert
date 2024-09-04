@@ -12,8 +12,8 @@ import seominkim.puppyAlert.domain.food.dto.request.FoodRequest;
 import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.food.service.FoodService;
-import seominkim.puppyAlert.domain.host.entity.Host;
-import seominkim.puppyAlert.domain.host.repository.HostRepository;
+import seominkim.puppyAlert.domain.user.entity.User;
+import seominkim.puppyAlert.domain.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -28,15 +28,15 @@ public class HostServiceTest {
     @Mock
     private FoodService foodService;
     @Mock
-    private HostRepository hostRepository;
+    private UserRepository userRepository;
 
-    private Host host;
+    private User host;
     private FoodRequest request;
     private AddFoodResponse response;
 
     @BeforeEach
     private void testSetUp(){
-        host = new Host();
+        host = new User();
         host.setId("mbappe");
 
         request = foodRequest();
@@ -47,7 +47,7 @@ public class HostServiceTest {
     @DisplayName("집밥 등록")
     void addFood(){
         // given
-        given(hostRepository.findById("mbappe")).willReturn(Optional.of(host));
+        given(userRepository.findById("mbappe")).willReturn(Optional.of(host));
         given(foodService.addNewFood(host, request)).willReturn(response);
 
         // when
