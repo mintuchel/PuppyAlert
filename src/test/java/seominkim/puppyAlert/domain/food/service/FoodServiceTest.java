@@ -14,6 +14,7 @@ import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.global.entity.Location;
+import seominkim.puppyAlert.global.entity.UserType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -37,6 +38,7 @@ public class FoodServiceTest {
         host1.setDetailAddress("산티아고 베르나베우");
         host1.setLocation(new Location(100.5, 100.1));
         host1.setPhoneNumber("010-4822-3636");
+        host1.setUserType(UserType.HOST);
 
         User host2 = new User();
         host2.setId("Neymar");
@@ -48,17 +50,19 @@ public class FoodServiceTest {
         host2.setDetailAddress("구장 이름 까먹음");
         host2.setLocation(new Location(100.5, 100.1));
         host2.setPhoneNumber("010-4465-8798");
+        host2.setUserType(UserType.HOST);
 
-        User User = new User();
-        User.setId("Messi");
-        User.setName("메시");
-        User.setNickName("요리조리비사이로막가드리블러");
-        User.setPassword("10");
-        User.setBirth(LocalDate.now());
-        User.setAddress("바르셀로나");
-        User.setDetailAddress("캄프누");
-        User.setLocation(new Location(200.3, 200.2));
-        User.setPhoneNumber("010-1111-2222");
+        User user1 = new User();
+        user1.setId("Messi");
+        user1.setName("메시");
+        user1.setNickName("요리조리비사이로막가드리블러");
+        user1.setPassword("10");
+        user1.setBirth(LocalDate.now());
+        user1.setAddress("바르셀로나");
+        user1.setDetailAddress("캄프누");
+        user1.setLocation(new Location(200.3, 200.2));
+        user1.setPhoneNumber("010-1111-2222");
+        user1.setUserType(UserType.PUPPY);
 
         Menu menu1 = new Menu();
         menu1.setMenuName("testMenu1");
@@ -70,7 +74,7 @@ public class FoodServiceTest {
 
         em.persist(host1);
         em.persist(host2);
-        em.persist(User);
+        em.persist(user1);
         em.persist(menu1);
         em.persist(menu2);
     }
