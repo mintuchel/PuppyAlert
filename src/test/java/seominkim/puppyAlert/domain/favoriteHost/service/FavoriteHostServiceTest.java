@@ -22,6 +22,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+// 진짜 왜이러는거야
 @ExtendWith(MockitoExtension.class)
 public class FavoriteHostServiceTest {
     @InjectMocks
