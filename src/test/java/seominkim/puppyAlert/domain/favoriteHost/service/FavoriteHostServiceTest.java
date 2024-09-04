@@ -11,10 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import seominkim.puppyAlert.domain.favoriteHost.dto.request.FavoriteHostRequest;
 import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
 import seominkim.puppyAlert.domain.favoriteHost.repository.FavoriteHostRepository;
-import seominkim.puppyAlert.domain.host.entity.Host;
-import seominkim.puppyAlert.domain.host.repository.HostRepository;
-import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
+import seominkim.puppyAlert.domain.user.entity.User;
+import seominkim.puppyAlert.domain.user.repository.UserRepository;
 
 import java.util.Optional;
 
@@ -30,11 +28,10 @@ public class FavoriteHostServiceTest {
     private FavoriteHostService favoriteHostService;
 
     @Mock private FavoriteHostRepository favoriteHostRepository;
-    @Mock private HostRepository hostRepository;
-    @Mock private PuppyRepository puppyRepository;
+    @Mock private UserRepository userRepository;
 
-    private Host host;
-    private Puppy puppy;
+    private User host;
+    private User puppy;
     private FavoriteHost favoriteHost;
     private FavoriteHostRequest request;
     String hostId = "ronaldo";
@@ -42,10 +39,10 @@ public class FavoriteHostServiceTest {
 
     @BeforeEach
     public void testSetUp(){
-        host = new Host();
+        host = new User();
         host.setId(hostId);
 
-        puppy = new Puppy();
+        puppy = new User();
         puppy.setId(puppyId);
 
         favoriteHost = new FavoriteHost();
@@ -61,8 +58,8 @@ public class FavoriteHostServiceTest {
     public void addFavoriteHost(){
         // given
         given(favoriteHostRepository.existsByPuppyIdAndHostId(puppyId, hostId)).willReturn(false);
-        given(hostRepository.findById(hostId)).willReturn(Optional.of(host));
-        given(puppyRepository.findById(puppyId)).willReturn(Optional.of(puppy));
+        given(userRepository.findById(hostId)).willReturn(Optional.of(host));
+        given(userRepository.findById(puppyId)).willReturn(Optional.of(puppy));
         given(favoriteHostRepository.save(any(FavoriteHost.class))).willReturn(favoriteHost);
 
         // when
@@ -70,8 +67,8 @@ public class FavoriteHostServiceTest {
 
         // then
         verify(favoriteHostRepository, times(1)).existsByPuppyIdAndHostId(puppyId, hostId);
-        verify(hostRepository, times(1)).findById(hostId);
-        verify(puppyRepository, times(1)).findById(puppyId);
+        verify(userRepository, times(1)).findById(hostId);
+        verify(userRepository, times(1)).findById(puppyId);
         verify(favoriteHostRepository, times(1)).save(any(FavoriteHost.class));
 
         assertNotNull(savedId);

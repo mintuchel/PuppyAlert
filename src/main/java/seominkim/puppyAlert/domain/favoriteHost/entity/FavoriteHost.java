@@ -3,8 +3,6 @@ package seominkim.puppyAlert.domain.favoriteHost.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import seominkim.puppyAlert.domain.host.entity.Host;
-import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.user.entity.User;
 
 // 외래키 2개 보유

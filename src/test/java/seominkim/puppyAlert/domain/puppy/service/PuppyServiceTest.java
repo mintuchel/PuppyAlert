@@ -11,11 +11,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.food.service.FoodService;
-import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
-import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
+import seominkim.puppyAlert.domain.user.entity.User;
+import seominkim.puppyAlert.domain.user.repository.UserRepository;
 
 import java.util.Optional;
 
@@ -29,22 +28,22 @@ public class PuppyServiceTest {
     @Mock
     private FoodService foodService;
     @Mock
-    private PuppyRepository puppyRepository;
+    private UserRepository userRepository;
 
 
-    private Host host;
-    private Puppy puppy;
+    private User host;
+    private User puppy;
     private Food food;
     private MatchRequest request;
     private MatchResponse response;
 
     @BeforeEach
     private void testSetUp(){
-        host = new Host();
+        host = new User();
         host.setId("kane");
         host.setNickName("harrykane");
 
-        puppy = new Puppy();
+        puppy = new User();
         puppy.setId("son");
 
         food = new Food();
@@ -60,7 +59,7 @@ public class PuppyServiceTest {
     @DisplayName("집밥 신청")
     public void handleMatchRequest(){
         // given
-        given(puppyRepository.findById("son")).willReturn(Optional.of(puppy));
+        given(userRepository.findById("son")).willReturn(Optional.of(puppy));
 
         given(foodService.handleMatchRequest(7L, puppy)).willReturn(response);
         // foodService 에서 foodRepository를 호출하기 때문에

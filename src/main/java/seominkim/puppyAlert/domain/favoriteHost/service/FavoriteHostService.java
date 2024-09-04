@@ -6,10 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.dto.request.FavoriteHostRequest;
 import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
 import seominkim.puppyAlert.domain.favoriteHost.repository.FavoriteHostRepository;
-import seominkim.puppyAlert.domain.host.entity.Host;
-import seominkim.puppyAlert.domain.host.repository.HostRepository;
-import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
+import seominkim.puppyAlert.domain.user.repository.UserRepository;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.PuppyException;
 
@@ -18,8 +15,7 @@ import seominkim.puppyAlert.global.exception.exception.PuppyException;
 public class FavoriteHostService {
 
     private final FavoriteHostRepository favoriteHostRepository;
-    private final HostRepository hostRepository;
-    private final PuppyRepository puppyRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public boolean isFavoriteHost(String puppyId, String hostId) {
@@ -37,8 +33,8 @@ public class FavoriteHostService {
         }
 
         FavoriteHost favoriteHost = new FavoriteHost();
-        favoriteHost.setHost(hostRepository.findById(hostId).get());
-        favoriteHost.setPuppy(puppyRepository.findById(puppyId).get());
+        favoriteHost.setHost(userRepository.findById(hostId).get());
+        favoriteHost.setPuppy(userRepository.findById(puppyId).get());
 
         return favoriteHostRepository.save(favoriteHost).getFavoriteHostId();
     }

@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
 import seominkim.puppyAlert.domain.food.entity.Food;
-import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.market.entity.Market;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
-import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.shop.entity.ProductType;
 import seominkim.puppyAlert.domain.shop.entity.Shop;
+import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.global.entity.Location;
+import seominkim.puppyAlert.global.entity.UserType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,7 +27,7 @@ class DummyService {
 
     @Transactional
     public void initHost() {
-        Host host1 = new Host();
+        User host1 = new User();
         host1.setId("KwonOhSung");
         host1.setName("권오성");
         host1.setPassword("a12345678!");
@@ -39,8 +39,9 @@ class DummyService {
         host1.setLocation(new Location(37.55379265523353, 127.07382983231048));
         host1.setPhoneNumber("010-1582-3145");
         host1.setProfileImageURL("https://avatars.githubusercontent.com/u/79124461?v=4");
+        host1.setUserType(UserType.HOST);
 
-        Host host2 = new Host();
+        User host2 = new User();
         host2.setId("KimSeHyun");
         host2.setName("김세현");
         host2.setNickName("메시");
@@ -52,8 +53,9 @@ class DummyService {
         host2.setLocation(new Location(37.55007773494337, 127.07106493659647));
         host2.setPhoneNumber("010-3244-7988");
         host2.setProfileImageURL("https://avatars.githubusercontent.com/u/102282703?v=4");
+        host2.setUserType(UserType.HOST);
 
-        Host host3 = new Host();
+        User host3 = new User();
         host3.setId("ChoSangJun");
         host3.setName("조상준");
         host3.setNickName("우원재");
@@ -65,8 +67,9 @@ class DummyService {
         host3.setLocation(new Location(37.551907956849995, 127.07636576512374));
         host3.setPhoneNumber("010-5814-6568");
         host3.setProfileImageURL("https://avatars.githubusercontent.com/u/43038815?v=4");
+        host3.setUserType(UserType.HOST);
 
-        Host host4 = new Host();
+        User host4 = new User();
         host4.setId("LimWooJin");
         host4.setName("임우진");
         host4.setPassword("a12345678!");
@@ -78,8 +81,9 @@ class DummyService {
         host4.setLocation(new Location(37.5475940875437, 127.06962825715127));
         host4.setPhoneNumber("010-4198-1241");
         host4.setProfileImageURL("https://avatars.githubusercontent.com/u/25877253?v=4");
+        host4.setUserType(UserType.HOST);
 
-        Host host5 = new Host();
+        User host5 = new User();
         host5.setId("KimHyunA");
         host5.setName("김현아");
         host5.setPassword("a12345678!");
@@ -91,8 +95,9 @@ class DummyService {
         host5.setLocation(new Location(37.54593669782253, 127.07619842193493));
         host5.setPhoneNumber("010-8731-1245");
         host5.setProfileImageURL("https://avatars.githubusercontent.com/u/129165742?v=4");
+        host5.setUserType(UserType.HOST);
 
-        Host host6 = new Host();
+        User host6 = new User();
         host6.setId("ParkDaeWon");
         host6.setName("박대원");
         host6.setPassword("a12345678!");
@@ -104,8 +109,9 @@ class DummyService {
         host6.setLocation(new Location(37.55262356990496, 127.07741047989005));
         host6.setPhoneNumber("010-1211-1000");
         host6.setProfileImageURL("https://avatars.githubusercontent.com/u/101173462?v=4");
+        host6.setUserType(UserType.HOST);
 
-        Host host7 = new Host();
+        User host7 = new User();
         host7.setId("ChoHyungJun");
         host7.setName("조형준");
         host7.setPassword("a12345678!");
@@ -117,8 +123,9 @@ class DummyService {
         host7.setLocation(new Location(37.547096349517936, 127.07324610787151));
         host7.setPhoneNumber("010-6587-8014");
         host7.setProfileImageURL("https://avatars.githubusercontent.com/u/1024025?v=4");
+        host7.setUserType(UserType.HOST);
 
-        Host host8 = new Host();
+        User host8 = new User();
         host8.setId("ShinJiHun");
         host8.setName("신지훈");
         host8.setPassword("a12345678!");
@@ -130,6 +137,7 @@ class DummyService {
         host8.setLocation(new Location(37.54588160784895, 127.0706083175839));
         host8.setPhoneNumber("010-3265-0541");
         host8.setProfileImageURL("https://avatars.githubusercontent.com/u/82876698?v=4");
+        host8.setUserType(UserType.HOST);
 
         em.persist(host1);
         em.persist(host2);
@@ -143,7 +151,7 @@ class DummyService {
 
     @Transactional
     public void initPuppy() {
-        Puppy puppy1 = new Puppy();
+        User puppy1 = new User();
         puppy1.setId("SeoSangHyeok");
         puppy1.setName("서상혁");
         puppy1.setPassword("a12345678!");
@@ -155,8 +163,9 @@ class DummyService {
         puppy1.setLocation(new Location(37.55191738446834, 127.0721191456786));
         puppy1.setPhoneNumber("010-1111-2222");
         puppy1.setProfileImageURL("https://avatars.githubusercontent.com/u/126949574?v=4");
+        puppy1.setUserType(UserType.PUPPY);
 
-        Puppy puppy2 = new Puppy();
+        User puppy2 = new User();
         puppy2.setId("MinJaeHong");
         puppy2.setName("민재홍");
         puppy2.setPassword("a12345678!");
@@ -168,8 +177,9 @@ class DummyService {
         puppy2.setLocation(new Location(37.549611195346664, 127.07514407425086));
         puppy2.setPhoneNumber("010-6457-9554");
         puppy2.setProfileImageURL("https://avatars.githubusercontent.com/u/103743166?v=4");
+        puppy2.setUserType(UserType.PUPPY);
 
-        Puppy puppy3 = new Puppy();
+        User puppy3 = new User();
         puppy3.setId("KimJiWon");
         puppy3.setName("김지원");
         puppy3.setPassword("a12345678!");
@@ -181,6 +191,7 @@ class DummyService {
         puppy3.setLocation(new Location(37.547023288665116, 127.07116671038504));
         puppy3.setPhoneNumber("010-8221-7458");
         puppy3.setProfileImageURL("https://avatars.githubusercontent.com/u/15929412?v=4");
+        puppy3.setUserType(UserType.PUPPY);
 
         em.persist(puppy1);
         em.persist(puppy2);
@@ -245,69 +256,69 @@ class DummyService {
     public void initFood() {
         // 서상혁-권오성
         Food food1 = new Food();
-        food1.setHost(em.find(Host.class, "KwonOhSung"));
-        food1.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
+        food1.setHost(em.find(User.class, "KwonOhSung"));
+        food1.setPuppy(em.find(User.class, "SeoSangHyeok"));
         food1.setMenu(em.find(Menu.class, "까르보나라"));
         food1.setTime(LocalDateTime.of(2024, 8, 1, 14, 30));
         food1.setStatus(FoodStatus.MATCHED);
 
         // 민재홍-김세현
         Food food2 = new Food();
-        food2.setHost(em.find(Host.class, "KimSeHyun"));
-        food2.setPuppy(em.find(Puppy.class, "MinJaeHong"));
+        food2.setHost(em.find(User.class, "KimSeHyun"));
+        food2.setPuppy(em.find(User.class, "MinJaeHong"));
         food2.setMenu(em.find(Menu.class, "제육볶음"));
         food2.setTime(LocalDateTime.of(2024, 8, 1, 18, 00));
         food2.setStatus(FoodStatus.MATCHED);
 
         // 김지원-조상준
         Food food3 = new Food();
-        food3.setHost(em.find(Host.class, "ChoSangJun"));
-        food3.setPuppy(em.find(Puppy.class, "KimJiWon"));
+        food3.setHost(em.find(User.class, "ChoSangJun"));
+        food3.setPuppy(em.find(User.class, "KimJiWon"));
         food3.setMenu(em.find(Menu.class, "삼계탕"));
         food3.setTime(LocalDateTime.of(2024, 8, 1, 9, 20));
         food3.setStatus(FoodStatus.MATCHED);
 
         // 김지원-임우진
         Food food4 = new Food();
-        food4.setHost(em.find(Host.class, "LimWooJin"));
-        food4.setPuppy(em.find(Puppy.class, "KimJiWon"));
+        food4.setHost(em.find(User.class, "LimWooJin"));
+        food4.setPuppy(em.find(User.class, "KimJiWon"));
         food4.setMenu(em.find(Menu.class, "순두부찌개"));
         food4.setTime(LocalDateTime.of(2024, 8, 1, 17, 45));
         food4.setStatus(FoodStatus.MATCHED);
 
         // 서상혁-김현아
         Food food5 = new Food();
-        food5.setHost(em.find(Host.class, "KimHyunA"));
-        food5.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
+        food5.setHost(em.find(User.class, "KimHyunA"));
+        food5.setPuppy(em.find(User.class, "SeoSangHyeok"));
         food5.setMenu(em.find(Menu.class, "얼큰한 해물라면"));
         food5.setTime(LocalDateTime.of(2024, 8, 1, 18, 00));
         food5.setStatus(FoodStatus.MATCHED);
 
         // 민재홍-박대원
         Food food6 = new Food();
-        food6.setHost(em.find(Host.class, "ParkDaeWon"));
-        food6.setPuppy(em.find(Puppy.class, "MinJaeHong"));
+        food6.setHost(em.find(User.class, "ParkDaeWon"));
+        food6.setPuppy(em.find(User.class, "MinJaeHong"));
         food6.setMenu(em.find(Menu.class, "우거지 해장국"));
         food6.setTime(LocalDateTime.of(2024, 8, 1, 19, 00));
         food6.setStatus(FoodStatus.MATCHED);
 
         // 아직 매칭안된 박대원 집밥
         Food food7 = new Food();
-        food7.setHost(em.find(Host.class, "ParkDaeWon"));
+        food7.setHost(em.find(User.class, "ParkDaeWon"));
         food7.setMenu(em.find(Menu.class, "통등심 돈까스"));
         food7.setTime(LocalDateTime.of(2024, 8, 1, 10, 20));
         food7.setStatus(FoodStatus.READY);
 
         // 아직 매칭안된 조형준 집밥
         Food food8 = new Food();
-        food8.setHost(em.find(Host.class, "ChoHyungJun"));
+        food8.setHost(em.find(User.class, "ChoHyungJun"));
         food8.setMenu(em.find(Menu.class, "녹두전"));
         food8.setTime(LocalDateTime.of(2024, 8, 1, 15, 35));
         food8.setStatus(FoodStatus.READY);
 
         // 아직 매칭안된 신지훈 집밥
         Food food9 = new Food();
-        food9.setHost(em.find(Host.class, "ShinJiHun"));
+        food9.setHost(em.find(User.class, "ShinJiHun"));
         food9.setMenu(em.find(Menu.class, "불고기고구마 피자"));
         food9.setTime(LocalDateTime.of(2024, 8, 1, 21, 00));
         food9.setStatus(FoodStatus.READY);
@@ -327,42 +338,42 @@ class DummyService {
     public void initFavoriteHost() {
         // 서상혁
         FavoriteHost favoriteHost1 = new FavoriteHost();
-        favoriteHost1.setHost(em.find(Host.class, "KwonOhSung"));
-        favoriteHost1.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
+        favoriteHost1.setHost(em.find(User.class, "KwonOhSung"));
+        favoriteHost1.setPuppy(em.find(User.class, "SeoSangHyeok"));
 
         FavoriteHost favoriteHost4 = new FavoriteHost();
-        favoriteHost4.setHost(em.find(Host.class, "KimHyunA"));
-        favoriteHost4.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
+        favoriteHost4.setHost(em.find(User.class, "KimHyunA"));
+        favoriteHost4.setPuppy(em.find(User.class, "SeoSangHyeok"));
 
         FavoriteHost favoriteHost8 = new FavoriteHost();
-        favoriteHost8.setHost(em.find(Host.class, "ChoSangJun"));
-        favoriteHost8.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
+        favoriteHost8.setHost(em.find(User.class, "ChoSangJun"));
+        favoriteHost8.setPuppy(em.find(User.class, "SeoSangHyeok"));
 
         FavoriteHost favoriteHost9 = new FavoriteHost();
-        favoriteHost9.setHost(em.find(Host.class, "ChoHyungJun"));
-        favoriteHost9.setPuppy(em.find(Puppy.class, "SeoSangHyeok"));
+        favoriteHost9.setHost(em.find(User.class, "ChoHyungJun"));
+        favoriteHost9.setPuppy(em.find(User.class, "SeoSangHyeok"));
 
         // 민재홍
         FavoriteHost favoriteHost2 = new FavoriteHost();
-        favoriteHost2.setHost(em.find(Host.class, "KimSeHyun"));
-        favoriteHost2.setPuppy(em.find(Puppy.class, "MinJaeHong"));
+        favoriteHost2.setHost(em.find(User.class, "KimSeHyun"));
+        favoriteHost2.setPuppy(em.find(User.class, "MinJaeHong"));
 
         FavoriteHost favoriteHost7 = new FavoriteHost();
-        favoriteHost7.setHost(em.find(Host.class, "ParkDaeWon"));
-        favoriteHost7.setPuppy(em.find(Puppy.class, "MinJaeHong"));
+        favoriteHost7.setHost(em.find(User.class, "ParkDaeWon"));
+        favoriteHost7.setPuppy(em.find(User.class, "MinJaeHong"));
 
         FavoriteHost favoriteHost5 = new FavoriteHost();
-        favoriteHost5.setHost(em.find(Host.class, "ShinJiHun"));
-        favoriteHost5.setPuppy(em.find(Puppy.class, "MinJaeHong"));
+        favoriteHost5.setHost(em.find(User.class, "ShinJiHun"));
+        favoriteHost5.setPuppy(em.find(User.class, "MinJaeHong"));
 
         // 김지원
         FavoriteHost favoriteHost3 = new FavoriteHost();
-        favoriteHost3.setHost(em.find(Host.class, "ChoSangJun"));
-        favoriteHost3.setPuppy(em.find(Puppy.class, "KimJiWon"));
+        favoriteHost3.setHost(em.find(User.class, "ChoSangJun"));
+        favoriteHost3.setPuppy(em.find(User.class, "KimJiWon"));
 
         FavoriteHost favoriteHost6 = new FavoriteHost();
-        favoriteHost6.setHost(em.find(Host.class, "LimWooJin"));
-        favoriteHost6.setPuppy(em.find(Puppy.class, "KimJiWon"));
+        favoriteHost6.setHost(em.find(User.class, "LimWooJin"));
+        favoriteHost6.setPuppy(em.find(User.class, "KimJiWon"));
 
         em.persist(favoriteHost1);
         em.persist(favoriteHost2);

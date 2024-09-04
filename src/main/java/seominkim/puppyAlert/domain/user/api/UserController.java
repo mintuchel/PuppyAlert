@@ -17,6 +17,12 @@ public class UserController {
 
     private final UserService userService;
 
+    @Operation(summary = "유저 단건 조회")
+    @GetMapping()
+    public UserInfoResponse findOne(@RequestParam String id){
+        return userService.findOne(id);
+    }
+
     @Operation(summary = "로그인")
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest){
@@ -41,11 +47,5 @@ public class UserController {
     @GetMapping("/checkNickName")
     public NickNameCheckResponse checkNickName(@RequestParam String nickName){
         return new NickNameCheckResponse(userService.checkIfNickNameExists(nickName));
-    }
-
-    @Operation(summary = "유저 단건 조회")
-    @GetMapping()
-    public UserInfoResponse findOne(@RequestParam String id){
-        return userService.findOne(id);
     }
 }

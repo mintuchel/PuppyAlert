@@ -11,11 +11,10 @@ import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.food.repository.FoodRepository;
-import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.menu.service.MenuService;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
-import seominkim.puppyAlert.domain.puppy.entity.Puppy;
+import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
 import seominkim.puppyAlert.global.utility.FoodLimitator;
@@ -34,11 +33,11 @@ public class FoodService {
     private final FoodLimitator foodLimitator;
 
     @Transactional
-    public AddFoodResponse addNewFood(Host providerHost, FoodRequest foodRequest){
+    public AddFoodResponse addNewFood(User host, FoodRequest foodRequest){
         Food newFood = new Food();
         Menu menu = menuService.findOne(foodRequest.menuName());
 
-        newFood.setHost(providerHost);
+        newFood.setHost(host);
         newFood.setMenu(menu);
         newFood.setTime(foodRequest.time());
         newFood.setStatus(foodRequest.status());
@@ -55,20 +54,20 @@ public class FoodService {
     public List<FoodInfoResponse> findAll(){
         return foodRepository.findAll().stream()
                 .map(food -> {
-                    Host curHost = food.getHost();
+                    User host = food.getHost();
                     Menu menu = food.getMenu();
 
                     return new FoodInfoResponse(
                             food.getFoodId(),
-                            curHost.getId(),
-                            curHost.getNickName(),
+                            host.getId(),
+                            host.getNickName(),
                             false,
                             menu.getMenuName(),
                             menu.getImageURL(),
                             food.getTime(),
-                            curHost.getAddress(),
-                            curHost.getDetailAddress(),
-                            curHost.getLocation(),
+                            host.getAddress(),
+                            host.getDetailAddress(),
+                            host.getLocation(),
                             food.getStatus()
                     );
                 })
@@ -76,7 +75,7 @@ public class FoodService {
     }
 
     @Transactional(readOnly = true)
-    public List<FoodInfoResponse> getAvailableFood(Puppy puppy){
+    public List<FoodInfoResponse> getAvailableFood(User puppy){
 
         Double curPuppyLatitude = puppy.getLocation().getLatitude();
         Double curPuppyLongitude = puppy.getLocation().getLongitude();
@@ -87,7 +86,7 @@ public class FoodService {
 
         return availableFoodList.stream()
                 .map(food -> {
-                    Host curHost = food.getHost();
+                    User curHost = food.getHost();
                     Menu menu = food.getMenu();
                     boolean isFavorite = favoriteHostService.isFavoriteHost(puppy.getId(), curHost.getId());
 
@@ -113,20 +112,20 @@ public class FoodService {
     public FoodInfoResponse findById(Long foodId) {
         return foodRepository.findById(foodId)
                 .map(food -> {
-                    Host curHost = food.getHost();
+                    User host = food.getHost();
                     Menu menu = food.getMenu();
 
                     return new FoodInfoResponse(
                             food.getFoodId(),
-                            curHost.getId(),
-                            curHost.getNickName(),
+                            host.getId(),
+                            host.getNickName(),
                             false,
                             menu.getMenuName(),
                             menu.getImageURL(),
                             food.getTime(),
-                            curHost.getAddress(),
-                            curHost.getDetailAddress(),
-                            curHost.getLocation(),
+                            host.getAddress(),
+                            host.getDetailAddress(),
+                            host.getLocation(),
                             food.getStatus()
                     );
                 })
@@ -135,7 +134,7 @@ public class FoodService {
 
 
     @Transactional
-    public MatchResponse handleMatchRequest(Long foodId, Puppy puppy) {
+    public MatchResponse handleMatchRequest(Long foodId, User puppy) {
         Food matchedFood = foodRepository.findById(foodId)
                 .orElseThrow(() -> new FoodException(ErrorCode.NON_EXISTING_FOOD));
 

@@ -13,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.dto.request.FavoriteHostRequest;
 import seominkim.puppyAlert.domain.favoriteHost.dto.response.FavoriteHostResponse;
 import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
-import seominkim.puppyAlert.domain.host.entity.Host;
-import seominkim.puppyAlert.domain.puppy.entity.Puppy;
 import seominkim.puppyAlert.domain.puppy.service.PuppyService;
 import seominkim.puppyAlert.global.entity.Location;
 

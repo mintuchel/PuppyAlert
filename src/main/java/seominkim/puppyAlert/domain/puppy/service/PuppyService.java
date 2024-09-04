@@ -13,10 +13,10 @@ import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.user.entity.User;
+import seominkim.puppyAlert.domain.user.repository.UserRepository;
 import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
-import seominkim.puppyAlert.domain.puppy.entity.Puppy;
-import seominkim.puppyAlert.domain.puppy.repository.PuppyRepository;
+import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.PuppyException;
 
@@ -31,12 +31,13 @@ public class PuppyService {
     private final FoodService foodService;
     private final FavoriteHostService favoriteHostService;
 
-    private final PuppyRepository puppyRepository;
+    private final UserRepository userRepository;
 
     // Puppy 전체 검색
     @Transactional(readOnly = true)
     public List<UserInfoResponse> findAll() {
-        return puppyRepository.findAll().stream()
+        return userRepository.findAll().stream()
+                .filter(user -> user.getUserType() == UserType.PUPPY) // UserType이 Host인 경우만 필터링
                 .map(puppy -> new UserInfoResponse(
                         puppy.getId(),
                         puppy.getName(),
@@ -54,7 +55,7 @@ public class PuppyService {
     // Puppy 신청 가능한 집밥
     @Transactional(readOnly = true)
     public List<FoodInfoResponse> getAvailableFood(String puppyId){
-        Puppy puppy = puppyRepository.findById(puppyId)
+        User puppy = userRepository.findById(puppyId)
                 .orElseThrow(() -> new PuppyException(ErrorCode.NON_EXISTING_USER));
 
         return foodService.getAvailableFood(puppy);
@@ -64,7 +65,7 @@ public class PuppyService {
     @Transactional
     public MatchResponse handleMatchRequest(MatchRequest matchRequest) {
         Long foodId = matchRequest.foodId();
-        Puppy puppy = puppyRepository.findById(matchRequest.puppyId())
+        User puppy = userRepository.findById(matchRequest.puppyId())
                 .orElseThrow(() -> new PuppyException(ErrorCode.NON_EXISTING_USER));
         return foodService.handleMatchRequest(foodId, puppy);
     }
@@ -74,8 +75,10 @@ public class PuppyService {
     // 연관관계의 주인이 Puppy 가 아니긴 한데 CUD 작업이 아니므로
     @Transactional(readOnly = true)
     public List<MatchHistoryResponse> getHistory(String puppyId) {
-        Puppy puppy = puppyRepository.findById(puppyId).get();
-        return puppy.getFoodList().stream()
+        User puppy = userRepository.findById(puppyId).get();
+
+        // User 엔티티에서 puppyFoods 추출해서 사용
+        return puppy.getPuppyFoods().stream()
                 .map(food -> {
                     // 필요한 엔티티 미리 추출
                     // 참조할때마다 jpa join 쿼리 나가서 미리 해주는게 좋음
@@ -98,13 +101,12 @@ public class PuppyService {
                 .collect(Collectors.toList());
     }
 
-
     // Puppy 관심 호스트 조회
     // readonly 작업이니까 그냥 list 들고와도댐
     // foodService 통해서 가장 최근시간 JPQL 로 확인
     @Transactional(readOnly = true)
     public List<FavoriteHostResponse> getFavoriteHost(String puppyId){
-        Puppy puppy = puppyRepository.findById(puppyId)
+        User puppy = userRepository.findById(puppyId)
                 .orElseThrow(() -> new PuppyException(ErrorCode.NON_EXISTING_USER));
 
         return puppy.getFavoriteHostList().stream()
@@ -135,13 +137,13 @@ public class PuppyService {
 
     // 관심 HOST 추가
     @Transactional
-    public void addFavoriteHost(FavoriteHostRequest favoriteHostRequest){
-        favoriteHostService.addFavoriteHost(favoriteHostRequest);
+    public Long addFavoriteHost(FavoriteHostRequest favoriteHostRequest){
+        return favoriteHostService.addFavoriteHost(favoriteHostRequest);
     }
 
     // 관심 HOST 삭제
     @Transactional
-    public void deleteFavoriteHost(FavoriteHostRequest favoriteHostRequest){
-        favoriteHostService.deleteFavoriteHost(favoriteHostRequest);
+    public Long deleteFavoriteHost(FavoriteHostRequest favoriteHostRequest){
+        return favoriteHostService.deleteFavoriteHost(favoriteHostRequest);
     }
 }

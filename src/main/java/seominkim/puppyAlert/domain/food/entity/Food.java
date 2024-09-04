@@ -2,9 +2,8 @@ package seominkim.puppyAlert.domain.food.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import seominkim.puppyAlert.domain.host.entity.Host;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
-import seominkim.puppyAlert.domain.puppy.entity.Puppy;
+import seominkim.puppyAlert.domain.user.entity.User;
 
 import java.time.LocalDateTime;
 
@@ -16,13 +15,13 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long foodId;
 
-    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "hostId")
-    private Host host;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "host_id")
+    private User host;
 
-    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "puppyId")
-    private Puppy puppy;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "puppy_id")
+    private User puppy;
 
     @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "menuName")
