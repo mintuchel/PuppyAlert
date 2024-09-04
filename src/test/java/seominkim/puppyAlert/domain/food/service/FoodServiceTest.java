@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 @ActiveProfiles("test")
 public class FoodServiceTest {
 
+    // hello
     @Autowired FoodService foodService;
     @Autowired EntityManager em;
 
