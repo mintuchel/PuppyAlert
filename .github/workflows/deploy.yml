@@ -12,12 +12,14 @@ jobs:
       - name: SSH(원격접속)로 EC2에 접속하기
         uses: appleboy/ssh-action@v1.0.3
         with:
+          # GITHUB-SETTINGS-SECRETS
           # EC2 IP 주소
           host: ${{ secrets.EC2_HOST }}
           # EC2 사용자 이름
           username: ${{ secrets.EC2_USERNAME }}
-          # 실제로 ec2 접근할때의 key pair
+          # EC2 KEY
           key: ${{ secrets.EC2_PRIVATE_KEY }}
+
           script_stop: true
           # 1. EC2에서 프로젝트 경로로 이동
           # 2. EC2에서 pull 실행
