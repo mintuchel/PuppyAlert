@@ -31,7 +31,7 @@ class DummyService {
         host1.setId("KwonOhSung");
         host1.setName("권오성");
         host1.setPassword("a12345678!");
-        host1.setNickName("호날두");
+        host1.setNickName("한입당호우");
         host1.setBirth(LocalDate.now());
         // 손수제치킨
         host1.setAddress("군자동 150-14");
@@ -44,7 +44,7 @@ class DummyService {
         User host2 = new User();
         host2.setId("KimSeHyun");
         host2.setName("김세현");
-        host2.setNickName("메시");
+        host2.setNickName("맑은햇살");
         host2.setPassword("a12345678!");
         host2.setBirth(LocalDate.now());
         // 찬스불고기 부리또
@@ -58,7 +58,7 @@ class DummyService {
         User host3 = new User();
         host3.setId("ChoSangJun");
         host3.setName("조상준");
-        host3.setNickName("우원재");
+        host3.setNickName("군자동음바페");
         host3.setPassword("a12345678!");
         host3.setBirth(LocalDate.now());
         // 스타벅스 어린이대공원점
@@ -73,7 +73,7 @@ class DummyService {
         host4.setId("LimWooJin");
         host4.setName("임우진");
         host4.setPassword("a12345678!");
-        host4.setNickName("킬리안음바페요");
+        host4.setNickName("화양동백종원");
         host4.setBirth(LocalDate.now());
         // 아람 보리밥국수
         host4.setAddress("화양동 18-21");
@@ -87,7 +87,7 @@ class DummyService {
         host5.setId("KimHyunA");
         host5.setName("김현아");
         host5.setPassword("a12345678!");
-        host5.setNickName("팔로얄토");
+        host5.setNickName("라면물조절장인");
         host5.setBirth(LocalDate.now());
         // 쥬씨
         host5.setAddress("화양동 495-10");
@@ -101,7 +101,7 @@ class DummyService {
         host6.setId("ParkDaeWon");
         host6.setName("박대원");
         host6.setPassword("a12345678!");
-        host6.setNickName("슈퍼비");
+        host6.setNickName("호밀밭의요리사");
         host6.setBirth(LocalDate.now());
         // 진한방삼계탕
         host6.setAddress("군자동 230");
@@ -115,7 +115,7 @@ class DummyService {
         host7.setId("ChoHyungJun");
         host7.setName("조형준");
         host7.setPassword("a12345678!");
-        host7.setNickName("키드밀리");
+        host7.setNickName("비도오고그래서");
         host7.setBirth(LocalDate.now());
         // 옛날종로빈대떡
         host7.setAddress("화양동 217");
@@ -129,7 +129,7 @@ class DummyService {
         host8.setId("ShinJiHun");
         host8.setName("신지훈");
         host8.setPassword("a12345678!");
-        host8.setNickName("오왼 오바도즈");
+        host8.setNickName("한없이맑은눈물");
         host8.setBirth(LocalDate.now());
         // 개카페
         host8.setAddress("화양동 131-3");
@@ -183,7 +183,7 @@ class DummyService {
         puppy3.setId("KimJiWon");
         puppy3.setName("김지원");
         puppy3.setPassword("a12345678!");
-        puppy3.setNickName("니가가라하와이");
+        puppy3.setNickName("민초러버");
         puppy3.setBirth(LocalDate.now());
         // 화양타워아파트
         puppy3.setAddress("화양동 110-37");
