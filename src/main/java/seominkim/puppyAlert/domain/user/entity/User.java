@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "user_table")
 @Getter
 @Setter
@@ -54,7 +53,7 @@ public class User {
     @OneToMany(mappedBy = "host", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Food> hostFoods = new ArrayList<>();
 
-    @OneToMany(mappedBy = "puppy", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "puppy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Food> puppyFoods = new ArrayList<>();
 
     @OneToMany(mappedBy = "puppy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

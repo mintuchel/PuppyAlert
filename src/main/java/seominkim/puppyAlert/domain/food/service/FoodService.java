@@ -32,24 +32,6 @@ public class FoodService {
 
     private final FoodLimitator foodLimitator;
 
-    @Transactional
-    public AddFoodResponse addNewFood(User host, FoodRequest foodRequest){
-        Food newFood = new Food();
-        Menu menu = menuService.findOne(foodRequest.menuName());
-
-        newFood.setHost(host);
-        newFood.setMenu(menu);
-        newFood.setTime(foodRequest.time());
-        newFood.setStatus(foodRequest.status());
-
-        // save 되면서 @Id @GeneratedValue 값이 생성됨
-        // food와 menu의 관계 중 food가 연관관계의 주인이기 때문에
-        // foodRepository.save 되면서 menu도 저장이 됨
-        foodRepository.save(newFood);
-
-        return new AddFoodResponse(newFood.getFoodId(), menu.getImageURL());
-    }
-
     @Transactional(readOnly = true)
     public List<FoodInfoResponse> findAll(){
         return foodRepository.findAll().stream()
@@ -72,6 +54,48 @@ public class FoodService {
                     );
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public FoodInfoResponse findById(Long foodId) {
+        return foodRepository.findById(foodId)
+                .map(food -> {
+                    User host = food.getHost();
+                    Menu menu = food.getMenu();
+
+                    return new FoodInfoResponse(
+                            food.getFoodId(),
+                            host.getId(),
+                            host.getNickName(),
+                            false,
+                            menu.getMenuName(),
+                            menu.getImageURL(),
+                            food.getTime(),
+                            host.getAddress(),
+                            host.getDetailAddress(),
+                            host.getLocation(),
+                            food.getStatus()
+                    );
+                })
+                .orElseThrow(() -> new FoodException(ErrorCode.NON_EXISTING_FOOD));
+    }
+
+    @Transactional
+    public AddFoodResponse addNewFood(User host, FoodRequest foodRequest){
+        Food newFood = new Food();
+        Menu menu = menuService.findOne(foodRequest.menuName());
+
+        newFood.setHost(host);
+        newFood.setMenu(menu);
+        newFood.setTime(foodRequest.time());
+        newFood.setStatus(foodRequest.status());
+
+        // save 되면서 @Id @GeneratedValue 값이 생성됨
+        // food와 menu의 관계 중 food가 연관관계의 주인이기 때문에
+        // foodRepository.save 되면서 menu도 저장이 됨
+        foodRepository.save(newFood);
+
+        return new AddFoodResponse(newFood.getFoodId(), menu.getImageURL());
     }
 
     @Transactional(readOnly = true)
@@ -107,31 +131,6 @@ public class FoodService {
                 .collect(Collectors.toList());
 
     }
-
-    @Transactional(readOnly = true)
-    public FoodInfoResponse findById(Long foodId) {
-        return foodRepository.findById(foodId)
-                .map(food -> {
-                    User host = food.getHost();
-                    Menu menu = food.getMenu();
-
-                    return new FoodInfoResponse(
-                            food.getFoodId(),
-                            host.getId(),
-                            host.getNickName(),
-                            false,
-                            menu.getMenuName(),
-                            menu.getImageURL(),
-                            food.getTime(),
-                            host.getAddress(),
-                            host.getDetailAddress(),
-                            host.getLocation(),
-                            food.getStatus()
-                    );
-                })
-                .orElseThrow(() -> new FoodException(ErrorCode.NON_EXISTING_FOOD));
-    }
-
 
     @Transactional
     public MatchResponse handleMatchRequest(Long foodId, User puppy) {

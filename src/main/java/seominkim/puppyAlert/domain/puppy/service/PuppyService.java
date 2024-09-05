@@ -18,7 +18,7 @@ import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
 import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
-import seominkim.puppyAlert.global.exception.exception.PuppyException;
+import seominkim.puppyAlert.global.exception.exception.UserException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -56,7 +56,7 @@ public class PuppyService {
     @Transactional(readOnly = true)
     public List<FoodInfoResponse> getAvailableFood(String puppyId){
         User puppy = userRepository.findById(puppyId)
-                .orElseThrow(() -> new PuppyException(ErrorCode.NON_EXISTING_USER));
+                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
 
         return foodService.getAvailableFood(puppy);
     }
@@ -66,7 +66,7 @@ public class PuppyService {
     public MatchResponse handleMatchRequest(MatchRequest matchRequest) {
         Long foodId = matchRequest.foodId();
         User puppy = userRepository.findById(matchRequest.puppyId())
-                .orElseThrow(() -> new PuppyException(ErrorCode.NON_EXISTING_USER));
+                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
         return foodService.handleMatchRequest(foodId, puppy);
     }
 
@@ -107,7 +107,7 @@ public class PuppyService {
     @Transactional(readOnly = true)
     public List<FavoriteHostResponse> getFavoriteHost(String puppyId){
         User puppy = userRepository.findById(puppyId)
-                .orElseThrow(() -> new PuppyException(ErrorCode.NON_EXISTING_USER));
+                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
 
         return puppy.getFavoriteHostList().stream()
                 .map(favoriteHost -> {
@@ -123,6 +123,7 @@ public class PuppyService {
                     else recentTime = recentFoodInfo.getTime();
 
                     FavoriteHostResponse favoriteHostResponse = new FavoriteHostResponse(
+                            hostId,
                             hostNickName,
                             hostProfileImageUrl,
                             recentTime

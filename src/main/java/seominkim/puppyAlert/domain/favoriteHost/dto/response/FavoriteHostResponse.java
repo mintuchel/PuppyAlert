@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public record FavoriteHostResponse(
+        @NotBlank String hostId,
         @NotBlank String hostNickName,
         String hostProfileImageURL,
         LocalDateTime recentFoodTime

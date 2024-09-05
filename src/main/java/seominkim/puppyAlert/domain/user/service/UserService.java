@@ -13,7 +13,7 @@ import seominkim.puppyAlert.domain.user.repository.UserRepository;
 import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.CommonException;
-import seominkim.puppyAlert.global.exception.exception.HostException;
+import seominkim.puppyAlert.global.exception.exception.UserException;
 
 @Service
 @RequiredArgsConstructor
@@ -96,6 +96,6 @@ public class UserService {
                             user.getProfileImageURL()
                     );
                     return dto;
-                }).orElseThrow(() -> new HostException(ErrorCode.NON_EXISTING_USER));
+                }).orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
     }
 }

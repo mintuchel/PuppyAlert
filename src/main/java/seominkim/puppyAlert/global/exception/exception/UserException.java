@@ -6,6 +6,6 @@ import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 
 @AllArgsConstructor
 @Getter
-public class HostException extends RuntimeException{
+public class UserException extends RuntimeException{
     private ErrorCode errorCode;
 }

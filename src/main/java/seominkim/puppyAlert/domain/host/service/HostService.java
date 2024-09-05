@@ -13,7 +13,7 @@ import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
 import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
-import seominkim.puppyAlert.global.exception.exception.HostException;
+import seominkim.puppyAlert.global.exception.exception.UserException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,11 +29,17 @@ public class HostService {
     @Transactional
     public AddFoodResponse addFood(FoodRequest foodRequest){
         User host = userRepository.findById(foodRequest.hostId())
-                .orElseThrow(() -> new HostException(ErrorCode.NON_EXISTING_USER));
+                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
 
         return foodService.addNewFood(host, foodRequest);
     }
 
+    // 집밥 취소
+    @Transactional
+    public void deleteFood(FoodRequest foodRequest){
+
+    }
+    
     // Host 전체 검색
     @Transactional(readOnly = true)
     public List<UserInfoResponse> findAll() {
@@ -60,7 +66,7 @@ public class HostService {
     @Transactional(readOnly = true)
     public List<MatchHistoryResponse> getHistory(String hostId){
         User host = userRepository.findById(hostId)
-                .orElseThrow(() -> new HostException(ErrorCode.NON_EXISTING_USER));
+                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
 
         // Host 엔티티에서 hostFoods 추출해서 사용
         return host.getHostFoods().stream()

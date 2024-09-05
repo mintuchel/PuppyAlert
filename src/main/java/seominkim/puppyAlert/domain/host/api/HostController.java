@@ -32,9 +32,17 @@ public class HostController {
         return hostService.addFood(foodRequest);
     }
 
+    @Operation(summary = "집밥 취소")
+    @DeleteMapping("/food")
+    public void CancelFood(@RequestBody FoodRequest foodRequest){ hostService.deleteFood(foodRequest); }
+
     @Operation(summary = "집밥 기록 조회")
     @GetMapping("/history")
-    public List<MatchHistoryResponse> getHostHistory(@RequestParam String hostId){
-        return hostService.getHistory(hostId);
+    public List<MatchHistoryResponse> getHostHistory(@RequestParam String hostId){ return hostService.getHistory(hostId); }
+
+    @Operation(summary = "집밥 추천받기")
+    @PostMapping("/recommend")
+    public void getRecommend(){
+
     }
 }

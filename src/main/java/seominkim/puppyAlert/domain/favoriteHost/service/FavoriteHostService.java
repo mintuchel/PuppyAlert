@@ -8,7 +8,7 @@ import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
 import seominkim.puppyAlert.domain.favoriteHost.repository.FavoriteHostRepository;
 import seominkim.puppyAlert.domain.user.repository.UserRepository;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
-import seominkim.puppyAlert.global.exception.exception.PuppyException;
+import seominkim.puppyAlert.global.exception.exception.UserException;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +28,9 @@ public class FavoriteHostService {
         String puppyId = favoriteHostRequest.puppyId();
         String hostId = favoriteHostRequest.hostId();
 
+        // 만약 이미 존재하면 예외처리
         if(favoriteHostRepository.existsByPuppyIdAndHostId(puppyId, hostId)){
-            throw new PuppyException(ErrorCode.ALREADY_FAVORITE_HOST);
+            throw new UserException(ErrorCode.ALREADY_FAVORITE_HOST);
         }
 
         FavoriteHost favoriteHost = new FavoriteHost();
@@ -45,8 +46,9 @@ public class FavoriteHostService {
         String puppyId = favoriteHostRequest.puppyId();
         String hostId = favoriteHostRequest.hostId();
 
+        // 만약 이미 삭제되었으면 예외처리
         if(!favoriteHostRepository.existsByPuppyIdAndHostId(puppyId, hostId)){
-            throw new PuppyException(ErrorCode.DELETED_FAVORITE_HOST);
+            throw new UserException(ErrorCode.DELETED_FAVORITE_HOST);
         }
 
         FavoriteHost favoriteHost = favoriteHostRepository.findByPuppyIdAndHostId(puppyId, hostId);
