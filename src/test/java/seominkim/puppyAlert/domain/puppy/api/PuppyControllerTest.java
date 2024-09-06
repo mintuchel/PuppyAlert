@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(PuppyController.class)
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 public class PuppyControllerTest {
     @Autowired
     MockMvc mockMvc;
