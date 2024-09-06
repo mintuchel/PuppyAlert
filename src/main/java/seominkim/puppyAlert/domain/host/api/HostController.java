@@ -42,7 +42,7 @@ public class HostController {
 
     @Operation(summary = "집밥 추천받기")
     @GetMapping("/recommend")
-    public RecommendFoodResponse getRecommend(RecommendFoodRequest recommendFoodRequest){
+    public RecommendFoodResponse getRecommend(@RequestBody RecommendFoodRequest recommendFoodRequest){
         return openaiService.getRecommendedFoods(recommendFoodRequest);
     }
 }
