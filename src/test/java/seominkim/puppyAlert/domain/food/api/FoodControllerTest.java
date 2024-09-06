@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.food.service.FoodService;
+import seominkim.puppyAlert.domain.menu.service.MenuService;
+import seominkim.puppyAlert.domain.openai.service.OpenaiService;
 import seominkim.puppyAlert.global.entity.Location;
 
 import java.time.LocalDateTime;
@@ -27,6 +29,9 @@ public class FoodControllerTest {
 
     @MockBean
     private FoodService foodService;
+
+    @MockBean
+    private OpenaiService openaiService;
 
     @Test
     @DisplayName("집밥 단건 조회")

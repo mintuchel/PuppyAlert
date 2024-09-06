@@ -30,7 +30,6 @@ public class PuppyServiceTest {
     @Mock
     private UserRepository userRepository;
 
-
     private User host;
     private User puppy;
     private Food food;
