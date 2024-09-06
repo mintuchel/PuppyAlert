@@ -21,6 +21,7 @@ import seominkim.puppyAlert.domain.food.repository.FoodRepository;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.menu.service.MenuService;
+import seominkim.puppyAlert.domain.openai.service.OpenaiService;
 import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.global.entity.Location;
 import seominkim.puppyAlert.global.entity.UserType;
@@ -39,10 +40,12 @@ public class FoodServiceTest {
     @InjectMocks
     FoodService foodService;
 
-    @Mock FoodRepository foodRepository;
-    @Mock FoodLimitator foodLimitator;
     @Mock FavoriteHostService favoriteHostService;
     @Mock MenuService menuService;
+    @Mock OpenaiService openaiService;
+
+    @Mock FoodRepository foodRepository;
+    @Mock FoodLimitator foodLimitator;
 
     private Food food;
     private int foodId;

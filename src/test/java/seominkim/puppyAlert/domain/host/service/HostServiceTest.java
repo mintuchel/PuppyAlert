@@ -26,6 +26,7 @@ public class HostServiceTest {
 
     @Mock
     private FoodService foodService;
+
     @Mock
     private UserRepository userRepository;
 
