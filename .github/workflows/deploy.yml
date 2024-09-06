@@ -19,8 +19,6 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           # EC2 KEY
           key: ${{ secrets.EC2_PRIVATE_KEY }}
-          # OPENAI KEY
-          openai-key : ${{ secrets.OPENAI_KEY }}
 
           script_stop: true
           # 1. EC2에서 프로젝트 경로로 이동
