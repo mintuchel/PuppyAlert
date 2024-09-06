@@ -29,72 +29,69 @@ import seominkim.puppyAlert.global.utility.FoodLimitator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
-
-import static org.mockito.BDDMockito.given;
 
 //@SpringBootTest
 //@ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 public class FoodServiceTest {
-    @InjectMocks
-    FoodService foodService;
-
-    @Mock FavoriteHostService favoriteHostService;
-    @Mock MenuService menuService;
-    @Mock OpenaiService openaiService;
-
-    @Mock FoodRepository foodRepository;
-    @Mock FoodLimitator foodLimitator;
-
-    private Food food;
-    private int foodId;
-    private FoodInfoResponse response;
-
-    @BeforeEach
-    private void testSetUp(){
-        food = new Food();
-        food.setFoodId(23L);
-
-        response = new FoodInfoResponse(
-                23L,
-                "son",
-                "suppersonny",
-                false,
-                "타코야키",
-                "www.abc.com",
-                LocalDateTime.now(),
-                "tottenham",
-                "hotspur",
-                new Location(37.7749, -122.4194),
-                FoodStatus.READY
-        );
-    }
-
-//    @Test
-//    @DisplayName("집밥 조회")
-//    public void FindByIdTest(){
-//        // given
-//        given(foodRepository.findById(23L)).willReturn(Optional.of(food));
+//    @InjectMocks
+//    FoodService foodService;
 //
-//        // when
-//        FoodInfoResponse foodInfoResponse = foodService.findById(23L);
+//    @Mock FavoriteHostService favoriteHostService;
+//    @Mock MenuService menuService;
+//    @Mock OpenaiService openaiService;
 //
-//        // then
-//        Assertions.assertThat(foodInfoResponse.foodId()).isEqualTo(23L);
+//    @Mock FoodRepository foodRepository;
+//    @Mock FoodLimitator foodLimitator;
+//
+//    private Food food;
+//    private int foodId;
+//    private FoodInfoResponse response;
+//
+//    @BeforeEach
+//    private void testSetUp(){
+//        food = new Food();
+//        food.setFoodId(23L);
+//
+//        response = new FoodInfoResponse(
+//                23L,
+//                "son",
+//                "suppersonny",
+//                false,
+//                "타코야키",
+//                "www.abc.com",
+//                LocalDateTime.now(),
+//                "tottenham",
+//                "hotspur",
+//                new Location(37.7749, -122.4194),
+//                FoodStatus.READY
+//        );
 //    }
-
-    @Test
-    @DisplayName("집밥 추가")
-    public void addZipbobTest(){
-
-    }
-
-    @Test
-    @DisplayName("가능한 집밥 조회")
-    public void getAvailableZipbobTest(){
-
-    }
+//
+////    @Test
+////    @DisplayName("집밥 조회")
+////    public void FindByIdTest(){
+////        // given
+////        given(foodRepository.findById(23L)).willReturn(Optional.of(food));
+////
+////        // when
+////        FoodInfoResponse foodInfoResponse = foodService.findById(23L);
+////
+////        // then
+////        Assertions.assertThat(foodInfoResponse.foodId()).isEqualTo(23L);
+////    }
+//
+//    @Test
+//    @DisplayName("집밥 추가")
+//    public void addZipbobTest(){
+//
+//    }
+//
+//    @Test
+//    @DisplayName("가능한 집밥 조회")
+//    public void getAvailableZipbobTest(){
+//
+//    }
 
 //    @Autowired FoodService foodService;
 //    @Autowired EntityManager em;
