@@ -41,7 +41,7 @@ public class HostController {
     public void CancelFood(@RequestBody AddFoodRequest addFoodRequest){ hostService.deleteFood(addFoodRequest); }
 
     @Operation(summary = "집밥 추천받기")
-    @GetMapping("/recommend")
+    @PostMapping("/recommend")
     public RecommendFoodResponse getRecommend(@RequestBody RecommendFoodRequest recommendFoodRequest){
         return openaiService.getRecommendedFoods(recommendFoodRequest);
     }
