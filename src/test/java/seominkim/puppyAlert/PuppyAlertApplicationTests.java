@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
-@ActiveProfiles("test")
-class PuppyAlertApplicationTests {
-
+//@SpringBootTest
+//@ActiveProfiles("test")
+//class PuppyAlertApplicationTests {
+//
 //	@Test
 //	void contextLoads() {
 //	}
-}
+//}
