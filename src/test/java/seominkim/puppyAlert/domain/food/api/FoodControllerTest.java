@@ -34,7 +34,7 @@ public class FoodControllerTest {
     @DisplayName("집밥 단건 조회")
     public void findOne() throws Exception {
         // given
-        String request = foodRequest();
+        String request = addFoodRequest();
         FoodInfoResponse response = foodInfoResponse();
 
         given(foodService.findById(1L)).willReturn(response);
@@ -51,12 +51,11 @@ public class FoodControllerTest {
                 .andExpect(jsonPath("foodId",response.foodId()).exists());
     }
 
-    private String foodRequest() {
+    private String addFoodRequest() {
         return "{"
                 + "\"hostId\":\"son\","
                 + "\"menuName\":\"honny\","
-                + "\"time\":\"2024-08-29\","
-                + "\"status\":\"READY\","
+                + "\"time\":\"2024-08-29\""
                 + "}";
     }
 

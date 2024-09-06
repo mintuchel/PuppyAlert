@@ -3,7 +3,7 @@ package seominkim.puppyAlert.domain.host.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.food.dto.request.FoodRequest;
+import seominkim.puppyAlert.domain.food.dto.request.AddFoodRequest;
 import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.food.service.FoodService;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
@@ -27,16 +27,16 @@ public class HostService {
 
     // 집밥 추가
     @Transactional
-    public AddFoodResponse addFood(FoodRequest foodRequest){
-        User host = userRepository.findById(foodRequest.hostId())
+    public AddFoodResponse addFood(AddFoodRequest addFoodRequest){
+        User host = userRepository.findById(addFoodRequest.hostId())
                 .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
 
-        return foodService.addNewFood(host, foodRequest);
+        return foodService.addNewFood(host, addFoodRequest);
     }
 
     // 집밥 취소
     @Transactional
-    public void deleteFood(FoodRequest foodRequest){
+    public void deleteFood(AddFoodRequest addFoodRequest){
 
     }
     

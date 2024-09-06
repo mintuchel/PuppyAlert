@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import seominkim.puppyAlert.domain.food.dto.request.FoodRequest;
+import seominkim.puppyAlert.domain.food.dto.request.AddFoodRequest;
 import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.host.service.HostService;
 import seominkim.puppyAlert.domain.openai.service.OpenaiService;
@@ -30,13 +30,13 @@ public class HostController {
 
     @Operation(summary = "집밥 등록")
     @PostMapping("/food")
-    public AddFoodResponse addFood(@RequestBody FoodRequest foodRequest){
-        return hostService.addFood(foodRequest);
+    public AddFoodResponse addFood(@RequestBody AddFoodRequest addFoodRequest){
+        return hostService.addFood(addFoodRequest);
     }
 
     @Operation(summary = "집밥 취소")
     @DeleteMapping("/food")
-    public void CancelFood(@RequestBody FoodRequest foodRequest){ hostService.deleteFood(foodRequest); }
+    public void CancelFood(@RequestBody AddFoodRequest addFoodRequest){ hostService.deleteFood(addFoodRequest); }
 
     @Operation(summary = "집밥 기록 조회")
     @GetMapping("/history")

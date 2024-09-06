@@ -5,7 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
-import seominkim.puppyAlert.domain.food.dto.request.FoodRequest;
+import seominkim.puppyAlert.domain.food.dto.request.AddFoodRequest;
 import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
@@ -81,14 +81,14 @@ public class FoodService {
     }
 
     @Transactional
-    public AddFoodResponse addNewFood(User host, FoodRequest foodRequest){
+    public AddFoodResponse addNewFood(User host, AddFoodRequest addFoodRequest){
         Food newFood = new Food();
-        Menu menu = menuService.findOne(foodRequest.menuName());
+        Menu menu = menuService.findOne(addFoodRequest.menuName());
 
         newFood.setHost(host);
         newFood.setMenu(menu);
-        newFood.setTime(foodRequest.time());
-        newFood.setStatus(foodRequest.status());
+        newFood.setTime(addFoodRequest.time());
+        newFood.setStatus(FoodStatus.READY);
 
         // save 되면서 @Id @GeneratedValue 값이 생성됨
         // food와 menu의 관계 중 food가 연관관계의 주인이기 때문에
