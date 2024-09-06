@@ -27,8 +27,7 @@ public class OpenaiService {
     // 다른 웹 서비스에서 데이터 가져와야할때 사용
     private final RestTemplate restTemplate;
 
-    @Value("${openai_key}")
-    private String OPEN_AI_KEY;
+    private String OPEN_AI_KEY = "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";
 
     String url = "https://api.openai.com/v1/chat/completions";
 
