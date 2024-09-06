@@ -27,7 +27,7 @@ public class MenuService {
     }
 
     @Transactional(readOnly = true)
-    private boolean checkIfMenuExists(String menuName){
+    public boolean checkIfMenuExists(String menuName){
         return menuRepository.existsById(menuName);
     }
 

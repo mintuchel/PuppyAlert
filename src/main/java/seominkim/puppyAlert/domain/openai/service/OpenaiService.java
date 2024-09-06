@@ -27,7 +27,9 @@ public class OpenaiService {
     // 다른 웹 서비스에서 데이터 가져와야할때 사용
     private final RestTemplate restTemplate;
 
-    private String OPEN_AI_KEY = "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";
+    // properties에서 API 키를 주입
+    @Value("${OPENAI_KEY}")
+    private String OPENAI_KEY;
 
     String url = "https://api.openai.com/v1/chat/completions";
 
@@ -37,7 +39,7 @@ public class OpenaiService {
     private HttpHeaders setHeader(){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(OPEN_AI_KEY);
+        headers.setBearerAuth(OPENAI_KEY);
 
         return headers;
     }
@@ -85,6 +87,20 @@ public class OpenaiService {
     }
 
     //============================= OPENAI API 보내기 =============================//
+
+    public String checkIfFood(String menuName){
+        // HTTP MESSAGE 보내기 전 구성 설정
+        HttpHeaders headers = setHeader();
+        Map<String, Object> requestBody = setRequestBody(menuName);
+
+        // HTTP REQUEST 생성하기
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
+
+        // HTTP RESPONSE를 RESPONSEENTITY로 받기 <- HTTP REQUEST 보내고
+        ResponseEntity<String> response = sendRequest(url, request);
+
+        return response.getBody();
+    }
 
     public String getRecommendedFoods(String prompt){
         // HTTP MESSAGE 보내기 전 구성 설정

@@ -24,4 +24,8 @@ public class FoodController {
     @Operation(summary = "전체 조회 (관리자용)")
     @GetMapping("/all")
     public List<FoodInfoResponse> findAll(){ return foodService.findAll(); }
+
+    @Operation(summary = "메뉴 확인")
+    @GetMapping("/check")
+    public String checkMenu(@RequestParam String menuName){ return foodService.checkMenu(menuName);}
 }
