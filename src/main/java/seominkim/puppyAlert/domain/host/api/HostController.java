@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import seominkim.puppyAlert.domain.food.dto.request.AddFoodRequest;
 import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.host.service.HostService;
+import seominkim.puppyAlert.domain.openai.dto.request.RecommendFoodRequest;
+import seominkim.puppyAlert.domain.openai.dto.response.RecommendFoodResponse;
 import seominkim.puppyAlert.domain.openai.service.OpenaiService;
 import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
@@ -38,13 +40,9 @@ public class HostController {
     @DeleteMapping("/food")
     public void CancelFood(@RequestBody AddFoodRequest addFoodRequest){ hostService.deleteFood(addFoodRequest); }
 
-    @Operation(summary = "집밥 기록 조회")
-    @GetMapping("/history")
-    public List<MatchHistoryResponse> getHostHistory(@RequestParam String hostId){ return hostService.getHistory(hostId); }
-
     @Operation(summary = "집밥 추천받기")
-    @PostMapping("/recommend")
-    public String getRecommend(@RequestParam String prompt){
-        return openaiService.getRecommendedFoods(prompt);
+    @GetMapping("/recommend")
+    public RecommendFoodResponse getRecommend(RecommendFoodRequest recommendFoodRequest){
+        return openaiService.getRecommendedFoods(recommendFoodRequest);
     }
 }

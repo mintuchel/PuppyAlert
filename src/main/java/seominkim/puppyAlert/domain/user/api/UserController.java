@@ -8,6 +8,9 @@ import seominkim.puppyAlert.domain.user.dto.request.LoginRequest;
 import seominkim.puppyAlert.domain.user.dto.response.*;
 import seominkim.puppyAlert.domain.user.service.UserService;
 import seominkim.puppyAlert.domain.user.dto.request.SignUpRequest;
+import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

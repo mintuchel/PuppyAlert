@@ -10,6 +10,10 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import org.springframework.http.HttpHeaders;
+import seominkim.puppyAlert.domain.openai.constant.Prompt;
+import seominkim.puppyAlert.domain.openai.dto.request.RecommendFoodRequest;
+import seominkim.puppyAlert.domain.openai.dto.response.RecommendFoodResponse;
+import seominkim.puppyAlert.domain.openai.utility.Parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,10 +92,10 @@ public class OpenaiService {
 
     //============================= OPENAI API 보내기 =============================//
 
-    public String checkIfFood(String menuName){
+    public String checkResponseSpec(){
         // HTTP MESSAGE 보내기 전 구성 설정
         HttpHeaders headers = setHeader();
-        Map<String, Object> requestBody = setRequestBody(menuName);
+        Map<String, Object> requestBody = setRequestBody("한식 중 돼지고기,양파,파 재료들로 만들 수 있는 메뉴 3가지만 추천해줘. 메뉴 이름만 알려줘. 딱 메뉴이름 3개만 답변으로 주는거야");
 
         // HTTP REQUEST 생성하기
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
@@ -102,9 +106,10 @@ public class OpenaiService {
         return response.getBody();
     }
 
-    public String getRecommendedFoods(String prompt){
+    public String checkIfFood(String menuName){
         // HTTP MESSAGE 보내기 전 구성 설정
         HttpHeaders headers = setHeader();
+        String prompt = String.format(Prompt.CHECK_MENU.getPrompt(), menuName);
         Map<String, Object> requestBody = setRequestBody(prompt);
 
         // HTTP REQUEST 생성하기
@@ -113,6 +118,32 @@ public class OpenaiService {
         // HTTP RESPONSE를 RESPONSEENTITY로 받기 <- HTTP REQUEST 보내고
         ResponseEntity<String> response = sendRequest(url, request);
 
-        return response.getBody();
+        return Parser.parseContent(response.getBody());
+    }
+
+    public RecommendFoodResponse getRecommendedFoods(RecommendFoodRequest recommendFoodRequest){
+        // HTTP MESSAGE 보내기 전 구성 설정
+        HttpHeaders headers = setHeader();
+
+        String prompt;
+        prompt = String.format(Prompt.GET_AVAILABLE_ZIPBOB.getPrompt(), recommendFoodRequest.categoryType(), recommendFoodRequest.ingredients());
+        Map<String, Object> requestBody = setRequestBody(prompt);
+
+        // HTTP REQUEST 생성하기
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
+
+        // HTTP RESPONSE를 RESPONSEENTITY로 받기 <- HTTP REQUEST 보내고
+        ResponseEntity<String> response = sendRequest(url, request);
+
+        String body = Parser.parseContent(response.getBody());
+
+        String[] lines = body.split("\n");
+
+        String[] foodItems = new String[lines.length];
+        for (int i = 0; i < lines.length; i++) {
+            foodItems[i] = lines[i].replaceAll("\\d+\\. ", "");
+        }
+
+        return new RecommendFoodResponse(foodItems[0],foodItems[1],foodItems[2]);
     }
 }

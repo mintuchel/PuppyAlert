@@ -82,13 +82,6 @@ public class FoodService {
                 .orElseThrow(() -> new FoodException(ErrorCode.NON_EXISTING_FOOD));
     }
 
-    @Transactional(readOnly = true)
-    public String checkMenu(String menuName){
-        if(menuService.checkIfMenuExists(menuName)) return "true";
-
-        return openaiService.checkIfFood(menuName);
-    }
-
     @Transactional
     public AddFoodResponse addNewFood(User host, AddFoodRequest addFoodRequest){
         Food newFood = new Food();

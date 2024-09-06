@@ -3,6 +3,7 @@ package seominkim.puppyAlert.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.user.dto.request.LoginRequest;
 import seominkim.puppyAlert.domain.user.dto.request.SignUpRequest;
 import seominkim.puppyAlert.domain.user.dto.response.LoginResponse;
@@ -10,10 +11,14 @@ import seominkim.puppyAlert.domain.user.dto.response.SignUpResponse;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
 import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.domain.user.repository.UserRepository;
+import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
 import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.CommonException;
 import seominkim.puppyAlert.global.exception.exception.UserException;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
