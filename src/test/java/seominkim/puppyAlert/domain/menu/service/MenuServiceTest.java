@@ -48,7 +48,7 @@ public class MenuServiceTest {
         given(menuRepository.findById(menuName)).willReturn(Optional.of(menu));
 
         // when
-        Menu savedMenu = menuService.findOne(menuName);
+        Menu savedMenu = menuService.getMenu(menuName);
 
         Assertions.assertThat(savedMenu.getMenuName()).isEqualTo(menu.getMenuName());
     }

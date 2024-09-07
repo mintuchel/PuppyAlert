@@ -85,7 +85,7 @@ public class FoodService {
     @Transactional
     public AddFoodResponse addNewFood(User host, AddFoodRequest addFoodRequest){
         Food newFood = new Food();
-        Menu menu = menuService.findOne(addFoodRequest.menuName());
+        Menu menu = menuService.getMenu(addFoodRequest.menuName());
 
         newFood.setHost(host);
         newFood.setMenu(menu);
