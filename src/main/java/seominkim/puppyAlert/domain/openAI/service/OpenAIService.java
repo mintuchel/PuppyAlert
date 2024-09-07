@@ -1,9 +1,7 @@
 package seominkim.puppyAlert.domain.openAI.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -11,12 +9,14 @@ import org.springframework.web.client.RestTemplate;
 
 import seominkim.puppyAlert.domain.openAI.constant.Prompt;
 import seominkim.puppyAlert.domain.openAI.dto.request.RecommendFoodRequest;
+import seominkim.puppyAlert.domain.openAI.dto.response.RecipeResponse;
 import seominkim.puppyAlert.domain.openAI.dto.response.RecommendFoodResponse;
 import seominkim.puppyAlert.domain.openAI.utility.OpenAIContentParser;
 import seominkim.puppyAlert.domain.openAI.utility.OpenAIRequestBuilder;
+import seominkim.puppyAlert.global.utility.ImageCrawler;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -35,15 +35,8 @@ public class OpenAIService {
         }
     }
 
-    // 이거 언제 쓰는거임???
-    private Map<String, Object> getResponseFormat(){
-        Map<String, Object> responseFormat = new HashMap<>();
-        responseFormat.put("type","json_object");
-        return responseFormat;
-    }
-
     public String checkResponseSpec(){
-        HttpEntity<Map<String, Object>> request = openAIRequestBuilder.getOpenAIRequest(Prompt.CHECK_RESPONSE_SPEC);
+        HttpEntity<Map<String, Object>> request = openAIRequestBuilder.getOpenAIRequest(Prompt.CHECK_RESPONSE_SPEC.getPrompt());
 
         ResponseEntity<String> response = sendRequest(url, request);
 
@@ -51,7 +44,9 @@ public class OpenAIService {
     }
 
     public String checkIfFood(String menuName){
-        HttpEntity<Map<String, Object>> request = openAIRequestBuilder.getOpenAIRequest(Prompt.CHECK_MENU);
+        String prompt = String.format(Prompt.CHECK_MENU.getPrompt(), menuName);
+
+        HttpEntity<Map<String, Object>> request = openAIRequestBuilder.getOpenAIRequest(prompt);
 
         ResponseEntity<String> response = sendRequest(url, request);
 
@@ -59,7 +54,12 @@ public class OpenAIService {
     }
 
     public RecommendFoodResponse getRecommendedFoods(RecommendFoodRequest recommendFoodRequest){
-        HttpEntity<Map<String, Object>> request = openAIRequestBuilder.getOpenAIRequest(Prompt.GET_AVAILABLE_ZIPBOB);
+        String categoryType = recommendFoodRequest.categoryType();
+        String ingredients = recommendFoodRequest.ingredients();
+
+        String prompt = String.format(Prompt.GET_AVAILABLE_ZIPBOB.getPrompt(),categoryType, ingredients);
+
+        HttpEntity<Map<String, Object>> request = openAIRequestBuilder.getOpenAIRequest(prompt);
 
         ResponseEntity<String> response = sendRequest(url, request);
 
@@ -72,6 +72,43 @@ public class OpenAIService {
             recommendedFoods[i] = lines[i].replaceAll("\\d+\\. ", "");
         }
 
-        return new RecommendFoodResponse(recommendedFoods[0],recommendedFoods[1],recommendedFoods[2]);
+        return new RecommendFoodResponse(
+                recommendedFoods[0],
+                recommendedFoods[1],
+                recommendedFoods[2]
+        );
+    }
+
+    public String getRecipeDifficulty(String menuName){
+//        String prompt = String.format(Prompt.GET_RECIPE_DIFFICULTY.getPrompt(), menuName);
+//
+//        HttpEntity<Map<String, Object>> request = openAIRequestBuilder.getOpenAIRequest(prompt);
+//
+//        ResponseEntity<String> response = sendRequest(url, request);
+//
+//        return openAIContentParser.parseContent(response.getBody());
+
+        Random random = new Random();
+        int randomNumber = random.nextInt(5) + 1;
+        return String.valueOf(randomNumber);
+    }
+
+    public RecipeResponse getRecipe(String menuName){
+        String prompt = String.format(Prompt.GET_RECIPE.getPrompt(), menuName);
+
+        HttpEntity<Map<String, Object>> request = openAIRequestBuilder.getOpenAIRequest(prompt);
+
+        ResponseEntity<String> response = sendRequest(url, request);
+
+        String body = openAIContentParser.parseContent(response.getBody());
+
+        // body parsing 해서 front 한테 보내주기
+        String[] lines = body.split("\n");
+        String[] recipeSteps = new String[lines.length];
+        for (int i = 0; i < lines.length; i++) {
+            recipeSteps[i] = lines[i].replaceAll("\\d+\\. ", "");
+        }
+
+        return new RecipeResponse(recipeSteps[0], recipeSteps[1], recipeSteps[2], recipeSteps[3], recipeSteps[4]);
     }
 }

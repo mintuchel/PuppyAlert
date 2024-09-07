@@ -19,9 +19,9 @@ public class OpenAIRequestBuilder {
     @Value("${OPENAI_KEY}")
     private String OPENAI_KEY;
 
-    public HttpEntity<Map<String, Object>> getOpenAIRequest(Prompt prompt){
+    public HttpEntity<Map<String, Object>> getOpenAIRequest(String prompt){
         HttpHeaders headers = setHeader();
-        Map<String, Object> requestBody = setRequestBody(prompt.getPrompt());
+        Map<String, Object> requestBody = setRequestBody(prompt);
 
         return new HttpEntity<>(requestBody, headers);
     }
