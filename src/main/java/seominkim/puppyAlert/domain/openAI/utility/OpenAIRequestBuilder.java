@@ -38,10 +38,12 @@ public class OpenAIRequestBuilder {
     private Map<String,Object> setRequestBody(String prompt){
         Map<String, Object> requestBody = new HashMap<>();
 
-        requestBody.put("model","gpt-3.5-turbo");
+        requestBody.put("model","gpt-4o-mini");
 
         List<Map<String,String>> messages = setMessages(prompt);
         requestBody.put("messages",messages);
+
+        requestBody.put("temperature", 0.3);
 
         return requestBody;
     }
