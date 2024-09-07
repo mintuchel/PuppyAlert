@@ -8,7 +8,7 @@ import seominkim.puppyAlert.domain.user.dto.request.LoginRequest;
 import seominkim.puppyAlert.domain.user.dto.response.*;
 import seominkim.puppyAlert.domain.user.service.UserService;
 import seominkim.puppyAlert.domain.user.dto.request.SignUpRequest;
-import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
+import seominkim.puppyAlert.domain.user.dto.response.MatchHistoryResponse;
 
 import java.util.List;
 
@@ -50,5 +50,11 @@ public class UserController {
     @GetMapping("/checkNickName")
     public NickNameCheckResponse checkNickName(@RequestParam String nickName){
         return new NickNameCheckResponse(userService.checkIfNickNameExists(nickName));
+    }
+
+    @Operation(summary = "집밥 기록 조회")
+    @GetMapping("/history")
+    public List<MatchHistoryResponse> getHistory(@RequestParam String userId){
+        return userService.getHistory(userId);
     }
 }

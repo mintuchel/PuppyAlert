@@ -1,4 +1,4 @@
-package seominkim.puppyAlert.domain.food.dto.response;
+package seominkim.puppyAlert.domain.host.dto.response;
 
 import jakarta.validation.constraints.NotBlank;
 

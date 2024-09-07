@@ -5,7 +5,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import seominkim.puppyAlert.domain.openAI.constant.Prompt;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +18,7 @@ public class OpenAIRequestBuilder {
     @Value("${OPENAI_KEY}")
     private String OPENAI_KEY;
 
+    // OpenAI API 로 쏠 HTTP REQUEST HEADER BODY 세팅해서 만들어줌
     public HttpEntity<Map<String, Object>> getOpenAIRequest(String prompt){
         HttpHeaders headers = setHeader();
         Map<String, Object> requestBody = setRequestBody(prompt);

@@ -1,23 +1,7 @@
 package seominkim.puppyAlert.domain.host.service;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import seominkim.puppyAlert.domain.food.dto.request.AddFoodRequest;
-import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
-import seominkim.puppyAlert.domain.food.service.FoodService;
-import seominkim.puppyAlert.domain.user.entity.User;
-import seominkim.puppyAlert.domain.user.repository.UserRepository;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
-
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 public class HostServiceTest {

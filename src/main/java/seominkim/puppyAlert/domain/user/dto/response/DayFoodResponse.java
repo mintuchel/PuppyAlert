@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 
-public record TodayResponse (
+public record DayFoodResponse(
         @NotBlank String partnerNickName,
         @NotBlank String menuName,
         @NotBlank String imageUrl,

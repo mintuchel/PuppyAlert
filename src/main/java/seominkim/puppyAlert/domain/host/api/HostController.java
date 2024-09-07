@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import seominkim.puppyAlert.domain.food.dto.request.AddFoodRequest;
-import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
+import seominkim.puppyAlert.domain.host.dto.request.AddFoodRequest;
+import seominkim.puppyAlert.domain.host.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.host.service.HostService;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
 

@@ -14,15 +14,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/openai")
-@Tag(name = "OpenAI API", description = "음식 유무 확인, 집밥 추천 받기, 집밥 레시피 받기")
+@Tag(name = "OpenAI API", description = "메뉴 존재 확인, 집밥 추천 받기, 집밥 레시피 받기")
 public class OpenAIController {
     private final OpenAIService openaiService;
-
-    @Operation(summary = "API 스펙 확인용")
-    @GetMapping("")
-    public String checkSpec(){
-        return openaiService.checkResponseSpec();
-    }
 
     @Operation(summary = "메뉴 존재 확인")
     @GetMapping("/checkMenu")

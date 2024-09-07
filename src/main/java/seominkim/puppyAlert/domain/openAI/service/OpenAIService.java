@@ -68,7 +68,7 @@ public class OpenAIService {
         String body = openAIContentParser.parseContent(response.getBody());
 
         List<String> recommendedFoods = Arrays.stream(body.split("\n"))
-                .map(line -> line.replaceAll("\\d+\\. ", ""))
+                .map(line -> line.replaceAll("\\d+\\. ", "").trim())
                 .collect(Collectors.toList());
 
         return IntStream.range(0, 3)
@@ -111,7 +111,7 @@ public class OpenAIService {
         String body = openAIContentParser.parseContent(response.getBody());
 
         List<String> recipeSteps = Arrays.stream(body.split("\n"))
-                .map(line -> line.replaceAll("\\d+\\. ", ""))
+                .map(line -> line.replaceAll("\\d+\\. ", "").trim())
                 .limit(5)
                 .collect(Collectors.toList());
 

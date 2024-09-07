@@ -10,7 +10,6 @@ import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
 import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.service.PuppyService;
-import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
 
 import java.util.List;
@@ -39,12 +38,6 @@ public class PuppyController {
     @PostMapping("/food")
     public MatchResponse matchFood(@RequestBody MatchRequest matchRequest){
         return puppyService.handleMatchRequest(matchRequest);
-    }
-
-    @Operation(summary = "집밥 기록 조회")
-    @GetMapping("/history")
-    public List<MatchHistoryResponse> getHistory(@RequestParam String puppyId){
-        return puppyService.getHistory(puppyId);
     }
 
     @Operation(summary = "관심 호스트 조회")

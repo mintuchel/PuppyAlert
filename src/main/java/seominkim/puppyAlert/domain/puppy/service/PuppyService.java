@@ -9,12 +9,10 @@ import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
 import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.service.FoodService;
-import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.domain.user.repository.UserRepository;
-import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
 import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
@@ -68,37 +66,6 @@ public class PuppyService {
         User puppy = userRepository.findById(matchRequest.puppyId())
                 .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
         return foodService.handleMatchRequest(foodId, puppy);
-    }
-
-    // Puppy 집밥 기록 검색
-    // 이건 READONLY 작업이므로 그냥 getFoodList 로 해주면 됨
-    // 연관관계의 주인이 Puppy 가 아니긴 한데 CUD 작업이 아니므로
-    @Transactional(readOnly = true)
-    public List<MatchHistoryResponse> getHistory(String puppyId) {
-        User puppy = userRepository.findById(puppyId).get();
-
-        // User 엔티티에서 puppyFoods 추출해서 사용
-        return puppy.getPuppyFoods().stream()
-                .map(food -> {
-                    // 필요한 엔티티 미리 추출
-                    // 참조할때마다 jpa join 쿼리 나가서 미리 해주는게 좋음
-                    User curHost = food.getHost();
-                    Menu curMenu = food.getMenu();
-
-                    return new MatchHistoryResponse(
-                            food.getFoodId(),
-                            curHost.getId(),
-                            curHost.getNickName(),
-                            curMenu.getMenuName(),
-                            curMenu.getImageURL(),
-                            curHost.getAddress(),
-                            curHost.getDetailAddress(),
-                            curHost.getLocation(),
-                            food.getTime(),
-                            curHost.getProfileImageURL()
-                    );
-                })
-                .collect(Collectors.toList());
     }
 
     // Puppy 관심 호스트 조회

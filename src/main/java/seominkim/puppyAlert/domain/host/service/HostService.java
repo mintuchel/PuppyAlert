@@ -3,13 +3,11 @@ package seominkim.puppyAlert.domain.host.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.food.dto.request.AddFoodRequest;
-import seominkim.puppyAlert.domain.food.dto.response.AddFoodResponse;
+import seominkim.puppyAlert.domain.host.dto.request.AddFoodRequest;
+import seominkim.puppyAlert.domain.host.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.food.service.FoodService;
-import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.domain.user.repository.UserRepository;
-import seominkim.puppyAlert.global.dto.response.MatchHistoryResponse;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
 import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
@@ -58,36 +56,6 @@ public class HostService {
                             user.getProfileImageURL()
                     );
                     return dto;
-                })
-                .collect(Collectors.toList());
-    }
-
-    // Host 집밥 기록 검색
-    @Transactional(readOnly = true)
-    public List<MatchHistoryResponse> getHistory(String hostId){
-        User host = userRepository.findById(hostId)
-                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
-
-        // Host 엔티티에서 hostFoods 추출해서 사용
-        return host.getHostFoods().stream()
-                .map(food -> {
-                    // 필요한 엔티티 미리 추출
-                    // 참조할때마다 jpa join 쿼리 나가서 미리 해주는게 좋음
-                    User puppy = food.getPuppy();
-                    Menu menu = food.getMenu();
-
-                    return new MatchHistoryResponse(
-                        food.getFoodId(),
-                        puppy != null ? puppy.getId() : null,
-                        puppy != null ? puppy.getNickName() : null,
-                        menu.getMenuName(),
-                        menu.getImageURL(),
-                        host.getAddress(),
-                        host.getDetailAddress(),
-                        host.getLocation(),
-                        food.getTime(),
-                        puppy.getProfileImageURL()
-                    );
                 })
                 .collect(Collectors.toList());
     }
