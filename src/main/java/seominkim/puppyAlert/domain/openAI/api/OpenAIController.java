@@ -27,9 +27,8 @@ public class OpenAIController {
     @Operation(summary = "메뉴 존재 확인")
     @GetMapping("/checkMenu")
     public String checkMenu(@RequestParam String menuName){
-        return openaiService.checkIfFood(menuName);
+        return openaiService.checkIfMenu(menuName);
     }
-
 
     @Operation(summary = "추천 집밥 조회")
     @PostMapping("/recommend")

@@ -15,10 +15,9 @@ import seominkim.puppyAlert.domain.openAI.utility.OpenAIContentParser;
 import seominkim.puppyAlert.domain.openAI.utility.OpenAIRequestBuilder;
 import seominkim.puppyAlert.global.utility.ImageCrawler;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +45,7 @@ public class OpenAIService {
         return response.getBody();
     }
 
-    public String checkIfFood(String menuName){
+    public String checkIfMenu(String menuName){
         String prompt = String.format(Prompt.CHECK_MENU.getPrompt(), menuName);
 
         HttpEntity<Map<String, Object>> request = openAIRequestBuilder.getOpenAIRequest(prompt);
@@ -68,36 +67,24 @@ public class OpenAIService {
 
         String body = openAIContentParser.parseContent(response.getBody());
 
-        // body parsing 해서 front 한테 보내주기
-        String[] lines = body.split("\n");
-        String[] recommendedFoods = new String[lines.length];
-        for (int i = 0; i < lines.length; i++) {
-            recommendedFoods[i] = lines[i].replaceAll("\\d+\\. ", "");
-        }
+        List<String> recommendedFoods = Arrays.stream(body.split("\n"))
+                .map(line -> line.replaceAll("\\d+\\. ", ""))
+                .collect(Collectors.toList());
 
-        List<RecommendFoodResponse> recommendFoodResponseList = new ArrayList<>();
-        for(int i=0;i<3;i++){
-            String curMenu = recommendedFoods[i];
-            recommendFoodResponseList.add(new RecommendFoodResponse(
-                    imageCrawler.getImageURLByKakaoAPI(curMenu),
-                    curMenu,
-                    getRecipeDifficulty(curMenu),
-                    getMenuDescription(curMenu)
-            ));
-        }
-
-        return recommendFoodResponseList;
+        return IntStream.range(0, 3)
+                .mapToObj(i -> {
+                    String curMenu = recommendedFoods.get(i);
+                    return new RecommendFoodResponse(
+                            curMenu,
+                            imageCrawler.getImageURLByKakaoAPI(curMenu),
+                            getRecipeDifficulty(curMenu),
+                            getMenuDescription(curMenu)
+                    );
+                })
+                .collect(Collectors.toList());
     }
 
     private String getRecipeDifficulty(String menuName){
-//        String prompt = String.format(Prompt.GET_RECIPE_DIFFICULTY.getPrompt(), menuName);
-//
-//        HttpEntity<Map<String, Object>> request = openAIRequestBuilder.getOpenAIRequest(prompt);
-//
-//        ResponseEntity<String> response = sendRequest(url, request);
-//
-//        return openAIContentParser.parseContent(response.getBody());
-
         Random random = new Random();
         int randomNumber = random.nextInt(5) + 1;
         return String.valueOf(randomNumber);
@@ -120,15 +107,20 @@ public class OpenAIService {
 
         ResponseEntity<String> response = sendRequest(url, request);
 
+        // OpenAI response body 파싱
         String body = openAIContentParser.parseContent(response.getBody());
 
-        // body parsing 해서 front 한테 보내주기
-        String[] lines = body.split("\n");
-        String[] recipeSteps = new String[lines.length];
-        for (int i = 0; i < lines.length; i++) {
-            recipeSteps[i] = lines[i].replaceAll("\\d+\\. ", "");
-        }
+        List<String> recipeSteps = Arrays.stream(body.split("\n"))
+                .map(line -> line.replaceAll("\\d+\\. ", ""))
+                .limit(5)
+                .collect(Collectors.toList());
 
-        return new RecipeResponse(recipeSteps[0], recipeSteps[1], recipeSteps[2], recipeSteps[3], recipeSteps[4]);
+        return new RecipeResponse(
+                recipeSteps.get(0),
+                recipeSteps.get(1),
+                recipeSteps.get(2),
+                recipeSteps.get(3),
+                recipeSteps.get(4)
+        );
     }
 }

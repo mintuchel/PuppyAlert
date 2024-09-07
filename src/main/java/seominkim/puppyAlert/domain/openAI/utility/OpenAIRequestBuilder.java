@@ -22,7 +22,6 @@ public class OpenAIRequestBuilder {
     public HttpEntity<Map<String, Object>> getOpenAIRequest(String prompt){
         HttpHeaders headers = setHeader();
         Map<String, Object> requestBody = setRequestBody(prompt);
-
         return new HttpEntity<>(requestBody, headers);
     }
 

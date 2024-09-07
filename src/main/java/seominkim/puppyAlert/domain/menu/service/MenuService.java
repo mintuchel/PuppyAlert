@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.menu.repository.MenuRepository;
-import seominkim.puppyAlert.domain.openAI.service.OpenAIService;
 import seominkim.puppyAlert.global.utility.ImageCrawler;
 
 @Service
@@ -13,7 +12,6 @@ import seominkim.puppyAlert.global.utility.ImageCrawler;
 public class MenuService {
 
     private final MenuRepository menuRepository;
-    private final OpenAIService openaiService;
 
     private final ImageCrawler imageCrawler;
 
@@ -42,9 +40,5 @@ public class MenuService {
         // menuRepository.save(menu);
 
         return menu;
-    }
-
-    public String checkResponseSpec(){
-        return openaiService.checkResponseSpec();
     }
 }
