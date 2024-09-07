@@ -13,7 +13,7 @@ import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.food.repository.FoodRepository;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.menu.service.MenuService;
-import seominkim.puppyAlert.domain.openai.service.OpenaiService;
+import seominkim.puppyAlert.domain.openAI.service.OpenAIService;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class FoodService {
     private final MenuService menuService;
     private final FavoriteHostService favoriteHostService;
-    private final OpenaiService openaiService;
+    private final OpenAIService openaiService;
 
     private final FoodRepository foodRepository;
 

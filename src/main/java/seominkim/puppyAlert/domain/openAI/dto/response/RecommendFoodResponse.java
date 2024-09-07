@@ -1,4 +1,4 @@
-package seominkim.puppyAlert.domain.openai.dto.response;
+package seominkim.puppyAlert.domain.openAI.dto.response;
 
 import jakarta.validation.constraints.NotBlank;
 

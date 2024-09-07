@@ -1,34 +1,7 @@
 package seominkim.puppyAlert.domain.food.service;
 
-import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
-import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
-import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
-import seominkim.puppyAlert.domain.food.entity.Food;
-import seominkim.puppyAlert.domain.food.repository.FoodRepository;
-import seominkim.puppyAlert.domain.menu.entity.Menu;
-import seominkim.puppyAlert.domain.food.entity.FoodStatus;
-import seominkim.puppyAlert.domain.menu.service.MenuService;
-import seominkim.puppyAlert.domain.openai.service.OpenaiService;
-import seominkim.puppyAlert.domain.user.entity.User;
-import seominkim.puppyAlert.global.entity.Location;
-import seominkim.puppyAlert.global.entity.UserType;
-import seominkim.puppyAlert.global.utility.FoodLimitator;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 //@SpringBootTest
 //@ActiveProfiles("test")
@@ -39,7 +12,7 @@ public class FoodServiceTest {
 //
 //    @Mock FavoriteHostService favoriteHostService;
 //    @Mock MenuService menuService;
-//    @Mock OpenaiService openaiService;
+//    @Mock OpenAIService openaiService;
 //
 //    @Mock FoodRepository foodRepository;
 //    @Mock FoodLimitator foodLimitator;

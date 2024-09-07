@@ -1,26 +1,9 @@
 package seominkim.puppyAlert.domain.food.api;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
-import seominkim.puppyAlert.domain.food.entity.FoodStatus;
-import seominkim.puppyAlert.domain.food.service.FoodService;
-import seominkim.puppyAlert.domain.openai.service.OpenaiService;
-import seominkim.puppyAlert.global.entity.Location;
-
-import java.time.LocalDateTime;
-
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test") // application-test.properties를 사용하도록
 @WebMvcTest(FoodController.class)
@@ -32,7 +15,7 @@ public class FoodControllerTest {
 //    private FoodService foodService;
 //
 //    @MockBean
-//    private OpenaiService openaiService;
+//    private OpenAIService openaiService;
 //
 //    @Test
 //    @DisplayName("집밥 단건 조회")

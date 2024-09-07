@@ -1,9 +1,11 @@
-package seominkim.puppyAlert.domain.openai.utility;
+package seominkim.puppyAlert.domain.openAI.utility;
 
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
-public class Parser {
-    public static String parseContent(String response) {
+@Component
+public class OpenAIContentParser {
+    public String parseContent(String response) {
         JSONObject rootObject = new JSONObject(response);
 
         String contentString = rootObject.getJSONArray("choices")
