@@ -9,6 +9,8 @@ import seominkim.puppyAlert.domain.openAI.dto.response.RecipeResponse;
 import seominkim.puppyAlert.domain.openAI.dto.response.RecommendFoodResponse;
 import seominkim.puppyAlert.domain.openAI.service.OpenAIService;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/openai")
@@ -31,14 +33,8 @@ public class OpenAIController {
 
     @Operation(summary = "추천 집밥 조회")
     @PostMapping("/recommend")
-    public RecommendFoodResponse getRecommend(@RequestBody RecommendFoodRequest recommendFoodRequest){
+    public List<RecommendFoodResponse> getRecommend(@RequestBody RecommendFoodRequest recommendFoodRequest){
         return openaiService.getRecommendedFoods(recommendFoodRequest);
-    }
-
-    @Operation(summary = "레시피 난이도 조회")
-    @GetMapping("/recipe/difficulty")
-    public String getRecipeDifficulty(@RequestParam String menuName){
-        return openaiService.getRecipeDifficulty(menuName);
     }
 
     @Operation(summary="레시피 조회")

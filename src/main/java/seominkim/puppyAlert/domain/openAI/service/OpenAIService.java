@@ -15,6 +15,8 @@ import seominkim.puppyAlert.domain.openAI.utility.OpenAIContentParser;
 import seominkim.puppyAlert.domain.openAI.utility.OpenAIRequestBuilder;
 import seominkim.puppyAlert.global.utility.ImageCrawler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -24,6 +26,7 @@ public class OpenAIService {
     private final RestTemplate restTemplate;
     private final OpenAIContentParser openAIContentParser;
     private final OpenAIRequestBuilder openAIRequestBuilder;
+    private final ImageCrawler imageCrawler;
 
     String url = "https://api.openai.com/v1/chat/completions";
 
@@ -53,7 +56,7 @@ public class OpenAIService {
         return openAIContentParser.parseContent(response.getBody());
     }
 
-    public RecommendFoodResponse getRecommendedFoods(RecommendFoodRequest recommendFoodRequest){
+    public List<RecommendFoodResponse> getRecommendedFoods(RecommendFoodRequest recommendFoodRequest){
         String categoryType = recommendFoodRequest.categoryType();
         String ingredients = recommendFoodRequest.ingredients();
 
@@ -72,14 +75,21 @@ public class OpenAIService {
             recommendedFoods[i] = lines[i].replaceAll("\\d+\\. ", "");
         }
 
-        return new RecommendFoodResponse(
-                recommendedFoods[0],
-                recommendedFoods[1],
-                recommendedFoods[2]
-        );
+        List<RecommendFoodResponse> recommendFoodResponseList = new ArrayList<>();
+        for(int i=0;i<3;i++){
+            String curMenu = recommendedFoods[i];
+            recommendFoodResponseList.add(new RecommendFoodResponse(
+                    imageCrawler.getImageURLByKakaoAPI(curMenu),
+                    curMenu,
+                    getRecipeDifficulty(curMenu),
+                    getMenuDescription(curMenu)
+            ));
+        }
+
+        return recommendFoodResponseList;
     }
 
-    public String getRecipeDifficulty(String menuName){
+    private String getRecipeDifficulty(String menuName){
 //        String prompt = String.format(Prompt.GET_RECIPE_DIFFICULTY.getPrompt(), menuName);
 //
 //        HttpEntity<Map<String, Object>> request = openAIRequestBuilder.getOpenAIRequest(prompt);
@@ -91,6 +101,16 @@ public class OpenAIService {
         Random random = new Random();
         int randomNumber = random.nextInt(5) + 1;
         return String.valueOf(randomNumber);
+    }
+
+    private String getMenuDescription(String menuName){
+        String prompt = String.format(Prompt.GET_RECIPE_DESCRIPTION.getPrompt(), menuName);
+
+        HttpEntity<Map<String, Object>> request = openAIRequestBuilder.getOpenAIRequest(prompt);
+
+        ResponseEntity<String> response = sendRequest(url, request);
+
+        return openAIContentParser.parseContent(response.getBody());
     }
 
     public RecipeResponse getRecipe(String menuName){
