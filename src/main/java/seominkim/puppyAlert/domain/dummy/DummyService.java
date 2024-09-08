@@ -237,8 +237,24 @@ class DummyService {
         menu9.setImageURL("https://cdn.dominos.co.kr/admin/upload/goods/20230619_F33836Pn.jpg");
 
         Menu menu10 = new Menu();
-        menu10.setMenuName("순대국");
-        menu10.setImageURL("https://d12zq4w4guyljn.cloudfront.net/750_750_20210603124244841_photo_41af3676fc32.jpg");
+        menu10.setMenuName("스팸김치찌개");
+        menu10.setImageURL("https://blog.kakaocdn.net/dn/Uouhp/btrAcaBjdTN/68U9LEuWwkZPpNIKtSYdl0/img.jpg");
+
+        Menu menu11 = new Menu();
+        menu11.setMenuName("회덮밥");
+        menu11.setImageURL("https://static.wtable.co.kr/image/production/service/recipe/33/8f5c0ee2-35fe-4377-a065-07203f8cc7f7.jpg?size=800x800");
+
+        Menu menu12 = new Menu();
+        menu12.setMenuName("순대국");
+        menu12.setImageURL("https://d12zq4w4guyljn.cloudfront.net/750_750_20210603124244841_photo_41af3676fc32.jpg");
+
+        Menu menu13 = new Menu();
+        menu13.setMenuName("진라면");
+        menu13.setImageURL("https://powershop171020.cafe24.com/image/other_img/goods_1081071001001000/20180222_160259.png");
+
+        Menu menu14 = new Menu();
+        menu14.setMenuName("알리오올리오 파스타");
+        menu14.setImageURL("https://static.wtable.co.kr/image/production/service/recipe/628/e4c99ef8-3207-4451-a0b2-cac2c9249b23.jpg");
 
         em.persist(menu1);
         em.persist(menu2);
@@ -250,6 +266,10 @@ class DummyService {
         em.persist(menu8);
         em.persist(menu9);
         em.persist(menu10);
+        em.persist(menu11);
+        em.persist(menu12);
+        em.persist(menu13);
+        em.persist(menu14);
     }
 
     @Transactional
@@ -343,21 +363,21 @@ class DummyService {
         // 아직 매칭안된 임우진 집밥
         Food food12 = new Food();
         food12.setHost(em.find(User.class, "LimWooJin"));
-        food12.setMenu(em.find(Menu.class, "계란찜"));
+        food12.setMenu(em.find(Menu.class, "순대국"));
         food12.setTime(LocalDateTime.of(2024, 9, 8, 17, 00));
         food12.setStatus(FoodStatus.READY);
 
         // 아직 매칭안된 김현아 집밥
         Food food13 = new Food();
         food13.setHost(em.find(User.class, "KimHyunA"));
-        food13.setMenu(em.find(Menu.class, "라면"));
+        food13.setMenu(em.find(Menu.class, "진라면"));
         food13.setTime(LocalDateTime.of(2024, 9, 8, 21, 00));
         food13.setStatus(FoodStatus.READY);
 
         // 아직 매칭안된 김세현 집밥
         Food food14 = new Food();
         food14.setHost(em.find(User.class, "KimSeHyun"));
-        food14.setMenu(em.find(Menu.class, "파스타"));
+        food14.setMenu(em.find(Menu.class, "알리오올리오 파스타"));
         food14.setTime(LocalDateTime.of(2024, 9, 8, 21, 00));
         food14.setStatus(FoodStatus.READY);
 
