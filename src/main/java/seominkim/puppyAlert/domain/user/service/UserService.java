@@ -3,20 +3,19 @@ package seominkim.puppyAlert.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.user.dto.request.LoginRequest;
 import seominkim.puppyAlert.domain.user.dto.request.SignUpRequest;
-import seominkim.puppyAlert.domain.user.dto.response.LoginResponse;
-import seominkim.puppyAlert.domain.user.dto.response.SignUpResponse;
-import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
+import seominkim.puppyAlert.domain.user.dto.response.*;
 import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.domain.user.repository.UserRepository;
-import seominkim.puppyAlert.domain.user.dto.response.MatchHistoryResponse;
 import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.CommonException;
 import seominkim.puppyAlert.global.exception.exception.UserException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -159,5 +158,44 @@ public class UserService {
                     })
                     .collect(Collectors.toList());
         }
+    }
+
+    @Transactional(readOnly = true)
+    public DayFoodResponse getDayFood(String userId){
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
+
+        List<Food> userFoodList;
+        UserType type = user.getUserType();
+
+        if(type == UserType.HOST) userFoodList = user.getHostFoods();
+        else userFoodList = user.getPuppyFoods();
+
+        if(userFoodList.isEmpty()) throw new UserException(ErrorCode.NO_MATCHED_TODAY_FOOD);
+
+        Food lastMatchedFood = userFoodList.get(userFoodList.size()-1);
+        User host = lastMatchedFood.getHost();
+        User puppy = lastMatchedFood.getPuppy();
+        Menu menu = lastMatchedFood.getMenu();
+
+        // 마지막꺼가 오늘 날짜면
+        if(lastMatchedFood.getTime().toLocalDate().isEqual(LocalDate.now())){
+
+            String partnerNickName;
+            if(type==UserType.HOST && puppy!=null) partnerNickName = puppy.getNickName();
+            else if(type==UserType.PUPPY) partnerNickName = host.getNickName();
+            else partnerNickName = null;
+
+            return new DayFoodResponse(
+                    partnerNickName,
+                    menu.getMenuName(),
+                    menu.getImageURL(),
+                    lastMatchedFood.getTime(),
+                    host.getAddress(),
+                    host.getDetailAddress()
+            );
+        }
+        else throw new UserException(ErrorCode.NO_MATCHED_TODAY_FOOD);
     }
 }

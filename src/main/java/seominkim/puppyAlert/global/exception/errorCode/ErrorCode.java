@@ -25,6 +25,9 @@ public enum ErrorCode {
     // FOOD 존재성 확인
     NON_EXISTING_FOOD(HttpStatus.NOT_FOUND, "등록되지 않은 집밥입니다"),
 
+    // 오늘의 집밥
+    NO_MATCHED_TODAY_FOOD(HttpStatus.NOT_FOUND, "아직 매칭된 집밥이 없습니다"),
+
     // FOOD STATUS 확인
     ALREADY_MATCHED(HttpStatus.BAD_REQUEST, "이미 매칭된 집밥입니다"),
 
