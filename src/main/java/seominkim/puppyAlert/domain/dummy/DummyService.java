@@ -259,23 +259,55 @@ class DummyService {
         food1.setHost(em.find(User.class, "KwonOhSung"));
         food1.setPuppy(em.find(User.class, "SeoSangHyeok"));
         food1.setMenu(em.find(Menu.class, "까르보나라"));
-        food1.setTime(LocalDateTime.of(2024, 8, 1, 14, 30));
+        food1.setTime(LocalDateTime.of(2024, 8, 14, 14, 30));
         food1.setStatus(FoodStatus.MATCHED);
+
+        // 서상혁-김현아
+        Food food5 = new Food();
+        food5.setHost(em.find(User.class, "KimHyunA"));
+        food5.setPuppy(em.find(User.class, "SeoSangHyeok"));
+        food5.setMenu(em.find(Menu.class, "얼큰한 해물라면"));
+        food5.setTime(LocalDateTime.of(2024, 8, 23, 18, 00));
+        food5.setStatus(FoodStatus.MATCHED);
+
+        // 서상혁-박대원 오늘의 집밥
+        Food food7 = new Food();
+        food7.setHost(em.find(User.class, "ParkDaeWon"));
+        food7.setPuppy(em.find(User.class, "SeoSangHyeok"));
+        food7.setMenu(em.find(Menu.class, "통등심 돈까스"));
+        food7.setTime(LocalDateTime.of(2024, 9, 8, 10, 20));
+        food7.setStatus(FoodStatus.MATCHED);
 
         // 민재홍-김세현
         Food food2 = new Food();
         food2.setHost(em.find(User.class, "KimSeHyun"));
         food2.setPuppy(em.find(User.class, "MinJaeHong"));
         food2.setMenu(em.find(Menu.class, "제육볶음"));
-        food2.setTime(LocalDateTime.of(2024, 8, 1, 18, 00));
+        food2.setTime(LocalDateTime.of(2024, 8, 5, 18, 00));
         food2.setStatus(FoodStatus.MATCHED);
+
+        // 민재홍-박대원
+        Food food6 = new Food();
+        food6.setHost(em.find(User.class, "ParkDaeWon"));
+        food6.setPuppy(em.find(User.class, "MinJaeHong"));
+        food6.setMenu(em.find(Menu.class, "우거지 해장국"));
+        food6.setTime(LocalDateTime.of(2024, 8, 21, 19, 00));
+        food6.setStatus(FoodStatus.MATCHED);
+
+        // 민재홍-조형준 오늘의 집밥
+        Food food8 = new Food();
+        food8.setHost(em.find(User.class, "ChoHyungJun"));
+        food8.setPuppy(em.find(User.class, "MinJaeHong"));
+        food8.setMenu(em.find(Menu.class, "녹두전"));
+        food8.setTime(LocalDateTime.of(2024, 9, 8, 15, 35));
+        food8.setStatus(FoodStatus.MATCHED);
 
         // 김지원-조상준
         Food food3 = new Food();
         food3.setHost(em.find(User.class, "ChoSangJun"));
         food3.setPuppy(em.find(User.class, "KimJiWon"));
         food3.setMenu(em.find(Menu.class, "삼계탕"));
-        food3.setTime(LocalDateTime.of(2024, 8, 1, 9, 20));
+        food3.setTime(LocalDateTime.of(2024, 8, 16, 11, 20));
         food3.setStatus(FoodStatus.MATCHED);
 
         // 김지원-임우진
@@ -283,45 +315,51 @@ class DummyService {
         food4.setHost(em.find(User.class, "LimWooJin"));
         food4.setPuppy(em.find(User.class, "KimJiWon"));
         food4.setMenu(em.find(Menu.class, "순두부찌개"));
-        food4.setTime(LocalDateTime.of(2024, 8, 1, 17, 45));
+        food4.setTime(LocalDateTime.of(2024, 8, 21, 17, 40));
         food4.setStatus(FoodStatus.MATCHED);
 
-        // 서상혁-김현아
-        Food food5 = new Food();
-        food5.setHost(em.find(User.class, "KimHyunA"));
-        food5.setPuppy(em.find(User.class, "SeoSangHyeok"));
-        food5.setMenu(em.find(Menu.class, "얼큰한 해물라면"));
-        food5.setTime(LocalDateTime.of(2024, 8, 1, 18, 00));
-        food5.setStatus(FoodStatus.MATCHED);
-
-        // 민재홍-박대원
-        Food food6 = new Food();
-        food6.setHost(em.find(User.class, "ParkDaeWon"));
-        food6.setPuppy(em.find(User.class, "MinJaeHong"));
-        food6.setMenu(em.find(Menu.class, "우거지 해장국"));
-        food6.setTime(LocalDateTime.of(2024, 8, 1, 19, 00));
-        food6.setStatus(FoodStatus.MATCHED);
-
-        // 아직 매칭안된 박대원 집밥
-        Food food7 = new Food();
-        food7.setHost(em.find(User.class, "ParkDaeWon"));
-        food7.setMenu(em.find(Menu.class, "통등심 돈까스"));
-        food7.setTime(LocalDateTime.of(2024, 8, 1, 10, 20));
-        food7.setStatus(FoodStatus.READY);
-
-        // 아직 매칭안된 조형준 집밥
-        Food food8 = new Food();
-        food8.setHost(em.find(User.class, "ChoHyungJun"));
-        food8.setMenu(em.find(Menu.class, "녹두전"));
-        food8.setTime(LocalDateTime.of(2024, 8, 1, 15, 35));
-        food8.setStatus(FoodStatus.READY);
-
-        // 아직 매칭안된 신지훈 집밥
+        // 김지원-신지훈 집밥 오늘의 집밥
         Food food9 = new Food();
         food9.setHost(em.find(User.class, "ShinJiHun"));
+        food9.setPuppy(em.find(User.class, "KimJiWon"));
         food9.setMenu(em.find(Menu.class, "불고기고구마 피자"));
-        food9.setTime(LocalDateTime.of(2024, 8, 1, 21, 00));
-        food9.setStatus(FoodStatus.READY);
+        food9.setTime(LocalDateTime.of(2024, 9, 8, 21, 00));
+        food9.setStatus(FoodStatus.MATCHED);
+
+        // 아직 매칭안된 조상준 집밥
+        Food food10 = new Food();
+        food10.setHost(em.find(User.class, "ChoSangJun"));
+        food10.setMenu(em.find(Menu.class, "스팸김치찌개"));
+        food10.setTime(LocalDateTime.of(2024, 9, 8, 21, 00));
+        food10.setStatus(FoodStatus.READY);
+
+        // 아직 매칭안된 권오성 집밥
+        Food food11 = new Food();
+        food11.setHost(em.find(User.class, "KwonOhSung"));
+        food11.setMenu(em.find(Menu.class, "회덮밥"));
+        food11.setTime(LocalDateTime.of(2024, 9, 8, 19, 40));
+        food11.setStatus(FoodStatus.READY);
+
+        // 아직 매칭안된 임우진 집밥
+        Food food12 = new Food();
+        food12.setHost(em.find(User.class, "LimWooJin"));
+        food12.setMenu(em.find(Menu.class, "계란찜"));
+        food12.setTime(LocalDateTime.of(2024, 9, 8, 17, 00));
+        food12.setStatus(FoodStatus.READY);
+
+        // 아직 매칭안된 김현아 집밥
+        Food food13 = new Food();
+        food13.setHost(em.find(User.class, "KimHyunA"));
+        food13.setMenu(em.find(Menu.class, "라면"));
+        food13.setTime(LocalDateTime.of(2024, 9, 8, 21, 00));
+        food13.setStatus(FoodStatus.READY);
+
+        // 아직 매칭안된 김세현 집밥
+        Food food14 = new Food();
+        food14.setHost(em.find(User.class, "KimSeHyun"));
+        food14.setMenu(em.find(Menu.class, "파스타"));
+        food14.setTime(LocalDateTime.of(2024, 9, 8, 21, 00));
+        food14.setStatus(FoodStatus.READY);
 
         em.persist(food1);
         em.persist(food2);
@@ -332,6 +370,11 @@ class DummyService {
         em.persist(food7);
         em.persist(food8);
         em.persist(food9);
+        em.persist(food10);
+        em.persist(food11);
+        em.persist(food12);
+        em.persist(food13);
+        em.persist(food14);
     }
 
     @Transactional
