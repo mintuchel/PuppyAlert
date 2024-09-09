@@ -27,7 +27,7 @@ public class Food {
     // Food 가 Menu 참조하는 단방향이라
     // food 저장하면 cascade로 menu도 저장되게 하는 구조라서
     // @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "menuName")
     private Menu menu;
 

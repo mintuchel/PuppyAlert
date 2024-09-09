@@ -17,23 +17,23 @@ public class MenuService {
 
     // findOne 이라는 메서드 자체가 트랜잭션을 관리하게 해야함
     // addNewMenu 에 대한 트랜잭션을 책임져야하므로 얘도 Transactional 이 되어야함
-    @Transactional(readOnly = true)
+    @Transactional
     public Menu getMenu(String menuName){
-        return menuRepository.findById(menuName).orElseThrow();
+        if(checkIfMenuExists(menuName)) return menuRepository.findById(menuName).get();
+
+        return addNewMenu(menuName);
     }
 
     @Transactional(readOnly = true)
-    public boolean checkIfMenuExists(String menuName){
+    private boolean checkIfMenuExists(String menuName){
         return menuRepository.existsById(menuName);
     }
 
     @Transactional
-    public Menu addNewMenu(String menuName){
+    private Menu addNewMenu(String menuName){
         Menu menu = new Menu();
         menu.setMenuName(menuName);
         menu.setImageURL(imageCrawler.getImageURLByKakaoAPI(menuName));
-
-        menuRepository.save(menu);
 
         return menu;
     }

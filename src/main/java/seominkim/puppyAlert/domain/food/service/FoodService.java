@@ -86,21 +86,16 @@ public class FoodService {
     @Transactional
     public AddFoodResponse addNewFood(User host, AddFoodRequest addFoodRequest){
         Food newFood = new Food();
-
-        // 이 코드를 통과하면 이미 menuRepository에 저장된 Menu 엔티티가 나옴
-        String menuName = addFoodRequest.menuName();
-        Menu menu;
-        if(menuService.checkIfMenuExists(menuName)){
-            menu = menuService.getMenu(menuName);
-        }else{
-            menu = menuService.addNewMenu(menuName);
-        }
+        Menu menu = menuService.getMenu(addFoodRequest.menuName());
 
         newFood.setHost(host);
         newFood.setMenu(menu);
         newFood.setTime(addFoodRequest.time());
         newFood.setMatchStatus(MatchStatus.READY);
 
+        // cascade에 menu도 저장됨
+        // 만약 기존 DB에 존재하면 저장안하고 연관관계만 저장
+        // 아니면 새로운 menu 엔티티까지 저장
         foodRepository.save(newFood);
 
         return new AddFoodResponse(newFood.getFoodId(), menu.getImageURL());
