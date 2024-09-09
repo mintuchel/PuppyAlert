@@ -136,6 +136,7 @@ public class FoodService {
         List<Food> availableFoodList = foodLimitator.findFoodWithinPuppyRange(curPuppyLatitude, curPuppyLongitude, foodList);
 
         return availableFoodList.stream()
+                .filter(food -> food.getMatchStatus() != MatchStatus.COMPLETE)
                 .map(food -> {
                     User curHost = food.getHost();
                     Menu menu = food.getMenu();
