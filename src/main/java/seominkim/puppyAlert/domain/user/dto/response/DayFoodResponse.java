@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public record DayFoodResponse(
+        @NotBlank long foodId,
         @NotBlank String partnerNickName,
         @NotBlank String menuName,
         @NotBlank String imageUrl,
