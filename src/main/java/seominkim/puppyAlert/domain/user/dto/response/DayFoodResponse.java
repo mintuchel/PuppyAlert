@@ -11,7 +11,7 @@ public record DayFoodResponse(
         @NotBlank String partnerId,
         @NotBlank String partnerNickName,
         @NotBlank String menuName,
-        @NotBlank String imageUrl,
+        @NotBlank String imageURL,
         @NotBlank LocalDateTime time,
         @NotBlank String address,
         @NotBlank String detailAddress,

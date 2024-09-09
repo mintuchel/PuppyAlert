@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @Operation(summary = "오늘의 집밥 조회")
-    @GetMapping("/today")
+    @GetMapping("/day")
     public DayFoodResponse getDayFoodInfo(@RequestParam String userId){
         return userService.getDayFood(userId);
     }
