@@ -343,42 +343,42 @@ class DummyService {
         food9.setHost(em.find(User.class, "ShinJiHun"));
         food9.setPuppy(em.find(User.class, "KimJiWon"));
         food9.setMenu(em.find(Menu.class, "불고기고구마 피자"));
-        food9.setTime(LocalDateTime.of(2024, 9, 8, 21, 00));
+        food9.setTime(LocalDateTime.of(2024, 9, 9, 21, 00));
         food9.setStatus(FoodStatus.MATCHED);
 
         // 아직 매칭안된 조상준 집밥
         Food food10 = new Food();
         food10.setHost(em.find(User.class, "ChoSangJun"));
         food10.setMenu(em.find(Menu.class, "스팸김치찌개"));
-        food10.setTime(LocalDateTime.of(2024, 9, 8, 21, 00));
+        food10.setTime(LocalDateTime.of(2024, 9, 9, 21, 00));
         food10.setStatus(FoodStatus.READY);
 
         // 아직 매칭안된 권오성 집밥
         Food food11 = new Food();
         food11.setHost(em.find(User.class, "KwonOhSung"));
         food11.setMenu(em.find(Menu.class, "회덮밥"));
-        food11.setTime(LocalDateTime.of(2024, 9, 8, 19, 40));
+        food11.setTime(LocalDateTime.of(2024, 9, 9, 19, 40));
         food11.setStatus(FoodStatus.READY);
 
         // 아직 매칭안된 임우진 집밥
         Food food12 = new Food();
         food12.setHost(em.find(User.class, "LimWooJin"));
         food12.setMenu(em.find(Menu.class, "순대국"));
-        food12.setTime(LocalDateTime.of(2024, 9, 8, 17, 00));
+        food12.setTime(LocalDateTime.of(2024, 9, 9, 17, 00));
         food12.setStatus(FoodStatus.READY);
 
         // 아직 매칭안된 김현아 집밥
         Food food13 = new Food();
         food13.setHost(em.find(User.class, "KimHyunA"));
         food13.setMenu(em.find(Menu.class, "진라면"));
-        food13.setTime(LocalDateTime.of(2024, 9, 8, 21, 00));
+        food13.setTime(LocalDateTime.of(2024, 9, 9, 21, 00));
         food13.setStatus(FoodStatus.READY);
 
         // 아직 매칭안된 김세현 집밥
         Food food14 = new Food();
         food14.setHost(em.find(User.class, "KimSeHyun"));
         food14.setMenu(em.find(Menu.class, "알리오올리오 파스타"));
-        food14.setTime(LocalDateTime.of(2024, 9, 8, 21, 00));
+        food14.setTime(LocalDateTime.of(2024, 9, 9, 21, 00));
         food14.setStatus(FoodStatus.READY);
 
         em.persist(food1);
