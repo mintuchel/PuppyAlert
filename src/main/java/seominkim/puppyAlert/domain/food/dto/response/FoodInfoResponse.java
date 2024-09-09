@@ -1,6 +1,6 @@
 package seominkim.puppyAlert.domain.food.dto.response;
 
-import seominkim.puppyAlert.domain.food.entity.FoodStatus;
+import seominkim.puppyAlert.domain.food.entity.MatchStatus;
 import seominkim.puppyAlert.global.entity.Location;
 
 import jakarta.validation.constraints.NotBlank;
@@ -17,5 +17,5 @@ public record FoodInfoResponse(
         @NotBlank String address,
         @NotBlank String detailAddress,
         @NotBlank Location location,
-        @NotBlank FoodStatus status
+        @NotBlank MatchStatus status
 ) {}

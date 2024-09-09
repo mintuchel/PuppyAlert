@@ -32,5 +32,8 @@ public class Food {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private FoodStatus status; // 매칭상태
+    private MatchStatus matchStatus; // 매칭상태
+
+    @Enumerated(EnumType.STRING)
+    private DiningStatus diningStatus;
 }

@@ -1,5 +1,5 @@
 package seominkim.puppyAlert.domain.food.entity;
 
-public enum FoodStatus {
+public enum MatchStatus {
     READY, MATCHED
 }

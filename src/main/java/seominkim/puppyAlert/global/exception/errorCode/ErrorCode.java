@@ -27,10 +27,15 @@ public enum ErrorCode {
 
     // 오늘의 집밥
     NO_TODAY_FOOD(HttpStatus.NOT_FOUND, "오늘 매칭된 집밥이 없습니다!"),
-    // NO_MATCHED_TODAY_FOOD(HttpStatus.NOT_FOUND, "아직 매칭된 집밥이 없습니다!"),
 
-    // FOOD STATUS 확인
-    ALREADY_MATCHED(HttpStatus.BAD_REQUEST, "이미 매칭된 집밥입니다"),
+    // 아직 매칭되지 않은 집밥
+    NOT_MATCHED_FOOD(HttpStatus.BAD_REQUEST, "아직 매칭되지 않은 집밥입니다!"),
+
+    // 이미 매칭된 집밥
+    ALREADY_MATCHED(HttpStatus.BAD_REQUEST, "이미 매칭된 집밥입니다!"),
+
+    // 이미 식사완료된 집밥
+    ALREADY_FINISHED_DINING(HttpStatus.BAD_REQUEST, "이미 식사가 끝난 집밥입니다!"),
 
     // FAVORITE HOST 등록 여부 확인
     ALREADY_FAVORITE_HOST(HttpStatus.BAD_REQUEST, "이미 등록된 관심 호스트입니다"),

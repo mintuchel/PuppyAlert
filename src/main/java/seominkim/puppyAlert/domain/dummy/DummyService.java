@@ -6,10 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
+import seominkim.puppyAlert.domain.food.entity.DiningStatus;
 import seominkim.puppyAlert.domain.food.entity.Food;
+import seominkim.puppyAlert.domain.food.entity.MatchStatus;
 import seominkim.puppyAlert.domain.market.entity.Market;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
-import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.shop.entity.ProductType;
 import seominkim.puppyAlert.domain.shop.entity.Shop;
 import seominkim.puppyAlert.domain.user.entity.User;
@@ -280,7 +281,8 @@ class DummyService {
         food1.setPuppy(em.find(User.class, "SeoSangHyeok"));
         food1.setMenu(em.find(Menu.class, "까르보나라"));
         food1.setTime(LocalDateTime.of(2024, 8, 14, 14, 30));
-        food1.setStatus(FoodStatus.MATCHED);
+        food1.setMatchStatus(MatchStatus.MATCHED);
+        food1.setDiningStatus(DiningStatus.COMPLETE);
 
         // 서상혁-김현아
         Food food5 = new Food();
@@ -288,7 +290,8 @@ class DummyService {
         food5.setPuppy(em.find(User.class, "SeoSangHyeok"));
         food5.setMenu(em.find(Menu.class, "얼큰한 해물라면"));
         food5.setTime(LocalDateTime.of(2024, 8, 23, 18, 00));
-        food5.setStatus(FoodStatus.MATCHED);
+        food5.setMatchStatus(MatchStatus.MATCHED);
+        food5.setDiningStatus(DiningStatus.COMPLETE);
 
         // 서상혁-박대원 오늘의 집밥
         Food food7 = new Food();
@@ -296,7 +299,8 @@ class DummyService {
         food7.setPuppy(em.find(User.class, "SeoSangHyeok"));
         food7.setMenu(em.find(Menu.class, "통등심 돈까스"));
         food7.setTime(LocalDateTime.of(2024, 9, 9, 10, 20));
-        food7.setStatus(FoodStatus.MATCHED);
+        food7.setMatchStatus(MatchStatus.MATCHED);
+        food7.setDiningStatus(DiningStatus.PENDING);
 
         // 민재홍-김세현
         Food food2 = new Food();
@@ -304,7 +308,8 @@ class DummyService {
         food2.setPuppy(em.find(User.class, "MinJaeHong"));
         food2.setMenu(em.find(Menu.class, "제육볶음"));
         food2.setTime(LocalDateTime.of(2024, 8, 5, 18, 00));
-        food2.setStatus(FoodStatus.MATCHED);
+        food2.setMatchStatus(MatchStatus.MATCHED);
+        food2.setDiningStatus(DiningStatus.COMPLETE);
 
         // 민재홍-박대원
         Food food6 = new Food();
@@ -312,7 +317,8 @@ class DummyService {
         food6.setPuppy(em.find(User.class, "MinJaeHong"));
         food6.setMenu(em.find(Menu.class, "우거지 해장국"));
         food6.setTime(LocalDateTime.of(2024, 8, 21, 19, 00));
-        food6.setStatus(FoodStatus.MATCHED);
+        food6.setMatchStatus(MatchStatus.MATCHED);
+        food6.setDiningStatus(DiningStatus.COMPLETE);
 
         // 민재홍-조형준 오늘의 집밥
         Food food8 = new Food();
@@ -320,7 +326,8 @@ class DummyService {
         food8.setPuppy(em.find(User.class, "MinJaeHong"));
         food8.setMenu(em.find(Menu.class, "녹두전"));
         food8.setTime(LocalDateTime.of(2024, 9, 9, 15, 35));
-        food8.setStatus(FoodStatus.MATCHED);
+        food8.setMatchStatus(MatchStatus.MATCHED);
+        food8.setDiningStatus(DiningStatus.PENDING);
 
         // 김지원-조상준
         Food food3 = new Food();
@@ -328,7 +335,8 @@ class DummyService {
         food3.setPuppy(em.find(User.class, "KimJiWon"));
         food3.setMenu(em.find(Menu.class, "삼계탕"));
         food3.setTime(LocalDateTime.of(2024, 8, 16, 11, 20));
-        food3.setStatus(FoodStatus.MATCHED);
+        food3.setMatchStatus(MatchStatus.MATCHED);
+        food3.setDiningStatus(DiningStatus.COMPLETE);
 
         // 김지원-임우진
         Food food4 = new Food();
@@ -336,7 +344,8 @@ class DummyService {
         food4.setPuppy(em.find(User.class, "KimJiWon"));
         food4.setMenu(em.find(Menu.class, "순두부찌개"));
         food4.setTime(LocalDateTime.of(2024, 8, 21, 17, 40));
-        food4.setStatus(FoodStatus.MATCHED);
+        food4.setMatchStatus(MatchStatus.MATCHED);
+        food4.setDiningStatus(DiningStatus.COMPLETE);
 
         // 김지원-신지훈 집밥 오늘의 집밥
         Food food9 = new Food();
@@ -344,42 +353,48 @@ class DummyService {
         food9.setPuppy(em.find(User.class, "KimJiWon"));
         food9.setMenu(em.find(Menu.class, "불고기고구마 피자"));
         food9.setTime(LocalDateTime.of(2024, 9, 9, 21, 00));
-        food9.setStatus(FoodStatus.MATCHED);
+        food9.setMatchStatus(MatchStatus.MATCHED);
+        food9.setDiningStatus(DiningStatus.PENDING);
 
         // 아직 매칭안된 조상준 집밥
         Food food10 = new Food();
         food10.setHost(em.find(User.class, "ChoSangJun"));
         food10.setMenu(em.find(Menu.class, "스팸김치찌개"));
         food10.setTime(LocalDateTime.of(2024, 9, 9, 21, 00));
-        food10.setStatus(FoodStatus.READY);
+        food10.setMatchStatus(MatchStatus.READY);
+        food10.setDiningStatus(DiningStatus.PENDING);
 
         // 아직 매칭안된 권오성 집밥
         Food food11 = new Food();
         food11.setHost(em.find(User.class, "KwonOhSung"));
         food11.setMenu(em.find(Menu.class, "회덮밥"));
         food11.setTime(LocalDateTime.of(2024, 9, 9, 19, 40));
-        food11.setStatus(FoodStatus.READY);
+        food11.setMatchStatus(MatchStatus.READY);
+        food11.setDiningStatus(DiningStatus.PENDING);
 
         // 아직 매칭안된 임우진 집밥
         Food food12 = new Food();
         food12.setHost(em.find(User.class, "LimWooJin"));
         food12.setMenu(em.find(Menu.class, "순대국"));
         food12.setTime(LocalDateTime.of(2024, 9, 9, 17, 00));
-        food12.setStatus(FoodStatus.READY);
+        food12.setMatchStatus(MatchStatus.READY);
+        food12.setDiningStatus(DiningStatus.PENDING);
 
         // 아직 매칭안된 김현아 집밥
         Food food13 = new Food();
         food13.setHost(em.find(User.class, "KimHyunA"));
         food13.setMenu(em.find(Menu.class, "진라면"));
         food13.setTime(LocalDateTime.of(2024, 9, 9, 21, 00));
-        food13.setStatus(FoodStatus.READY);
+        food13.setMatchStatus(MatchStatus.READY);
+        food13.setDiningStatus(DiningStatus.PENDING);
 
         // 아직 매칭안된 김세현 집밥
         Food food14 = new Food();
         food14.setHost(em.find(User.class, "KimSeHyun"));
         food14.setMenu(em.find(Menu.class, "알리오올리오 파스타"));
         food14.setTime(LocalDateTime.of(2024, 9, 9, 21, 00));
-        food14.setStatus(FoodStatus.READY);
+        food14.setMatchStatus(MatchStatus.READY);
+        food14.setDiningStatus(DiningStatus.PENDING);
 
         em.persist(food1);
         em.persist(food2);
