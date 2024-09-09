@@ -295,7 +295,7 @@ class DummyService {
         food7.setHost(em.find(User.class, "ParkDaeWon"));
         food7.setPuppy(em.find(User.class, "SeoSangHyeok"));
         food7.setMenu(em.find(Menu.class, "통등심 돈까스"));
-        food7.setTime(LocalDateTime.of(2024, 9, 8, 10, 20));
+        food7.setTime(LocalDateTime.of(2024, 9, 9, 10, 20));
         food7.setStatus(FoodStatus.MATCHED);
 
         // 민재홍-김세현
@@ -319,7 +319,7 @@ class DummyService {
         food8.setHost(em.find(User.class, "ChoHyungJun"));
         food8.setPuppy(em.find(User.class, "MinJaeHong"));
         food8.setMenu(em.find(Menu.class, "녹두전"));
-        food8.setTime(LocalDateTime.of(2024, 9, 8, 15, 35));
+        food8.setTime(LocalDateTime.of(2024, 9, 9, 15, 35));
         food8.setStatus(FoodStatus.MATCHED);
 
         // 김지원-조상준
