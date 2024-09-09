@@ -207,7 +207,7 @@ public class UserService {
                     host.getAddress(),
                     host.getDetailAddress(),
                     host.getLocation(),
-                    lastMatchedFood.getDiningStatus()
+                    lastMatchedFood.getMatchStatus()
             );
         }
 

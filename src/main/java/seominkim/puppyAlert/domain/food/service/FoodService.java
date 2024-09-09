@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
-import seominkim.puppyAlert.domain.food.entity.DiningStatus;
 import seominkim.puppyAlert.domain.food.entity.MatchStatus;
 import seominkim.puppyAlert.domain.host.dto.request.AddFoodRequest;
 import seominkim.puppyAlert.domain.user.dto.request.CancelFoodRequest;
@@ -87,18 +86,21 @@ public class FoodService {
     @Transactional
     public AddFoodResponse addNewFood(User host, AddFoodRequest addFoodRequest){
         Food newFood = new Food();
-        Menu menu = menuService.getMenu(addFoodRequest.menuName());
+
+        // 이 코드를 통과하면 이미 menuRepository에 저장된 Menu 엔티티가 나옴
+        String menuName = addFoodRequest.menuName();
+        Menu menu;
+        if(menuService.checkIfMenuExists(menuName)){
+            menu = menuService.getMenu(menuName);
+        }else{
+            menu = menuService.addNewMenu(menuName);
+        }
 
         newFood.setHost(host);
         newFood.setMenu(menu);
         newFood.setTime(addFoodRequest.time());
-        // status setting
         newFood.setMatchStatus(MatchStatus.READY);
-        newFood.setDiningStatus(DiningStatus.PENDING);
 
-        // save 되면서 @Id @GeneratedValue 값이 생성됨
-        // food와 menu의 관계 중 food가 연관관계의 주인이기 때문에
-        // foodRepository.save 되면서 menu도 저장이 됨
         foodRepository.save(newFood);
 
         return new AddFoodResponse(newFood.getFoodId(), menu.getImageURL());
@@ -118,7 +120,6 @@ public class FoodService {
             // Transactional 덕에 끝나면 변경 상태 자동 반영
             cancelingFood.setPuppy(null);
             cancelingFood.setMatchStatus(MatchStatus.READY);
-            cancelingFood.setDiningStatus(DiningStatus.PENDING);
         }
 
         return new CancelFoodResponse(cancelFoodId);
@@ -190,11 +191,11 @@ public class FoodService {
         }
 
         // 이미 식사가 끝난 집밥이면
-        if(matchedFood.getDiningStatus() == DiningStatus.COMPLETE){
+        if(matchedFood.getMatchStatus() == MatchStatus.COMPLETE){
             throw new FoodException(ErrorCode.ALREADY_FINISHED_DINING);
         }
 
-        matchedFood.setDiningStatus(DiningStatus.COMPLETE);
+        matchedFood.setMatchStatus(MatchStatus.COMPLETE);
 
         return foodId;
     }

@@ -23,7 +23,11 @@ public class Food {
     @JoinColumn(name = "puppy_id")
     private User puppy;
 
-    @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    // cascade 안쓰면 에러 터짐
+    // Food 가 Menu 참조하는 단방향이라
+    // food 저장하면 cascade로 menu도 저장되게 하는 구조라서
+    // @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menuName")
     private Menu menu;
 
@@ -33,7 +37,4 @@ public class Food {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private MatchStatus matchStatus; // 매칭상태
-
-    @Enumerated(EnumType.STRING)
-    private DiningStatus diningStatus;
 }
