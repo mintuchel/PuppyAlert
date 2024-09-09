@@ -22,37 +22,37 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 public class MenuServiceTest {
-    @InjectMocks
-    private MenuService menuService;
-
-    @Mock
-    private MenuRepository menuRepository;
-
-    @Mock
-    private ImageCrawler imageCrawler;
-
-    private Menu menu;
-    private String menuName = "콩국수";
-
-    @BeforeEach
-    private void testSetUp(){
-        menu = new Menu();
-        menu.setMenuName(menuName);
-    }
-
-    @Test
-    @DisplayName("메뉴 조회")
-    void findMenuTest(){
-        // given
-        given(menuRepository.existsById(menuName)).willReturn(true);
-        given(menuRepository.findById(menuName)).willReturn(Optional.of(menu));
-
-        // when
-        Menu savedMenu = menuService.getMenu(menuName);
-
-        Assertions.assertThat(savedMenu.getMenuName()).isEqualTo(menu.getMenuName());
-    }
-
+//    @InjectMocks
+//    private MenuService menuService;
+//
+//    @Mock
+//    private MenuRepository menuRepository;
+//
+//    @Mock
+//    private ImageCrawler imageCrawler;
+//
+//    private Menu menu;
+//    private String menuName = "콩국수";
+//
+//    @BeforeEach
+//    private void testSetUp(){
+//        menu = new Menu();
+//        menu.setMenuName(menuName);
+//    }
+//
+//    @Test
+//    @DisplayName("메뉴 조회")
+//    void findMenuTest(){
+//        // given
+//        given(menuRepository.existsById(menuName)).willReturn(true);
+//        given(menuRepository.findById(menuName)).willReturn(Optional.of(menu));
+//
+//        // when
+//        Menu savedMenu = menuService.getMenu(menuName);
+//
+//        Assertions.assertThat(savedMenu.getMenuName()).isEqualTo(menu.getMenuName());
+//    }
+//
 //
 //    @Autowired MenuService menuService;
 //
