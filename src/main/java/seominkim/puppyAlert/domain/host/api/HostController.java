@@ -5,7 +5,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import seominkim.puppyAlert.domain.host.dto.request.AddFoodRequest;
+import seominkim.puppyAlert.domain.user.dto.request.CancelFoodRequest;
 import seominkim.puppyAlert.domain.host.dto.response.AddFoodResponse;
+import seominkim.puppyAlert.domain.user.dto.response.CancelFoodResponse;
 import seominkim.puppyAlert.domain.host.service.HostService;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
 
@@ -33,5 +35,5 @@ public class HostController {
 
     @Operation(summary = "집밥 취소")
     @DeleteMapping("/food")
-    public void CancelFood(@RequestBody AddFoodRequest addFoodRequest){ hostService.deleteFood(addFoodRequest); }
+    public CancelFoodResponse CancelFood(@RequestBody CancelFoodRequest cancelFoodRequest){ return hostService.cancelFood(cancelFoodRequest); }
 }

@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.host.dto.request.AddFoodRequest;
+import seominkim.puppyAlert.domain.user.dto.request.CancelFoodRequest;
 import seominkim.puppyAlert.domain.host.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.food.service.FoodService;
+import seominkim.puppyAlert.domain.user.dto.response.CancelFoodResponse;
 import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.domain.user.repository.UserRepository;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
@@ -34,8 +36,11 @@ public class HostService {
 
     // 집밥 취소
     @Transactional
-    public void deleteFood(AddFoodRequest addFoodRequest){
+    public CancelFoodResponse cancelFood(CancelFoodRequest cancelFoodRequest){
+        userRepository.findById(cancelFoodRequest.userId())
+                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
 
+        return foodService.cancelFood(cancelFoodRequest, UserType.HOST);
     }
     
     // Host 전체 검색

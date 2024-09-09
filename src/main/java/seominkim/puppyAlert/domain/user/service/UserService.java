@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
+import seominkim.puppyAlert.domain.user.dto.request.CancelFoodRequest;
 import seominkim.puppyAlert.domain.user.dto.request.LoginRequest;
 import seominkim.puppyAlert.domain.user.dto.request.SignUpRequest;
 import seominkim.puppyAlert.domain.user.dto.response.*;
@@ -172,7 +173,7 @@ public class UserService {
         if(type == UserType.HOST) userFoodList = user.getHostFoods();
         else userFoodList = user.getPuppyFoods();
 
-        if(userFoodList.isEmpty()) throw new UserException(ErrorCode.NO_MATCHED_TODAY_FOOD);
+        if(userFoodList.isEmpty()) throw new UserException(ErrorCode.NO_TODAY_FOOD);
 
         Food lastMatchedFood = userFoodList.get(userFoodList.size()-1);
         User host = lastMatchedFood.getHost();
@@ -188,6 +189,7 @@ public class UserService {
             else partnerNickName = null;
 
             return new DayFoodResponse(
+                    lastMatchedFood.getFoodId(),
                     partnerNickName,
                     menu.getMenuName(),
                     menu.getImageURL(),
@@ -196,6 +198,8 @@ public class UserService {
                     host.getDetailAddress()
             );
         }
-        else throw new UserException(ErrorCode.NO_MATCHED_TODAY_FOOD);
+
+        // 오늘 올린 집밥이 없거나 + 매칭된 집밥이 없으면
+        else throw new UserException(ErrorCode.NO_TODAY_FOOD);
     }
 }

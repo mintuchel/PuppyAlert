@@ -6,16 +6,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
 import seominkim.puppyAlert.domain.host.dto.request.AddFoodRequest;
+import seominkim.puppyAlert.domain.user.dto.request.CancelFoodRequest;
 import seominkim.puppyAlert.domain.host.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
 import seominkim.puppyAlert.domain.food.entity.FoodStatus;
 import seominkim.puppyAlert.domain.food.repository.FoodRepository;
+import seominkim.puppyAlert.domain.user.dto.response.CancelFoodResponse;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.menu.service.MenuService;
 import seominkim.puppyAlert.domain.openAI.service.OpenAIService;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.user.entity.User;
+import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
 import seominkim.puppyAlert.global.utility.FoodLimitator;
@@ -98,6 +101,25 @@ public class FoodService {
         foodRepository.save(newFood);
 
         return new AddFoodResponse(newFood.getFoodId(), menu.getImageURL());
+    }
+
+    @Transactional
+    public CancelFoodResponse cancelFood(CancelFoodRequest cancelFoodRequest, UserType type){
+        long cancelFoodId = cancelFoodRequest.foodId();
+
+        Food cancelingFood = foodRepository.findById(cancelFoodId)
+                .orElseThrow(()->new FoodException(ErrorCode.NON_EXISTING_FOOD));
+
+        if(type==UserType.HOST) {
+            // foodRepository 삭제하는거해야함
+            foodRepository.delete(cancelingFood);
+        }else{
+            // Transactional 덕에 끝나면 변경 상태 자동 반영
+            cancelingFood.setPuppy(null);
+            cancelingFood.setStatus(FoodStatus.READY);
+        }
+
+        return new CancelFoodResponse(cancelFoodId);
     }
 
     @Transactional(readOnly = true)

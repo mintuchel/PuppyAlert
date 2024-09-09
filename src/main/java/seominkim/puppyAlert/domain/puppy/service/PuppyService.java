@@ -11,6 +11,8 @@ import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.service.FoodService;
 import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
+import seominkim.puppyAlert.domain.user.dto.request.CancelFoodRequest;
+import seominkim.puppyAlert.domain.user.dto.response.CancelFoodResponse;
 import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.domain.user.repository.UserRepository;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
@@ -66,6 +68,14 @@ public class PuppyService {
         User puppy = userRepository.findById(matchRequest.puppyId())
                 .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
         return foodService.handleMatchRequest(foodId, puppy);
+    }
+
+    @Transactional
+    public CancelFoodResponse handleCancelRequest(CancelFoodRequest cancelFoodRequest){
+        User puppy = userRepository.findById(cancelFoodRequest.userId())
+                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
+
+        return foodService.cancelFood(cancelFoodRequest,UserType.PUPPY);
     }
 
     // Puppy 관심 호스트 조회
