@@ -9,6 +9,7 @@ import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
 import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.service.FoodService;
+import seominkim.puppyAlert.domain.puppy.dto.request.EndMatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.user.dto.request.CancelFoodRequest;
@@ -76,6 +77,14 @@ public class PuppyService {
                 .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
 
         return foodService.cancelFood(cancelFoodRequest,UserType.PUPPY);
+    }
+
+    @Transactional
+    public Long handleEndMatchRequest(EndMatchRequest endMatchRequest){
+        User puppy = userRepository.findById(endMatchRequest.puppyId())
+                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
+
+        return foodService.handleEndMatchRequest(endMatchRequest.foodId());
     }
 
     // Puppy 관심 호스트 조회

@@ -183,19 +183,31 @@ public class UserService {
         // 마지막꺼가 오늘 날짜면
         if(lastMatchedFood.getTime().toLocalDate().isEqual(LocalDate.now())){
 
-            String partnerNickName;
-            if(type==UserType.HOST && puppy!=null) partnerNickName = puppy.getNickName();
-            else if(type==UserType.PUPPY) partnerNickName = host.getNickName();
-            else partnerNickName = null;
+            String partnerId, partnerNickName;
+            if(type==UserType.HOST && puppy!=null) {
+                partnerId = puppy.getId();
+                partnerNickName = puppy.getNickName();
+            }
+            else if(type==UserType.PUPPY) {
+                partnerId = host.getId();
+                partnerNickName = host.getNickName();
+            }
+            else {
+                partnerId = null;
+                partnerNickName = null;
+            }
 
             return new DayFoodResponse(
                     lastMatchedFood.getFoodId(),
+                    partnerId,
                     partnerNickName,
                     menu.getMenuName(),
                     menu.getImageURL(),
                     lastMatchedFood.getTime(),
                     host.getAddress(),
-                    host.getDetailAddress()
+                    host.getDetailAddress(),
+                    host.getLocation(),
+                    lastMatchedFood.getDiningStatus()
             );
         }
 

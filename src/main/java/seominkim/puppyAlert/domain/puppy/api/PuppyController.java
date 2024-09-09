@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import seominkim.puppyAlert.domain.favoriteHost.dto.request.FavoriteHostRequest;
 import seominkim.puppyAlert.domain.favoriteHost.dto.response.FavoriteHostResponse;
 import seominkim.puppyAlert.domain.food.dto.response.FoodInfoResponse;
+import seominkim.puppyAlert.domain.puppy.dto.request.EndMatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.puppy.service.PuppyService;
@@ -46,6 +47,12 @@ public class PuppyController {
     @PatchMapping("/food")
     public CancelFoodResponse cancelFood(@RequestBody CancelFoodRequest cancelFoodRequest){
         return puppyService.handleCancelRequest(cancelFoodRequest);
+    }
+
+    @Operation(summary = "집밥 식사 완료")
+    @PostMapping("/end")
+    public Long endMatch(@RequestBody EndMatchRequest endMatchRequest){
+        return puppyService.handleEndMatchRequest(endMatchRequest);
     }
 
     @Operation(summary = "관심 호스트 조회")

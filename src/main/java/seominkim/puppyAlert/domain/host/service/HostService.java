@@ -27,7 +27,7 @@ public class HostService {
 
     // 집밥 추가
     @Transactional
-    public AddFoodResponse addFood(AddFoodRequest addFoodRequest){
+    public AddFoodResponse handleAddFoodRequest(AddFoodRequest addFoodRequest){
         User host = userRepository.findById(addFoodRequest.hostId())
                 .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
 
@@ -36,7 +36,7 @@ public class HostService {
 
     // 집밥 취소
     @Transactional
-    public CancelFoodResponse cancelFood(CancelFoodRequest cancelFoodRequest){
+    public CancelFoodResponse handleCancelFoodRequest(CancelFoodRequest cancelFoodRequest){
         userRepository.findById(cancelFoodRequest.userId())
                 .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
 

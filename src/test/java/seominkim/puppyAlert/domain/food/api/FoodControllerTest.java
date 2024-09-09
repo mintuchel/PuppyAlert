@@ -58,7 +58,7 @@ public class FoodControllerTest {
 //                "tottenham",
 //                "hotspur",
 //                new Location(37.7749, -122.4194),
-//                FoodStatus.READY
+//                MatchStatus.READY
 //        );
 //    }
 }

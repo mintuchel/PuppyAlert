@@ -37,7 +37,7 @@ public class FoodServiceTest {
 //                "tottenham",
 //                "hotspur",
 //                new Location(37.7749, -122.4194),
-//                FoodStatus.READY
+//                MatchStatus.READY
 //        );
 //    }
 //
@@ -147,14 +147,14 @@ public class FoodServiceTest {
 //        food1.setPuppy(em.find(User.class, "Messi"));
 //        food1.setMenu(em.find(Menu.class, "testMenu1"));
 //        food1.setTime(LocalDateTime.of(2020,6,18,8,24,16));
-//        food1.setStatus(FoodStatus.MATCHED);
+//        food1.setStatus(MatchStatus.MATCHED);
 //
 //        Food food2 = new Food();
 //        food2.setHost(em.find(User.class, "Ronaldo"));
 //        food2.setPuppy(em.find(User.class, "Messi"));
 //        food2.setMenu(em.find(Menu.class, "testMenu2"));
 //        food2.setTime(LocalDateTime.of(2024,7,20,5,50,32));
-//        food2.setStatus(FoodStatus.MATCHED);
+//        food2.setStatus(MatchStatus.MATCHED);
 //
 //        em.persist(food1);
 //        em.persist(food2);

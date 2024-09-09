@@ -1,24 +1,7 @@
 package seominkim.puppyAlert.domain.puppy.service;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import seominkim.puppyAlert.domain.food.entity.Food;
-import seominkim.puppyAlert.domain.food.entity.FoodStatus;
-import seominkim.puppyAlert.domain.food.service.FoodService;
-import seominkim.puppyAlert.domain.puppy.dto.request.MatchRequest;
-import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
-import seominkim.puppyAlert.domain.user.entity.User;
-import seominkim.puppyAlert.domain.user.repository.UserRepository;
-
-import java.util.Optional;
-
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 public class PuppyServiceTest {
@@ -47,7 +30,7 @@ public class PuppyServiceTest {
 //
 //        food = new Food();
 //        food.setFoodId(7L);
-//        food.setStatus(FoodStatus.READY);
+//        food.setStatus(MatchStatus.READY);
 //        food.setHost(host);
 //
 //        request = matchRequest();

@@ -30,10 +30,12 @@ public class HostController {
     @Operation(summary = "집밥 등록")
     @PostMapping("/food")
     public AddFoodResponse addFood(@RequestBody AddFoodRequest addFoodRequest){
-        return hostService.addFood(addFoodRequest);
+        return hostService.handleAddFoodRequest(addFoodRequest);
     }
 
     @Operation(summary = "집밥 취소")
     @DeleteMapping("/food")
-    public CancelFoodResponse CancelFood(@RequestBody CancelFoodRequest cancelFoodRequest){ return hostService.cancelFood(cancelFoodRequest); }
+    public CancelFoodResponse CancelFood(@RequestBody CancelFoodRequest cancelFoodRequest){
+        return hostService.handleCancelFoodRequest(cancelFoodRequest);
+    }
 }
