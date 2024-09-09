@@ -23,7 +23,7 @@ public class Food {
     @JoinColumn(name = "puppy_id")
     private User puppy;
 
-    @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "menuName")
     private Menu menu;
 
