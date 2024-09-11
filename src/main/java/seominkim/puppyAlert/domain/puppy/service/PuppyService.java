@@ -71,6 +71,7 @@ public class PuppyService {
         return foodService.handleMatchRequest(foodId, puppy);
     }
 
+    // Puppy 집밥 취소
     @Transactional
     public CancelFoodResponse handleCancelRequest(CancelFoodRequest cancelFoodRequest){
         User puppy = userRepository.findById(cancelFoodRequest.userId())
@@ -79,6 +80,7 @@ public class PuppyService {
         return foodService.cancelFood(cancelFoodRequest,UserType.PUPPY);
     }
 
+    // Puppy 집밥 완료
     @Transactional
     public Long handleEndMatchRequest(EndMatchRequest endMatchRequest){
         User puppy = userRepository.findById(endMatchRequest.puppyId())

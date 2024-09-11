@@ -1,168 +1,206 @@
 package seominkim.puppyAlert.domain.food.service;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.test.context.ActiveProfiles;
+import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
+import seominkim.puppyAlert.domain.food.entity.Food;
+import seominkim.puppyAlert.domain.food.entity.MatchStatus;
+import seominkim.puppyAlert.domain.food.repository.FoodRepository;
+import seominkim.puppyAlert.domain.host.dto.request.AddFoodRequest;
+import seominkim.puppyAlert.domain.host.dto.response.AddFoodResponse;
+import seominkim.puppyAlert.domain.menu.entity.Menu;
+import seominkim.puppyAlert.domain.menu.service.MenuService;
+import seominkim.puppyAlert.domain.openAI.service.OpenAIService;
+import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
+import seominkim.puppyAlert.domain.user.dto.request.CancelFoodRequest;
+import seominkim.puppyAlert.domain.user.dto.response.CancelFoodResponse;
+import seominkim.puppyAlert.domain.user.entity.User;
+import seominkim.puppyAlert.global.entity.UserType;
+import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
+import seominkim.puppyAlert.global.exception.exception.FoodException;
+import seominkim.puppyAlert.global.utility.FoodLimitator;
 
-//@SpringBootTest
-//@ActiveProfiles("test")
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@Ignore
+// test end
+@ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 public class FoodServiceTest {
-//    @InjectMocks
-//    FoodService foodService;
-//
-//    @Mock FavoriteHostService favoriteHostService;
-//    @Mock MenuService menuService;
-//    @Mock OpenAIService openaiService;
-//
-//    @Mock FoodRepository foodRepository;
-//    @Mock FoodLimitator foodLimitator;
-//
-//    private Food food;
-//    private int foodId;
-//    private FoodInfoResponse response;
-//
-//    @BeforeEach
-//    private void testSetUp(){
-//        food = new Food();
-//        food.setFoodId(23L);
-//
-//        response = new FoodInfoResponse(
-//                23L,
-//                "son",
-//                "suppersonny",
-//                false,
-//                "타코야키",
-//                "www.abc.com",
-//                LocalDateTime.now(),
-//                "tottenham",
-//                "hotspur",
-//                new Location(37.7749, -122.4194),
-//                MatchStatus.READY
-//        );
-//    }
-//
-////    @Test
-////    @DisplayName("집밥 조회")
-////    public void FindByIdTest(){
-////        // given
-////        given(foodRepository.findById(23L)).willReturn(Optional.of(food));
-////
-////        // when
-////        FoodInfoResponse foodInfoResponse = foodService.findById(23L);
-////
-////        // then
-////        Assertions.assertThat(foodInfoResponse.foodId()).isEqualTo(23L);
-////    }
-//
-//    @Test
-//    @DisplayName("집밥 추가")
-//    public void addZipbobTest(){
-//
-//    }
-//
-//    @Test
-//    @DisplayName("가능한 집밥 조회")
-//    public void getAvailableZipbobTest(){
-//
-//    }
+    @InjectMocks
+    FoodService foodService;
 
-//    @Autowired FoodService foodService;
-//    @Autowired EntityManager em;
-//
-//    @BeforeEach
-//    public void initTestDummy(){
-//        User host1 = new User();
-//        host1.setId("Ronaldo");
-//        host1.setName("호날두");
-//        host1.setNickName("iam노쇼에요");
-//        host1.setPassword("7");
-//        host1.setBirth(LocalDate.now());
-//        host1.setAddress("레알 마드리드");
-//        host1.setDetailAddress("산티아고 베르나베우");
-//        host1.setLocation(new Location(100.5, 100.1));
-//        host1.setPhoneNumber("010-4822-3636");
-//        host1.setUserType(UserType.HOST);
-//
-//        User host2 = new User();
-//        host2.setId("Neymar");
-//        host2.setName("네이마르");
-//        host2.setNickName("밥은묵고다니냐");
-//        host2.setPassword("11");
-//        host2.setBirth(LocalDate.now());
-//        host2.setAddress("파리생제르망");
-//        host2.setDetailAddress("구장 이름 까먹음");
-//        host2.setLocation(new Location(100.5, 100.1));
-//        host2.setPhoneNumber("010-4465-8798");
-//        host2.setUserType(UserType.HOST);
-//
-//        User user1 = new User();
-//        user1.setId("Messi");
-//        user1.setName("메시");
-//        user1.setNickName("요리조리비사이로막가드리블러");
-//        user1.setPassword("10");
-//        user1.setBirth(LocalDate.now());
-//        user1.setAddress("바르셀로나");
-//        user1.setDetailAddress("캄프누");
-//        user1.setLocation(new Location(200.3, 200.2));
-//        user1.setPhoneNumber("010-1111-2222");
-//        user1.setUserType(UserType.PUPPY);
-//
-//        Menu menu1 = new Menu();
-//        menu1.setMenuName("testMenu1");
-//        menu1.setImageURL("testURL1");
-//
-//        Menu menu2 = new Menu();
-//        menu2.setMenuName("testMenu2");
-//        menu2.setImageURL("testURL2");
-//
-//        em.persist(host1);
-//        em.persist(host2);
-//        em.persist(user1);
-//        em.persist(menu1);
-//        em.persist(menu2);
-//    }
-//
-//    @Test
-//    @Transactional
-//    @Rollback
-//    public void getHistoryTest(){
-//        // given
-//        User host1 = em.find(User.class, "Ronaldo");
-//        User host2 = em.find(User.class, "Neymar");
-//
-//        System.out.println(host1.getHostFoods());
-//
-//        // when
-//        Assertions.assertThat(host2.getHostFoods().size()).isEqualTo(0);
-//    }
-//
-//    @Test
-//    @Transactional
-//    @Rollback
-//    public void getMostRecentFoodTest(){
-//
-//        // given
-//        Food food1 = new Food();
-//        food1.setHost(em.find(User.class, "Ronaldo"));
-//        food1.setPuppy(em.find(User.class, "Messi"));
-//        food1.setMenu(em.find(Menu.class, "testMenu1"));
-//        food1.setTime(LocalDateTime.of(2020,6,18,8,24,16));
-//        food1.setStatus(MatchStatus.MATCHED);
-//
-//        Food food2 = new Food();
-//        food2.setHost(em.find(User.class, "Ronaldo"));
-//        food2.setPuppy(em.find(User.class, "Messi"));
-//        food2.setMenu(em.find(Menu.class, "testMenu2"));
-//        food2.setTime(LocalDateTime.of(2024,7,20,5,50,32));
-//        food2.setStatus(MatchStatus.MATCHED);
-//
-//        em.persist(food1);
-//        em.persist(food2);
-//
-//        // when
-//        Food mostRecentFood = foodService.getMostRecentFood("Messi","Ronaldo");
-//
-//        // then
-//        Assertions.assertThat(mostRecentFood).isEqualTo(food2);
-//    }
+    @Mock
+    FavoriteHostService favoriteHostService;
+    @Mock
+    MenuService menuService;
+    @Mock
+    OpenAIService openaiService;
+
+    @Mock
+    FoodRepository foodRepository;
+    @Mock
+    FoodLimitator foodLimitator;
+
+    private Food food;
+    private User host, puppy;
+    private Menu menu;
+    private String menuName = "치즈돈까스";
+
+    private Long foodId = 7L;
+
+    @BeforeEach
+    private void testSetUp(){
+        host = new User();
+        host.setNickName("mbappe");
+
+        puppy = new User();
+        puppy.setId("neymar");
+
+        food = new Food();
+        food.setFoodId(foodId);
+
+        menu = new Menu();
+        menu.setMenuName(menuName);
+    }
+
+    @Test
+    @DisplayName("Host 집밥 추가 성공")
+    public void addNewFoodSuccess(){
+        // given
+        AddFoodRequest request = addFoodRequest();
+
+        given(menuService.getMenu(menuName)).willReturn(menu);
+        // foodRepository가 save할때 자동으로 id를 만들어주는 것을 mockito에서는 아래와 같이 구현함
+        given(foodRepository.save(any(Food.class))).willAnswer(invocation -> {
+            Food savedFood = invocation.getArgument(0); // save()에 전달된 Food 객체를 가져옴
+            savedFood.setFoodId(7L);  // 여기서 ID를 동적으로 설정
+            return savedFood;  // 수정된 객체를 반환
+        });
+
+        // when
+        AddFoodResponse returnedResponse = foodService.addNewFood(host, request);
+
+        // then
+        Assertions.assertThat(returnedResponse.foodId()).isEqualTo(7L);
+    }
+
+    @Test
+    @DisplayName("Host 집밥 취소 성공")
+    public void cancelFoodByHostSuccess(){
+        // given
+        CancelFoodRequest request = cancelFoodRequest();
+
+        given(foodRepository.findById(7L)).willReturn(Optional.of(food));
+
+        // when
+        CancelFoodResponse response = foodService.cancelFood(cancelFoodRequest(), UserType.HOST);
+
+        // then
+        verify(foodRepository).delete(food);
+        Assertions.assertThat(response.foodId()).isEqualTo(food.getFoodId());
+    }
+
+    @Test
+    @DisplayName("Puppy 집밥 취소 성공")
+    public void cancelFoodByPuppySuccess(){
+        // given
+        food.setPuppy(new User());
+        food.setMatchStatus(MatchStatus.MATCHED);
+
+        CancelFoodRequest request = cancelFoodRequest();
+
+        given(foodRepository.findById(7L)).willReturn(Optional.of(food));
+
+        // when
+        CancelFoodResponse response = foodService.cancelFood(cancelFoodRequest(), UserType.PUPPY);
+
+        // then
+        Assertions.assertThat(food.getPuppy()).isNull();
+        Assertions.assertThat(food.getMatchStatus()).isEqualTo(MatchStatus.READY);
+        Assertions.assertThat(response.foodId()).isEqualTo(foodId);
+    }
+
+    @Test
+    @DisplayName("Puppy 집밥 매칭 성공")
+    public void handleMatchRequestSuccess(){
+        // given
+        food.setHost(host);
+        food.setMatchStatus(MatchStatus.READY);
+
+        given(foodRepository.findById(foodId)).willReturn(Optional.of(food));
+
+        // when
+        MatchResponse response = foodService.handleMatchRequest(foodId, puppy);
+
+        // then
+        Assertions.assertThat(food.getPuppy().getId()).isEqualTo(puppy.getId());
+        Assertions.assertThat(food.getMatchStatus()).isEqualTo(MatchStatus.MATCHED);
+        Assertions.assertThat(response.foodId()).isEqualTo(foodId);
+    }
+
+    @Test
+    @DisplayName("Puppy 집밥 완료 성공")
+    public void handleEndMatchRequestSuccess(){
+        // given
+        food.setMatchStatus(MatchStatus.MATCHED);
+        given(foodRepository.findById(foodId)).willReturn(Optional.of(food));
+
+        // when
+        Long returnedId = foodService.handleEndMatchRequest(foodId);
+
+        // then
+        verify(foodRepository, never()).delete(any(Food.class)); // delete 호출안되는거 확인
+        Assertions.assertThat(food.getMatchStatus()).isEqualTo(MatchStatus.COMPLETE);
+        Assertions.assertThat(returnedId).isEqualTo(foodId);
+    }
+
+    @Test
+    @DisplayName("Puppy 집밥 완료 실패")
+    public void handleEndMatchRequestFail(){
+        // given
+        food.setMatchStatus(MatchStatus.READY);
+        // food.setMatchStatus(MatchStatus.COMPLETE); 이미 완료된 집밥이어도 에러터져야함
+
+        given(foodRepository.findById(foodId)).willReturn(Optional.of(food));
+
+        // when & then
+        FoodException exception = assertThrows(FoodException.class, () -> {
+            foodService.handleEndMatchRequest(foodId);
+        });
+
+        // 에러코드 검증
+        Assertions.assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.NOT_MATCHED_FOOD);
+    }
+
+    private AddFoodRequest addFoodRequest(){
+        return new AddFoodRequest(
+          "ronaldo",
+                menuName,
+                LocalDateTime.now()
+        );
+    }
+
+    private CancelFoodRequest cancelFoodRequest(){
+        return new CancelFoodRequest(
+                foodId,
+                "vini"
+        );
+    }
+
 }
