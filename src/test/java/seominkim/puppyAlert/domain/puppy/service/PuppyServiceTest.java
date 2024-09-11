@@ -26,8 +26,6 @@ import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 
-@Ignore
-@Disabled
 // test end
 @ExtendWith(MockitoExtension.class)
 public class PuppyServiceTest {

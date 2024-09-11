@@ -38,8 +38,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@Ignore
-@Disabled
+
 // test end
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)

@@ -25,8 +25,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@Ignore
-@Disabled
 // test end
 @ExtendWith(MockitoExtension.class)
 public class FavoriteHostServiceTest {

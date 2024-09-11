@@ -22,8 +22,6 @@ import java.util.Optional;
 import static org.mockito.BDDMockito.given;
 
 // test할 중요한게 없음
-@Ignore
-@Disabled
 @ExtendWith(MockitoExtension.class)
 public class HostServiceTest {
     @InjectMocks

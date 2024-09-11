@@ -22,8 +22,6 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Ignore
-@Disabled
 @ActiveProfiles("test") // application-test.properties를 사용하도록
 @WebMvcTest(FoodController.class)
 public class FoodControllerTest {

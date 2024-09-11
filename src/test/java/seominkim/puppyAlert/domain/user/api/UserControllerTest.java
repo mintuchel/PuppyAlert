@@ -29,8 +29,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Ignore
-@Disabled
 // test end
 @WebMvcTest(UserController.class) // UserController 만 사용해서 WebMvcTest 진행
 @Import(WebMvcTestConfig.class)
