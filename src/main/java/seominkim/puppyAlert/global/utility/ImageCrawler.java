@@ -3,6 +3,7 @@ package seominkim.puppyAlert.global.utility;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -15,6 +16,9 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class ImageCrawler {
 
+    @Value("${KAKAO_KEY}")
+    private String KAKAO_KEY;
+
     public String getImageURLByKakaoAPI(String menuName){
         String imageURL = "";
 
@@ -23,8 +27,6 @@ public class ImageCrawler {
         StringBuilder buffer = null;
         BufferedReader bufferedReader = null;
         HttpURLConnection urlConnection = null;
-
-        String RESTAPIKey = "bd02cf38bea539c77e8e9e7622711517";
 
         try {
             // 1. 날릴 URL 설정하기
@@ -45,7 +47,7 @@ public class ImageCrawler {
 
             // Request Message Header 정보 추가
             // Header에 Authoriztion 을 위해 "KakaoAK + 내 API 키" 넣어줘야함
-            urlConnection.setRequestProperty("Authorization", "KakaoAK " + RESTAPIKey);
+            urlConnection.setRequestProperty("Authorization", "KakaoAK " + KAKAO_KEY);
             // json 형식임을 명시
             urlConnection.setRequestProperty("Accept", "application/json");
 
