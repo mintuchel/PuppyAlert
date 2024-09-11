@@ -9,7 +9,7 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: SSH(원격접속)로 EC2에 접속하기
+      - name: Access EC2 via SSH for remote connection
         uses: appleboy/ssh-action@v1.0.3
         with:
           # GITHUB-SETTINGS-SECRETS 에서
@@ -37,4 +37,5 @@ jobs:
             ./gradlew clean build
             sudo fuser -k -n tcp 8080 || true
             export OPENAI_KEY=${{ secrets.OPENAI_KEY }}
+            export KAKAO_KEY=${{ secrets.KAKAO_KEY }}
             nohup java -jar build/libs/*SNAPSHOT.jar > ./output.log 2>&1 &
