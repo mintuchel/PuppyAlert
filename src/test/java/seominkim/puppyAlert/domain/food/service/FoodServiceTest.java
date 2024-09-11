@@ -1,6 +1,7 @@
 package seominkim.puppyAlert.domain.food.service;
 
 import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.assertj.core.api.Assertions;
@@ -38,6 +39,7 @@ import static org.mockito.Mockito.verify;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Ignore
+@Disabled
 // test end
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)

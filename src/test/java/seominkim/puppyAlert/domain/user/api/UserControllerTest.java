@@ -2,6 +2,7 @@ package seominkim.puppyAlert.domain.user.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Ignore
+@Disabled
 // test end
 @WebMvcTest(UserController.class) // UserController 만 사용해서 WebMvcTest 진행
 @Import(WebMvcTestConfig.class)

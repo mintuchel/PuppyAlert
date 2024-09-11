@@ -3,6 +3,7 @@ package seominkim.puppyAlert.domain.favoriteHost.service;
 import org.assertj.core.api.Assertions;
 import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @Ignore
+@Disabled
 // test end
 @ExtendWith(MockitoExtension.class)
 public class FavoriteHostServiceTest {

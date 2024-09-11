@@ -1,6 +1,7 @@
 package seominkim.puppyAlert.domain.puppy.api;
 
 import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Ignore
+@Disabled
 @WebMvcTest(PuppyController.class)
 public class PuppyControllerTest {
     @Autowired

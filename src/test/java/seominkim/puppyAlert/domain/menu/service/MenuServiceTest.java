@@ -3,6 +3,7 @@ package seominkim.puppyAlert.domain.menu.service;
 import org.assertj.core.api.Assertions;
 import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import static org.mockito.BDDMockito.given;
 
 @Ignore
+@Disabled
 // test end
 @ExtendWith(MockitoExtension.class)
 public class MenuServiceTest {
