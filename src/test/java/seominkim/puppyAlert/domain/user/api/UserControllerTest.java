@@ -50,7 +50,7 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("로그인 성공")
-    void loginSuccessTest() throws Exception {
+    public void loginSuccessTest() throws Exception {
         // given
         LoginResponse response = loginResponse();
 
@@ -67,25 +67,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("nickName").exists());
                 //.andExpect(jsonPath("nickName").value("werner"));
     }
-
-//    @Test
-//    @DisplayName("회원 가입 성공")
-//    void signUpSuccess() throws Exception{
-//        // given
-//        String requestBody = signUpRequest();
-//        SignUpResponse response = signUpResponse();
-//
-//        // stub
-//        when(userService.signUp(any(SignUpRequest.class))).thenReturn(response);
-//
-//        // when
-//        ResultActions resultActions = mockMvc.perform(
-//                MockMvcRequestBuilders.post("/api/v1/user/signup")
-//                        .content(requestBody)
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("id").exists());
-//    }
 
     private LoginResponse loginResponse(){
         return new LoginResponse(
