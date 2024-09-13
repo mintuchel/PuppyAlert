@@ -45,16 +45,19 @@ public class FavoriteHostServiceTest {
     private void testSetUp(){
         request = favoriteHostRequest();
 
-        host = new User();
-        host.setId(request.hostId());
+        host = User.builder()
+                .id(request.hostId())
+                .build();
 
-        puppy = new User();
-        puppy.setId(request.puppyId());
+        puppy = User.builder()
+                .id(request.puppyId())
+                .build();
 
-        favoriteHost = new FavoriteHost();
-        favoriteHost.setFavoriteHostId(11L);
-        favoriteHost.setPuppy(puppy);
-        favoriteHost.setHost(host);
+        favoriteHost = FavoriteHost.builder()
+                .favoriteHostId(11L)
+                .puppy(puppy)
+                .host(host)
+                .build();
     }
 
     @Test
@@ -64,18 +67,15 @@ public class FavoriteHostServiceTest {
         given(favoriteHostRepository.existsByPuppyIdAndHostId(request.puppyId(), request.hostId())).willReturn(false);
         given(userRepository.findById(request.hostId())).willReturn(Optional.of(host));
         given(userRepository.findById(request.puppyId())).willReturn(Optional.of(puppy));
-        given(favoriteHostRepository.save(any(FavoriteHost.class))).willAnswer(invocation -> {
-            FavoriteHost favoriteHost = invocation.getArgument(0); // save()에 전달된 Food 객체를 가져옴
-            favoriteHost.setFavoriteHostId(10L);  // 여기서 ID를 동적으로 설정
-            return favoriteHost;  // 수정된 객체를 반환
-        });
+        given(favoriteHostRepository.save(any(FavoriteHost.class))).willReturn(favoriteHost);
 
         // when
         Long favoriteHostId = favoriteHostService.addFavoriteHost(request);
 
         // then
+        verify(favoriteHostRepository).save(any(FavoriteHost.class)); // 호출된거 확인
+
         Assertions.assertThat(favoriteHostId).isNotNull();
-        verify(favoriteHostRepository).save(any(FavoriteHost.class));
     }
 
     @Test

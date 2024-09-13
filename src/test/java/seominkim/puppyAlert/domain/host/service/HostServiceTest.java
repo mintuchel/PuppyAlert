@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 
+// test end
 // test할 중요한게 없음
 @ExtendWith(MockitoExtension.class)
 public class HostServiceTest {
@@ -39,8 +40,9 @@ public class HostServiceTest {
 
     @BeforeEach
     private void testSetUp(){
-        host = new User();
-        host.setId("mbappe");
+        host = User.builder()
+                .id("mbappe")
+                .build();
 
         request = addFoodRequest();
         response = addFoodResponse();

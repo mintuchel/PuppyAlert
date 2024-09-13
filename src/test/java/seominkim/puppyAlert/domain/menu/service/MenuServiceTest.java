@@ -1,9 +1,7 @@
 package seominkim.puppyAlert.domain.menu.service;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,9 +34,10 @@ public class MenuServiceTest {
 
     @BeforeEach
     private void testSetUp(){
-        menu = new Menu();
-        menu.setMenuName(menuName);
-        menu.setImageURL(menuUrl);
+        menu = Menu.builder()
+                .menuName(menuName)
+                .imageURL(menuUrl)
+                .build();
     }
 
     @Test

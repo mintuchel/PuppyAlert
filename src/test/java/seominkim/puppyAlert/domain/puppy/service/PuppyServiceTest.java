@@ -49,21 +49,26 @@ public class PuppyServiceTest {
 
     @BeforeEach
     private void testSetUp(){
-        host = new User();
-        host.setId("kane");
-        host.setNickName("harrykane");
+        host = User.builder()
+                .id("kane")
+                .nickName("harrykane")
+                .build();
 
-        puppy = new User();
-        puppy.setId("son");
+        puppy = User.builder()
+                .id("son")
+                .build();
 
-        food = new Food();
-        food.setFoodId(7L);
-        food.setMatchStatus(MatchStatus.READY);
-        food.setHost(host);
+        food = Food.builder()
+                .foodId(7L)
+                .matchStatus(MatchStatus.READY)
+                .host(host)
+                .build();
 
-        favoriteHost = new FavoriteHost();
-        favoriteHost.setPuppy(puppy);
-        favoriteHost.setHost(host);
+        favoriteHost = FavoriteHost.builder()
+                .puppy(puppy)
+                .host(host)
+                .build();
+
 
         puppy.getFavoriteHostList().add(favoriteHost);
 

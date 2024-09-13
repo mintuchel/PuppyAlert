@@ -41,22 +41,30 @@ public class UserServiceTest {
 
     @BeforeEach
     private void testSetUp(){
-        puppy = new User();
-        host = new User();
 
-        menu = new Menu();
-        menu.setMenuName("순대국");
-        menu.setImageURL("xyz");
+        // FoodList에서 host puppy객체가 제대로 생성되어있어야함
+        // 그래서 미리 생성 -> 살짝 예외적인 BeforeEach 흐름
+        puppy = User.builder().id("eden").build();
+        host = User.builder().id("diego").build();
 
-        puppy.setId("eden");
-        puppy.setNickName("hazard");
-        puppy.setUserType(UserType.PUPPY);
-        puppy.setPuppyFoods(getFoodList());
+        menu = Menu.builder()
+                .menuName("순대국")
+                .imageURL("xyz")
+                .build();
 
-        host.setId("diego");
-        host.setNickName("costa");
-        host.setUserType(UserType.HOST);
-        host.setHostFoods(getFoodList());
+        puppy = User.builder()
+                .id("eden")
+                .nickName("hazard")
+                .userType(UserType.PUPPY)
+                .puppyFoods(getFoodList())
+                .build();
+
+        host = User.builder()
+                .id("diego")
+                .nickName("costa")
+                .userType(UserType.HOST)
+                .hostFoods(getFoodList())
+                .build();
     }
 
     @Test
@@ -89,7 +97,13 @@ public class UserServiceTest {
     @DisplayName("오늘의 집밥 조회 실패")
     public void getDayFoodFailure(){
         // given
-        puppy.setPuppyFoods(new ArrayList<>()); // 예외터지도록 빈 list 넣어주기
+        puppy = User.builder()
+                .id("eden")
+                .nickName("hazard")
+                .userType(UserType.PUPPY)
+                .puppyFoods(new ArrayList<>()) // 예외터지도록 빈 list 넣어주기
+                .build();
+
         given(userRepository.findById(puppy.getId())).willReturn(Optional.of(puppy));
 
         // when & then
@@ -102,16 +116,16 @@ public class UserServiceTest {
     }
 
     private List<Food> getFoodList(){
-
         List<Food> returnedList = new ArrayList<>();
 
-        Food food = new Food();
-        food.setFoodId(3L);
-        food.setHost(host);
-        food.setPuppy(puppy);
-        food.setMenu(new Menu());
-        food.setTime(LocalDateTime.now());
-        food.setMatchStatus(MatchStatus.MATCHED);
+        Food food = Food.builder()
+                .foodId(3L)
+                .host(host)
+                .puppy(puppy)
+                .menu(Menu.builder().build())
+                .time(LocalDateTime.now())
+                .matchStatus(MatchStatus.MATCHED)
+                .build();
 
         returnedList.add(food);
 

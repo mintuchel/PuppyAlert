@@ -1,8 +1,6 @@
 package seominkim.puppyAlert.domain.user.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Ignore;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +13,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import seominkim.puppyAlert.config.WebMvcTestConfig;
 import seominkim.puppyAlert.domain.user.dto.request.LoginRequest;
-import seominkim.puppyAlert.domain.user.dto.request.SignUpRequest;
 import seominkim.puppyAlert.domain.user.dto.response.LoginResponse;
 import seominkim.puppyAlert.domain.user.dto.response.SignUpResponse;
 import seominkim.puppyAlert.domain.user.service.UserService;
-import seominkim.puppyAlert.global.entity.Location;
 import seominkim.puppyAlert.global.entity.UserType;
-
-import java.time.LocalDate;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
