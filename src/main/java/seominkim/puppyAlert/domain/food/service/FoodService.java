@@ -109,7 +109,9 @@ public class FoodService {
         Food cancelingFood = foodRepository.findById(cancelFoodId)
                 .orElseThrow(()->new FoodException(ErrorCode.NON_EXISTING_FOOD));
 
-        if(type==UserType.HOST) {
+        if(cancelingFood.getMatchStatus() == MatchStatus.COMPLETE) throw new FoodException(ErrorCode.ALREADY_COMPLETED);
+
+        if(type == UserType.HOST) {
             // foodRepository 삭제하는거해야함
             foodRepository.delete(cancelingFood);
         }else{
@@ -160,8 +162,14 @@ public class FoodService {
         Food matchedFood = foodRepository.findById(foodId)
                 .orElseThrow(() -> new FoodException(ErrorCode.NON_EXISTING_FOOD));
 
-        if(matchedFood.getMatchStatus().equals(MatchStatus.MATCHED)){
+        MatchStatus curFoodStatus = matchedFood.getMatchStatus();
+
+        if(curFoodStatus == MatchStatus.MATCHED){
             throw new FoodException(ErrorCode.ALREADY_MATCHED);
+        }
+
+        if(curFoodStatus == MatchStatus.COMPLETE){
+            throw new FoodException(ErrorCode.ALREADY_COMPLETED);
         }
 
         // 집밥 업데이트
@@ -189,7 +197,7 @@ public class FoodService {
 
         // 이미 식사가 끝난 집밥이면
         if(matchedFood.getMatchStatus() == MatchStatus.COMPLETE){
-            throw new FoodException(ErrorCode.ALREADY_FINISHED_DINING);
+            throw new FoodException(ErrorCode.ALREADY_COMPLETED);
         }
 
         matchedFood.changeMatchStatus(MatchStatus.COMPLETE);

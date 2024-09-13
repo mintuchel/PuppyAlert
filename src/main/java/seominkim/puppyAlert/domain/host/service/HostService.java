@@ -37,8 +37,10 @@ public class HostService {
     // 집밥 취소
     @Transactional
     public CancelFoodResponse handleCancelFoodRequest(CancelFoodRequest cancelFoodRequest){
-        userRepository.findById(cancelFoodRequest.userId())
+        User host = userRepository.findById(cancelFoodRequest.userId())
                 .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
+
+        if(host.getUserType() == UserType.PUPPY) throw new UserException(ErrorCode.INVALID_USERTYPE);
 
         return foodService.cancelFood(cancelFoodRequest, UserType.HOST);
     }

@@ -16,8 +16,8 @@ public enum ErrorCode {
     INVALID_ID(HttpStatus.NOT_FOUND, "존재하지 않는 아이디입니다"),
     INVALID_PASSWORD(HttpStatus.NOT_FOUND, "비밀번호가 옳지 않습니다"),
 
-    // 옳지 않은 USERTYPE
-    INVALID_USERTYPE(HttpStatus.BAD_REQUEST, "옳지 않은 유저타입입니다"),
+    // 적합하지 않은 USERTYPE
+    INVALID_USERTYPE(HttpStatus.BAD_REQUEST, "적합하지 않은 유저타입입니다"),
 
     // USER 존재성 확인
     NON_EXISTING_USER(HttpStatus.NOT_FOUND, "등록되지 않은 회원입니다"),
@@ -35,7 +35,7 @@ public enum ErrorCode {
     ALREADY_MATCHED(HttpStatus.BAD_REQUEST, "이미 매칭된 집밥입니다!"),
 
     // 이미 식사완료된 집밥
-    ALREADY_FINISHED_DINING(HttpStatus.BAD_REQUEST, "이미 식사가 끝난 집밥입니다!"),
+    ALREADY_COMPLETED(HttpStatus.BAD_REQUEST, "이미 식사가 끝난 집밥입니다!"),
 
     // FAVORITE HOST 등록 여부 확인
     ALREADY_FAVORITE_HOST(HttpStatus.BAD_REQUEST, "이미 등록된 관심 호스트입니다"),

@@ -77,6 +77,8 @@ public class PuppyService {
         User puppy = userRepository.findById(cancelFoodRequest.userId())
                 .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
 
+        if(puppy.getUserType() == UserType.HOST) throw new UserException(ErrorCode.INVALID_USERTYPE);
+
         return foodService.cancelFood(cancelFoodRequest,UserType.PUPPY);
     }
 
@@ -85,6 +87,8 @@ public class PuppyService {
     public Long handleEndMatchRequest(EndMatchRequest endMatchRequest){
         User puppy = userRepository.findById(endMatchRequest.puppyId())
                 .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
+
+        if(puppy.getUserType() == UserType.HOST) throw new UserException(ErrorCode.INVALID_USERTYPE);
 
         return foodService.handleEndMatchRequest(endMatchRequest.foodId());
     }
