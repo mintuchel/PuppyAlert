@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
-import seominkim.puppyAlert.domain.user.dto.request.CancelFoodRequest;
 import seominkim.puppyAlert.domain.user.dto.request.LoginRequest;
 import seominkim.puppyAlert.domain.user.dto.request.SignUpRequest;
 import seominkim.puppyAlert.domain.user.dto.response.*;
@@ -13,7 +12,6 @@ import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.domain.user.repository.UserRepository;
 import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
-import seominkim.puppyAlert.global.exception.exception.CommonException;
 import seominkim.puppyAlert.global.exception.exception.UserException;
 
 import java.time.LocalDate;
@@ -30,9 +28,7 @@ public class UserService {
     public SignUpResponse signUp(SignUpRequest signUpRequest){
         String id = signUpRequest.id();
 
-        if(userRepository.existsById(id)){
-            throw new CommonException(ErrorCode.EXISTING_ID);
-        }
+        if(userRepository.existsById(id)) throw new UserException(ErrorCode.EXISTING_ID);
 
         UserType userType = signUpRequest.userType();
 
@@ -61,7 +57,7 @@ public class UserService {
 
         // ID가 존재하지 않으면 로그인 실패임
         if(!checkIfIdExists(id)){
-            throw new CommonException(ErrorCode.INVALID_ID);
+            throw new UserException(ErrorCode.INVALID_ID);
         }
 
         // ID PW 모두 올바르면
@@ -73,7 +69,7 @@ public class UserService {
         }
 
         // 아니면 ID는 존재하는데 PW이 틀린거임
-        throw new CommonException(ErrorCode.INVALID_PASSWORD);
+        throw new UserException(ErrorCode.INVALID_PASSWORD);
     }
 
     @Transactional(readOnly = true)

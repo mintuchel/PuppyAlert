@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
 
+    // ==================== USER 관련 ====================
     // 회원가입
     EXISTING_ID(HttpStatus.CONFLICT, "이미 존재하는 아이디입니다"),
     EXISTING_NICKNAME(HttpStatus.CONFLICT, "이미 존재하는 닉네임입니다"),
@@ -22,10 +23,12 @@ public enum ErrorCode {
     // USER 존재성 확인
     NON_EXISTING_USER(HttpStatus.NOT_FOUND, "등록되지 않은 회원입니다"),
 
-    // FOOD 존재성 확인
+    // ==================== FOOD 관련 ====================
+
+    // 집밥 존재 유무
     NON_EXISTING_FOOD(HttpStatus.NOT_FOUND, "등록되지 않은 집밥입니다"),
 
-    // 오늘의 집밥
+    // 오늘의 집밥 존재 유무
     NO_TODAY_FOOD(HttpStatus.NOT_FOUND, "오늘 매칭된 집밥이 없습니다!"),
 
     // 아직 매칭되지 않은 집밥
@@ -36,6 +39,8 @@ public enum ErrorCode {
 
     // 이미 식사완료된 집밥
     ALREADY_COMPLETED(HttpStatus.BAD_REQUEST, "이미 식사가 끝난 집밥입니다!"),
+
+    // ==================== FAVORITE HOST 관련 ====================
 
     // FAVORITE HOST 등록 여부 확인
     ALREADY_FAVORITE_HOST(HttpStatus.BAD_REQUEST, "이미 등록된 관심 호스트입니다"),
