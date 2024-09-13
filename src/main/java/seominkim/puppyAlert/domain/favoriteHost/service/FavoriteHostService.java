@@ -33,9 +33,10 @@ public class FavoriteHostService {
             throw new UserException(ErrorCode.ALREADY_FAVORITE_HOST);
         }
 
-        FavoriteHost favoriteHost = new FavoriteHost();
-        favoriteHost.setHost(userRepository.findById(hostId).get());
-        favoriteHost.setPuppy(userRepository.findById(puppyId).get());
+        FavoriteHost favoriteHost = FavoriteHost.builder()
+                .host(userRepository.findById(hostId).get())
+                .puppy(userRepository.findById(puppyId).get())
+                .build();
 
         return favoriteHostRepository.save(favoriteHost).getFavoriteHostId();
     }

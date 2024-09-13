@@ -85,13 +85,14 @@ public class FoodService {
 
     @Transactional
     public AddFoodResponse addNewFood(User host, AddFoodRequest addFoodRequest){
-        Food newFood = new Food();
         Menu menu = menuService.getMenu(addFoodRequest.menuName());
 
-        newFood.setHost(host);
-        newFood.setMenu(menu);
-        newFood.setTime(addFoodRequest.time());
-        newFood.setMatchStatus(MatchStatus.READY);
+        Food newFood = Food.builder()
+                .host(host)
+                .menu(menu)
+                .time(addFoodRequest.time())
+                .matchStatus(MatchStatus.READY)
+                .build();
 
         // cascade에 menu도 저장됨
         // 만약 기존 DB에 존재하면 저장안하고 연관관계만 저장
@@ -113,8 +114,8 @@ public class FoodService {
             foodRepository.delete(cancelingFood);
         }else{
             // Transactional 덕에 끝나면 변경 상태 자동 반영
-            cancelingFood.setPuppy(null);
-            cancelingFood.setMatchStatus(MatchStatus.READY);
+            cancelingFood.changePuppy(null);
+            cancelingFood.changeMatchStatus(MatchStatus.READY);
         }
 
         return new CancelFoodResponse(cancelFoodId);
@@ -164,8 +165,8 @@ public class FoodService {
         }
 
         // 집밥 업데이트
-        matchedFood.setPuppy(puppy);
-        matchedFood.setMatchStatus(MatchStatus.MATCHED);
+        matchedFood.changePuppy(puppy);
+        matchedFood.changeMatchStatus(MatchStatus.MATCHED);
 
         return new MatchResponse(
                 matchedFood.getFoodId(),
@@ -191,7 +192,7 @@ public class FoodService {
             throw new FoodException(ErrorCode.ALREADY_FINISHED_DINING);
         }
 
-        matchedFood.setMatchStatus(MatchStatus.COMPLETE);
+        matchedFood.changeMatchStatus(MatchStatus.COMPLETE);
 
         return foodId;
     }

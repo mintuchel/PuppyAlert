@@ -1,8 +1,7 @@
 package seominkim.puppyAlert.domain.user.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import seominkim.puppyAlert.domain.favoriteHost.entity.FavoriteHost;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.global.entity.Location;
@@ -15,7 +14,9 @@ import java.util.List;
 @Entity
 @Table(name = "user_table")
 @Getter
-@Setter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class User {
     @Id
     private String id;
@@ -44,18 +45,22 @@ public class User {
     @Embedded
     private Location location;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserType userType;
 
     private String profileImageURL;
 
+    @Builder.Default
     @OneToMany(mappedBy = "host", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Food> hostFoods = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "puppy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Food> puppyFoods = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "puppy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FavoriteHost> favoriteHostList = new ArrayList<>();
 }

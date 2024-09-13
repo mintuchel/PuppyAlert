@@ -1,12 +1,13 @@
 package seominkim.puppyAlert.domain.shop.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
-@Setter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Shop {
     @Id @GeneratedValue
     private int id;

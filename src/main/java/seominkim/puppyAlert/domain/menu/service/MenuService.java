@@ -31,9 +31,10 @@ public class MenuService {
 
     @Transactional
     private Menu addNewMenu(String menuName){
-        Menu menu = new Menu();
-        menu.setMenuName(menuName);
-        menu.setImageURL(imageCrawler.getImageURLByKakaoAPI(menuName));
+        Menu menu = Menu.builder()
+                .menuName(menuName)
+                .imageURL(imageCrawler.getImageURLByKakaoAPI(menuName))
+                .build();
 
         return menu;
     }

@@ -1,8 +1,7 @@
 package seominkim.puppyAlert.domain.market.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import seominkim.puppyAlert.domain.shop.entity.Shop;
 import seominkim.puppyAlert.global.entity.Location;
 
@@ -11,7 +10,9 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Market {
     @Id @GeneratedValue
     @Column(name="market_id")
@@ -37,5 +38,6 @@ public class Market {
     // CascadeType.All로 영속성 정의 -> Shop 객체까지 persist를 자동으로 다 해줌
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="market_id")
+    @Builder.Default
     private List<Shop> shopList = new ArrayList<>();
 }

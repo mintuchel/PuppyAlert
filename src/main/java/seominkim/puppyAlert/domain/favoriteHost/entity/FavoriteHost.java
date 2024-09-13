@@ -1,15 +1,16 @@
 package seominkim.puppyAlert.domain.favoriteHost.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import seominkim.puppyAlert.domain.user.entity.User;
 
 // 외래키 2개 보유
 // 2개에 대한 연관관계의 주인
 @Entity
 @Getter
-@Setter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class FavoriteHost {
     @Id @GeneratedValue
     private Long favoriteHostId;

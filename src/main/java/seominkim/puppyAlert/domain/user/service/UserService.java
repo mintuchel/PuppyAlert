@@ -36,16 +36,17 @@ public class UserService {
 
         UserType userType = signUpRequest.userType();
 
-        User user = new User();
-        user.setId(id);
-        user.setPassword(signUpRequest.password());
-        user.setNickName(signUpRequest.nickName());
-        user.setName(signUpRequest.name());
-        user.setBirth(signUpRequest.birth());
-        user.setPhoneNumber(signUpRequest.phoneNumber());
-        user.setAddress(signUpRequest.address());
-        user.setDetailAddress(signUpRequest.detailAddress());
-        user.setLocation(signUpRequest.location());
+        User user = User.builder()
+                .id(id)
+                .password(signUpRequest.password())
+                .nickName(signUpRequest.nickName())
+                .name(signUpRequest.name())
+                .birth(signUpRequest.birth())
+                .phoneNumber(signUpRequest.phoneNumber())
+                .address(signUpRequest.address())
+                .detailAddress(signUpRequest.detailAddress())
+                .location(signUpRequest.location())
+                .build();
 
         if(userType.equals(UserType.HOST)) user.setUserType(UserType.HOST);
         else user.setUserType(UserType.PUPPY);

@@ -1,5 +1,6 @@
 package seominkim.puppyAlert.domain.food.entity;
 
+import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import jakarta.persistence.*;
 import lombok.*;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
@@ -9,7 +10,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +40,12 @@ public class Food {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private MatchStatus matchStatus; // 매칭상태
+
+    public void changePuppy(User newPuppy){
+        this.puppy = newPuppy;
+    }
+
+    public void changeMatchStatus(MatchStatus newStatus){
+        this.matchStatus = newStatus;
+    }
 }
