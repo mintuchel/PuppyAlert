@@ -55,7 +55,7 @@ public class UserController {
     @Operation(summary = "집밥 기록 조회")
     @GetMapping("/history")
     public List<MatchHistoryResponse> getHistory(@RequestParam String userId){
-        return userService.getHistory(userId);
+        return userService.getFoodHistory(userId);
     }
 
     @Operation(summary = "오늘의 집밥 조회")

@@ -106,7 +106,7 @@ public class UserService {
     // 이건 READONLY 작업이므로 그냥 상황에따라 getFoodList만 해주면 됨
     // 연관관계의 주인이 Food 지만 CUD 작업이 아니므로
     @Transactional(readOnly = true)
-    public List<MatchHistoryResponse> getHistory(String userId){
+    public List<MatchHistoryResponse> getFoodHistory(String userId){
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(ErrorCode.NOT_EXISTING_USER));
 
