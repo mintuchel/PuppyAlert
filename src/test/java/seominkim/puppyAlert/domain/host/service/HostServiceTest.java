@@ -1,9 +1,7 @@
 package seominkim.puppyAlert.domain.host.service;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,7 +51,7 @@ public class HostServiceTest {
     void addFood(){
         // given
         given(userRepository.findById("mbappe")).willReturn(Optional.of(host));
-        given(foodService.addNewFood(host, request)).willReturn(response);
+        given(foodService.handleAddFoodRequest(host, request)).willReturn(response);
 
         // when
         AddFoodResponse returnedResponse = hostService.handleAddFoodRequest(request);

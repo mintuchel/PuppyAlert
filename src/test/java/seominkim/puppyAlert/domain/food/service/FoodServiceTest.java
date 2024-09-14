@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.ActiveProfiles;
-import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
 import seominkim.puppyAlert.domain.food.entity.Food;
 import seominkim.puppyAlert.domain.food.entity.MatchStatus;
 import seominkim.puppyAlert.domain.food.repository.FoodRepository;
@@ -18,7 +17,6 @@ import seominkim.puppyAlert.domain.host.dto.request.AddFoodRequest;
 import seominkim.puppyAlert.domain.host.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.menu.service.MenuService;
-import seominkim.puppyAlert.domain.openAI.service.OpenAIService;
 import seominkim.puppyAlert.domain.puppy.dto.response.MatchResponse;
 import seominkim.puppyAlert.domain.user.dto.request.CancelFoodRequest;
 import seominkim.puppyAlert.domain.user.dto.response.CancelFoodResponse;
@@ -26,7 +24,6 @@ import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
-import seominkim.puppyAlert.global.utility.FoodLimitator;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -45,16 +42,10 @@ public class FoodServiceTest {
     FoodService foodService;
 
     @Mock
-    FavoriteHostService favoriteHostService;
-    @Mock
     MenuService menuService;
-    @Mock
-    OpenAIService openaiService;
 
     @Mock
     FoodRepository foodRepository;
-    @Mock
-    FoodLimitator foodLimitator;
 
     private Food food;
     private User host, puppy;
@@ -67,9 +58,11 @@ public class FoodServiceTest {
     private void testSetUp(){
         host = User.builder()
                 .nickName("mbappe")
+                .userType(UserType.HOST)
                 .build();
 
         puppy = User.builder()
+                .userType(UserType.PUPPY)
                 .id("neymar")
                 .build();
 
@@ -113,7 +106,7 @@ public class FoodServiceTest {
 //        });
 
         // when
-        AddFoodResponse returnedResponse = foodService.addNewFood(host, request);
+        AddFoodResponse returnedResponse = foodService.handleAddFoodRequest(host, request);
 
         // then
         Assertions.assertThat(returnedResponse.foodId()).isEqualTo(7L);
@@ -128,7 +121,7 @@ public class FoodServiceTest {
         given(foodRepository.findById(7L)).willReturn(Optional.of(food));
 
         // when
-        CancelFoodResponse response = foodService.cancelFood(cancelFoodRequest(), UserType.HOST);
+        CancelFoodResponse response = foodService.handleCancelFoodRequest(host, cancelFoodRequest());
 
         // then
         verify(foodRepository).delete(food);
@@ -146,7 +139,7 @@ public class FoodServiceTest {
         given(foodRepository.findById(7L)).willReturn(Optional.of(food));
 
         // when
-        CancelFoodResponse response = foodService.cancelFood(cancelFoodRequest(), UserType.PUPPY);
+        CancelFoodResponse response = foodService.handleCancelFoodRequest(puppy,cancelFoodRequest());
 
         // then
         Assertions.assertThat(food.getPuppy()).isNull();

@@ -1,7 +1,6 @@
 package seominkim.puppyAlert.domain.food.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.favoriteHost.service.FavoriteHostService;
@@ -20,6 +19,7 @@ import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.FoodException;
+import seominkim.puppyAlert.global.exception.exception.UserException;
 import seominkim.puppyAlert.global.utility.FoodLimitator;
 
 import java.util.List;
@@ -81,11 +81,11 @@ public class FoodService {
                             food.getMatchStatus()
                     );
                 })
-                .orElseThrow(() -> new FoodException(ErrorCode.NON_EXISTING_FOOD));
+                .orElseThrow(() -> new FoodException(ErrorCode.NOT_EXISTING_FOOD));
     }
 
     @Transactional
-    public AddFoodResponse addNewFood(User host, AddFoodRequest addFoodRequest){
+    public AddFoodResponse handleAddFoodRequest(User host, AddFoodRequest addFoodRequest){
         Menu menu = menuService.getMenu(addFoodRequest.menuName());
 
         Food newFood = Food.builder()
@@ -104,15 +104,20 @@ public class FoodService {
     }
 
     @Transactional
-    public CancelFoodResponse cancelFood(CancelFoodRequest cancelFoodRequest, UserType type){
+    public CancelFoodResponse handleCancelFoodRequest(User user, CancelFoodRequest cancelFoodRequest){
         long cancelFoodId = cancelFoodRequest.foodId();
 
         Food cancelingFood = foodRepository.findById(cancelFoodId)
-                .orElseThrow(()->new FoodException(ErrorCode.NON_EXISTING_FOOD));
+                .orElseThrow(()->new FoodException(ErrorCode.NOT_EXISTING_FOOD));
+
+        // 해당 집밥과 연관없으면 예외처리
+        if(user.getId() != cancelingFood.getPuppy().getId() && user.getId() != cancelingFood.getHost().getId()){
+            throw new UserException(ErrorCode.UNAUTORIZED_REQUEST);
+        }
 
         if(cancelingFood.getMatchStatus() == MatchStatus.COMPLETE) throw new FoodException(ErrorCode.ALREADY_COMPLETED);
 
-        if(type == UserType.HOST) {
+        if(user.getUserType() == UserType.HOST) {
             // foodRepository 삭제하는거해야함
             foodRepository.delete(cancelingFood);
         }else{
@@ -122,6 +127,54 @@ public class FoodService {
         }
 
         return new CancelFoodResponse(cancelFoodId);
+    }
+
+    @Transactional
+    public MatchResponse handleMatchRequest(Long foodId, User puppy) {
+        Food matchedFood = foodRepository.findById(foodId)
+                .orElseThrow(() -> new FoodException(ErrorCode.NOT_EXISTING_FOOD));
+
+        MatchStatus curFoodStatus = matchedFood.getMatchStatus();
+
+        if(curFoodStatus == MatchStatus.MATCHED){
+            throw new FoodException(ErrorCode.ALREADY_MATCHED);
+        }
+
+        if(curFoodStatus == MatchStatus.COMPLETE){
+            throw new FoodException(ErrorCode.ALREADY_COMPLETED);
+        }
+
+        // 집밥 업데이트
+        matchedFood.changePuppy(puppy);
+        matchedFood.changeMatchStatus(MatchStatus.MATCHED);
+
+        return new MatchResponse(
+                matchedFood.getFoodId(),
+                // 이거 뺼까? 차피 사용안하는데?? 내일 꼭 물어보기
+                // 이거 하려고 또 join 쿼리 나가서 성능 안좋아짐
+                matchedFood.getHost().getNickName(),
+                puppy.getId()
+        );
+    }
+
+    @Transactional
+    public Long handleEndMatchRequest(Long foodId){
+        Food matchedFood = foodRepository.findById(foodId)
+                .orElseThrow(() -> new FoodException(ErrorCode.NOT_EXISTING_FOOD));
+
+        // 아직 매칭되지 않은 집밥이면
+        if(matchedFood.getMatchStatus() == MatchStatus.READY){
+            throw new FoodException(ErrorCode.NOT_MATCHED_FOOD);
+        }
+
+        // 이미 식사가 끝난 집밥이면
+        if(matchedFood.getMatchStatus() == MatchStatus.COMPLETE){
+            throw new FoodException(ErrorCode.ALREADY_COMPLETED);
+        }
+
+        matchedFood.changeMatchStatus(MatchStatus.COMPLETE);
+
+        return foodId;
     }
 
     @Transactional(readOnly = true)
@@ -156,54 +209,6 @@ public class FoodService {
                     );
                 })
                 .collect(Collectors.toList());
-    }
-
-    @Transactional
-    public MatchResponse handleMatchRequest(Long foodId, User puppy) {
-        Food matchedFood = foodRepository.findById(foodId)
-                .orElseThrow(() -> new FoodException(ErrorCode.NON_EXISTING_FOOD));
-
-        MatchStatus curFoodStatus = matchedFood.getMatchStatus();
-
-        if(curFoodStatus == MatchStatus.MATCHED){
-            throw new FoodException(ErrorCode.ALREADY_MATCHED);
-        }
-
-        if(curFoodStatus == MatchStatus.COMPLETE){
-            throw new FoodException(ErrorCode.ALREADY_COMPLETED);
-        }
-
-        // 집밥 업데이트
-        matchedFood.changePuppy(puppy);
-        matchedFood.changeMatchStatus(MatchStatus.MATCHED);
-
-        return new MatchResponse(
-                matchedFood.getFoodId(),
-                // 이거 뺼까? 차피 사용안하는데?? 내일 꼭 물어보기
-                // 이거 하려고 또 join 쿼리 나가서 성능 안좋아짐
-                matchedFood.getHost().getNickName(),
-                puppy.getId()
-        );
-    }
-
-    @Transactional
-    public Long handleEndMatchRequest(Long foodId){
-        Food matchedFood = foodRepository.findById(foodId)
-                .orElseThrow(() -> new FoodException(ErrorCode.NON_EXISTING_FOOD));
-
-        // 아직 매칭되지 않은 집밥이면
-        if(matchedFood.getMatchStatus() == MatchStatus.READY){
-            throw new FoodException(ErrorCode.NOT_MATCHED_FOOD);
-        }
-
-        // 이미 식사가 끝난 집밥이면
-        if(matchedFood.getMatchStatus() == MatchStatus.COMPLETE){
-            throw new FoodException(ErrorCode.ALREADY_COMPLETED);
-        }
-
-        matchedFood.changeMatchStatus(MatchStatus.COMPLETE);
-
-        return foodId;
     }
 
     @Transactional(readOnly = true)
