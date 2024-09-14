@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seominkim.puppyAlert.domain.food.entity.Food;
+import seominkim.puppyAlert.domain.food.entity.MatchStatus;
 import seominkim.puppyAlert.domain.menu.entity.Menu;
 import seominkim.puppyAlert.domain.user.dto.request.LoginRequest;
 import seominkim.puppyAlert.domain.user.dto.request.SignUpRequest;
@@ -112,6 +113,7 @@ public class UserService {
         if(user.getUserType()==UserType.HOST) {
             // Host 엔티티에서 hostFoods 추출해서 사용
             return user.getHostFoods().stream()
+                    .filter(food -> food.getMatchStatus() == MatchStatus.COMPLETE)
                     .map(food -> {
                         // 필요한 엔티티 미리 추출
                         // 참조할때마다 jpa join 쿼리 나가서 미리 해주는게 좋음
@@ -135,6 +137,7 @@ public class UserService {
         }else{
             // User 엔티티에서 puppyFoods 추출해서 사용
             return user.getPuppyFoods().stream()
+                    .filter(food -> food.getMatchStatus() == MatchStatus.COMPLETE)
                     .map(food -> {
                         // 필요한 엔티티 미리 추출
                         // 참조할때마다 jpa join 쿼리 나가서 미리 해주는게 좋음
