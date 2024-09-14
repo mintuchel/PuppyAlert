@@ -81,7 +81,7 @@ public class PuppyServiceTest {
     @DisplayName("신청 가능한 집밥 조회")
     public void getAvailableFoodSuccess(){
         // given
-        given(userRepository.findById(puppy.getId())).willReturn(Optional.of(puppy));
+        given(userRepository.findPuppyById(puppy.getId())).willReturn(Optional.of(puppy));
         given(foodService.getAvailableFood(puppy)).willReturn(foodInfoResponseList());
 
         // when
@@ -95,7 +95,7 @@ public class PuppyServiceTest {
     @DisplayName("관심 호스트 조회")
     public void getFavoriteHostTest(){
         // given
-        given(userRepository.findById("son")).willReturn(Optional.of(puppy));
+        given(userRepository.findPuppyById("son")).willReturn(Optional.of(puppy));
         given(foodService.getMostRecentFood("son","kane")).willReturn(food);
 
         // when

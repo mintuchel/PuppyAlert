@@ -13,6 +13,7 @@ import seominkim.puppyAlert.domain.host.dto.request.AddFoodRequest;
 import seominkim.puppyAlert.domain.host.dto.response.AddFoodResponse;
 import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.domain.user.repository.UserRepository;
+import seominkim.puppyAlert.global.entity.UserType;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -40,6 +41,7 @@ public class HostServiceTest {
     private void testSetUp(){
         host = User.builder()
                 .id("mbappe")
+                .userType(UserType.HOST)
                 .build();
 
         request = addFoodRequest();
@@ -50,7 +52,7 @@ public class HostServiceTest {
     @DisplayName("집밥 등록")
     void addFood(){
         // given
-        given(userRepository.findById("mbappe")).willReturn(Optional.of(host));
+        given(userRepository.findHostById("mbappe")).willReturn(Optional.of(host));
         given(foodService.handleAddFoodRequest(host, request)).willReturn(response);
 
         // when
