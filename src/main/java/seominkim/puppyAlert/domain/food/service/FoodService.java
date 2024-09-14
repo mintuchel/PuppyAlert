@@ -23,6 +23,7 @@ import seominkim.puppyAlert.global.exception.exception.FoodException;
 import seominkim.puppyAlert.global.utility.FoodLimitator;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -209,10 +210,14 @@ public class FoodService {
     public Food getMostRecentFood(String puppyId, String hostId){
         // JPA는 limit 구문 지원안해서 이런 방식으로 해야함
         // .get(0)하는게 없어보이긴하다
-        List<Food> mostRecentFood = foodRepository.findMostRecentByPuppyIdAndHostId(puppyId, hostId, PageRequest.of(0, 1));
+        // List<Food> mostRecentFood = foodRepository.findMostRecentByPuppyIdAndHostId(puppyId, hostId, PageRequest.of(0, 1));
 
-        if(mostRecentFood.isEmpty()) return null;
+        Optional<Food> mostRecentFood = foodRepository.findMostRecentByPuppyIdAndHostId(puppyId, hostId);
 
-        return mostRecentFood.get(0);
+        if(mostRecentFood.isPresent()) {
+            return mostRecentFood.get();
+        }else{
+            return null;
+        }
     }
 }
