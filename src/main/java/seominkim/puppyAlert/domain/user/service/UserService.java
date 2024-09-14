@@ -98,7 +98,7 @@ public class UserService {
                             user.getProfileImageURL()
                     );
                     return dto;
-                }).orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
+                }).orElseThrow(() -> new UserException(ErrorCode.NOT_EXISTING_USER));
     }
 
     // User 집밥 기록 검색
@@ -107,7 +107,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<MatchHistoryResponse> getHistory(String userId){
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
+                .orElseThrow(() -> new UserException(ErrorCode.NOT_EXISTING_USER));
 
         if(user.getUserType()==UserType.HOST) {
             // Host 엔티티에서 hostFoods 추출해서 사용
@@ -162,7 +162,7 @@ public class UserService {
     public DayFoodResponse getDayFood(String userId){
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
+                .orElseThrow(() -> new UserException(ErrorCode.NOT_EXISTING_USER));
 
         List<Food> userFoodList;
         UserType type = user.getUserType();

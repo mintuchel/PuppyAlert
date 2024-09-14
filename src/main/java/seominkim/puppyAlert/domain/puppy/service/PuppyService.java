@@ -17,7 +17,6 @@ import seominkim.puppyAlert.domain.user.dto.response.CancelFoodResponse;
 import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.domain.user.repository.UserRepository;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
-import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.UserException;
 
@@ -35,10 +34,11 @@ public class PuppyService {
     private final UserRepository userRepository;
 
     // Puppy 전체 검색
+    // stream() 이후에 filter로 PUPPY만 거르지 않고
+    // nativequery를 하나 만들어 PUPPY인 것만 가져옴
     @Transactional(readOnly = true)
     public List<UserInfoResponse> findAll() {
-        return userRepository.findAll().stream()
-                .filter(user -> user.getUserType() == UserType.PUPPY) // UserType이 Host인 경우만 필터링
+        return userRepository.findAllPuppy().stream()
                 .map(puppy -> new UserInfoResponse(
                         puppy.getId(),
                         puppy.getName(),
@@ -53,53 +53,49 @@ public class PuppyService {
                 .collect(Collectors.toList());
     }
 
-    // Puppy 신청 가능한 집밥
-    @Transactional(readOnly = true)
-    public List<FoodInfoResponse> getAvailableFood(String puppyId){
-        User puppy = userRepository.findById(puppyId)
-                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
-
-        return foodService.getAvailableFood(puppy);
-    }
-
     // Puppy 집밥 신청
     @Transactional
     public MatchResponse handleMatchRequest(MatchRequest matchRequest) {
-        Long foodId = matchRequest.foodId();
-        User puppy = userRepository.findById(matchRequest.puppyId())
-                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
-        return foodService.handleMatchRequest(foodId, puppy);
+        User puppy = userRepository.findPuppyById(matchRequest.puppyId())
+                .orElseThrow(() -> new UserException(ErrorCode.NOT_EXISTING_USER));
+
+        return foodService.handleMatchRequest(matchRequest.foodId(), puppy);
     }
 
     // Puppy 집밥 취소
     @Transactional
     public CancelFoodResponse handleCancelRequest(CancelFoodRequest cancelFoodRequest){
-        User puppy = userRepository.findById(cancelFoodRequest.userId())
-                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
+        User puppy = userRepository.findPuppyById(cancelFoodRequest.userId())
+                .orElseThrow(() -> new UserException(ErrorCode.NOT_EXISTING_USER));
 
-        if(puppy.getUserType() == UserType.HOST) throw new UserException(ErrorCode.INVALID_USERTYPE);
-
-        return foodService.cancelFood(cancelFoodRequest,UserType.PUPPY);
+        return foodService.handleCancelFoodRequest(puppy, cancelFoodRequest);
     }
 
     // Puppy 집밥 완료
     @Transactional
     public Long handleEndMatchRequest(EndMatchRequest endMatchRequest){
-        User puppy = userRepository.findById(endMatchRequest.puppyId())
-                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
-
-        if(puppy.getUserType() == UserType.HOST) throw new UserException(ErrorCode.INVALID_USERTYPE);
+        User puppy = userRepository.findPuppyById(endMatchRequest.puppyId())
+                .orElseThrow(() -> new UserException(ErrorCode.NOT_EXISTING_USER));
 
         return foodService.handleEndMatchRequest(endMatchRequest.foodId());
     }
 
+    // Puppy 신청 가능한 집밥
+    @Transactional(readOnly = true)
+    public List<FoodInfoResponse> getAvailableFood(String puppyId){
+        User puppy = userRepository.findPuppyById(puppyId)
+                .orElseThrow(() -> new UserException(ErrorCode.NOT_EXISTING_USER));
+
+        return foodService.getAvailableFood(puppy);
+    }
+
     // Puppy 관심 호스트 조회
     // readonly 작업이니까 그냥 list 들고와도댐
-    // foodService 통해서 가장 최근시간 JPQL 로 확인
+    // foodService 통해서 가장 최근시간 nativequery 로 확인
     @Transactional(readOnly = true)
     public List<FavoriteHostResponse> getFavoriteHost(String puppyId){
-        User puppy = userRepository.findById(puppyId)
-                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
+        User puppy = userRepository.findPuppyById(puppyId)
+                .orElseThrow(() -> new UserException(ErrorCode.NOT_EXISTING_USER));
 
         return puppy.getFavoriteHostList().stream()
                 .map(favoriteHost -> {

@@ -11,7 +11,6 @@ import seominkim.puppyAlert.domain.user.dto.response.CancelFoodResponse;
 import seominkim.puppyAlert.domain.user.entity.User;
 import seominkim.puppyAlert.domain.user.repository.UserRepository;
 import seominkim.puppyAlert.domain.user.dto.response.UserInfoResponse;
-import seominkim.puppyAlert.global.entity.UserType;
 import seominkim.puppyAlert.global.exception.errorCode.ErrorCode;
 import seominkim.puppyAlert.global.exception.exception.UserException;
 
@@ -28,28 +27,27 @@ public class HostService {
     // 집밥 추가
     @Transactional
     public AddFoodResponse handleAddFoodRequest(AddFoodRequest addFoodRequest){
-        User host = userRepository.findById(addFoodRequest.hostId())
-                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
+        User host = userRepository.findHostById(addFoodRequest.hostId())
+                .orElseThrow(()->new UserException(ErrorCode.NOT_EXISTING_USER));
 
-        return foodService.addNewFood(host, addFoodRequest);
+        return foodService.handleAddFoodRequest(host, addFoodRequest);
     }
 
     // 집밥 취소
     @Transactional
     public CancelFoodResponse handleCancelFoodRequest(CancelFoodRequest cancelFoodRequest){
-        User host = userRepository.findById(cancelFoodRequest.userId())
-                .orElseThrow(() -> new UserException(ErrorCode.NON_EXISTING_USER));
+        User host = userRepository.findHostById(cancelFoodRequest.userId())
+                .orElseThrow(() -> new UserException(ErrorCode.NOT_EXISTING_USER));
 
-        if(host.getUserType() == UserType.PUPPY) throw new UserException(ErrorCode.INVALID_USERTYPE);
-
-        return foodService.cancelFood(cancelFoodRequest, UserType.HOST);
+        return foodService.handleCancelFoodRequest(host, cancelFoodRequest);
     }
     
     // Host 전체 검색
+    // findAll을 사용한 후에 filter로 HOST 거르는 작업을 하지 않고
+    // nativequery를 사용하여 한번에 HOST 칼럼만 가져옴
     @Transactional(readOnly = true)
     public List<UserInfoResponse> findAll() {
-        return userRepository.findAll().stream()
-                .filter(user -> user.getUserType() == UserType.HOST) // UserType이 Host인 경우만 필터링
+        return userRepository.findAllHost().stream()
                 .map(user -> {
                     UserInfoResponse dto = new UserInfoResponse(
                             user.getId(),
