@@ -110,10 +110,14 @@ public class FoodService {
         Food cancelingFood = foodRepository.findById(cancelFoodId)
                 .orElseThrow(()->new FoodException(ErrorCode.NOT_EXISTING_FOOD));
 
-        // 해당 집밥과 연관없으면 예외처리
-        if(user.getId() != cancelingFood.getPuppy().getId() && user.getId() != cancelingFood.getHost().getId()){
-            throw new UserException(ErrorCode.UNAUTORIZED_REQUEST);
-        }
+//        // 해당 집밥과 연관없으면 예외처리
+//        if(user.getId() != cancelingFood.getPuppy().getId() && user.getId() != cancelingFood.getHost().getId()){
+//            throw new UserException(ErrorCode.UNAUTORIZED_REQUEST);
+//        }
+//
+//        if(cancelingFood.getHost().getId()!=user.getId()){
+//            if(cancelingFood.getPuppy() == null || cancelingFood.getPuppy().getId()!=user.getId())
+//        }
 
         if(cancelingFood.getMatchStatus() == MatchStatus.COMPLETE) throw new FoodException(ErrorCode.ALREADY_COMPLETED);
 
