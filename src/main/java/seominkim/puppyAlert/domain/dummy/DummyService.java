@@ -361,13 +361,12 @@ class DummyService {
                 .matchStatus(MatchStatus.COMPLETE)
                 .build();
 
-        // 김지원-신지훈 집밥 오늘의 집밥
+        // 아직 매칭안된 신지훈 집밥
         Food food9 = Food.builder()
                 .host(em.find(User.class, "ShinJiHun"))
-                .puppy(em.find(User.class, "KimJiWon"))
                 .menu(em.find(Menu.class, "불고기고구마 피자"))
                 .time(LocalDateTime.of(2024, 9, 12, 21, 00))
-                .matchStatus(MatchStatus.MATCHED)
+                .matchStatus(MatchStatus.READY)
                 .build();
 
         // 아직 매칭안된 조상준 집밥
