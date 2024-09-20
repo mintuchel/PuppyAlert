@@ -65,7 +65,7 @@ class DummyService {
                 .detailAddress("금성빌라 302호")
                 .location(new Location(37.551907956849995, 127.07636576512374))
                 .phoneNumber("010-5814-6568")
-                .profileImageURL("https://i.namu.wiki/i/HMdru7SjwjVOqewZu1e-IlD0Cy0sqjQ9RDoFYCg-3qUDW6l2hOuBbvKbrjjPfE75lCgAM9P8nW0fOzV8q0A8ij11OLMAgjFoj5JefZGG90D9B6R_rA81rQ_78AURHmjkBSkxOuD59KDx29B3DBIUTQ.webp")
+                .profileImageURL("https://image.fmkorea.com/files/attach/new2/20220519/5665468/4252468649/4634303229/53f21c76b5a022293921d3235b206880.png")
                 .userType(UserType.HOST)
                 .build();
 
