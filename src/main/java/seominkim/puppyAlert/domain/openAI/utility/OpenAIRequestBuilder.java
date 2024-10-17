@@ -15,8 +15,8 @@ import java.util.Map;
 public class OpenAIRequestBuilder {
 
     // properties에서 API 키를 주입
-    @Value("${OPENAI_KEY}")
-    private String OPENAI_KEY;
+    // @Value("${OPENAI_KEY}")
+    // private String OPENAI_KEY;
 
     // OpenAI API 로 쏠 HTTP REQUEST HEADER BODY 세팅해서 만들어줌
     public HttpEntity<Map<String, Object>> getOpenAIRequest(String prompt){
