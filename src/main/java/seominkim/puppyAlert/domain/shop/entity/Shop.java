@@ -9,10 +9,11 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Shop {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(columnDefinition = "varchar(225)", nullable = false)
+    @Column(columnDefinition = "varchar(225)", unique = true, nullable = false)
     private String shopName;
 
     @Column(columnDefinition = "varchar(225)", nullable = false)

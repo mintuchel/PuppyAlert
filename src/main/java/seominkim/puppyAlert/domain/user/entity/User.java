@@ -33,7 +33,8 @@ public class User {
     @Column(columnDefinition = "DATE", nullable = false)
     private LocalDate birth;
 
-    @Column(columnDefinition = "varchar(225)", nullable = false)
+    // 전화번호는 고정된 자릿수로
+    @Column(columnDefinition = "char(14)", unique = true, nullable = false)
     private String phoneNumber;
 
     @Column(columnDefinition = "varchar(255)", nullable = false)

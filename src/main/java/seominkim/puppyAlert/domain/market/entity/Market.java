@@ -14,11 +14,12 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Market {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="market_id")
     private int id;
 
-    @Column(columnDefinition = "varchar(225)", nullable=false)
+    @Column(columnDefinition = "varchar(225)", unique = true, nullable=false)
     private String name;
 
     @Column(columnDefinition = "varchar(225)", nullable = false)
