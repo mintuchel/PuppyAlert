@@ -27,7 +27,8 @@ public class OpenAIService {
     private final OpenAIRequestBuilder openAIRequestBuilder;
     private final ImageCrawler imageCrawler;
 
-    String url = "https://api.openai.com/v1/chat/completions";
+    // "https://api.openai.com/v1/chat/completions"
+    String url = "";
 
     private ResponseEntity<String> sendRequest(String url, HttpEntity<Map<String, Object>> request){
         try{
